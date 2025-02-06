@@ -20,4 +20,4 @@ jobs:
       - name: Install Packages
         run: npm ci --force
       - name: Build
-        run: npm run build
+        run: ng build --base-href="/dhbwka-karteikarten/"
