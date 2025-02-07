@@ -1,0 +1,35 @@
+<div class="dashboard">
+    <!-- Header mit Überschrift -->
+    <header class="header">
+      <h1>Notion Karteikarten</h1>
+    </header>
+
+    <!-- Inhalt -->
+    <div class="content">
+      <!-- Navigation -->
+      <aside class="navigation">
+        <h3>Navigation</h3>
+        <ul>
+          <li>Themen</li>
+          <li>Karteikarten</li>
+          <li>Notion Tools von Mindsnapz</li>
+          <li>Notion Icons</li>
+          <li>Infoseite</li>
+        </ul>
+        <div class="quick-actions">
+          <button>Thema hinzufügen</button>
+        </div>
+      </aside>
+
+      <!-- Themenbereiche -->
+      <main class="topics">
+        <h2>Themenbereiche</h2>
+        <div class="topic-container">
+          <div class="topic-card" *ngFor="let topic of topics">
+            <div class="topic-image"></div>
+            <div class="topic-title">{{ topic }}</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
