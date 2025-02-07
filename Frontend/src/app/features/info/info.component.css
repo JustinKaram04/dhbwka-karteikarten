@@ -1,0 +1,39 @@
+.infoseite-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .infoseite-container h1 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .infoseite-container section {
+    margin-top: 1.5rem;
+  }
+  
+  .infoseite-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .infoseite-container ul {
+    list-style: disc;
+    margin-left: 2rem;
+  }
+  
+  .infoseite-container a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .infoseite-container a:hover {
+    text-decoration: underline;
+  }
+  

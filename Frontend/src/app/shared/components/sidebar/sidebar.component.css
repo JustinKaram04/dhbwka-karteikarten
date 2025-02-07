@@ -1,7 +1,9 @@
 .sidebar {
-    width: 250px;
-    background: #f4f4f4;
-    padding: 1rem;
+    background-color:#d3d3d3;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
   }
   ul {
     list-style: none;
@@ -14,3 +16,5 @@
     text-decoration: none;
     color: #333;
   }
+
+  
