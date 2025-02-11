@@ -1,1 +1,12 @@
 <p>dashboard works!</p>
+<div>
+    <h2>All Flashcards</h2>
+  </div>
+  
+  <div *ngFor="let card of flashcards">
+    <app-flashcard 
+    [frontView]="card.frontView" 
+    [backView]="card.backView"
+    [isToggled]="card.isToggled"
+  ></app-flashcard>
+</div>
