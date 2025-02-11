@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FlashcardService } from '../../../flashcard.service';
 import { Flashcard } from '../../flashcards/components/Flashcard';
 import { FlashcardComponent } from '../../flashcards/components/flashcard.component';
+import { AddFlashcardComponent } from '../../flashcards/components/add-flashcard/add-flashcard.component';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FlashcardComponent],
+  imports: [CommonModule, FlashcardComponent, AddFlashcardComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

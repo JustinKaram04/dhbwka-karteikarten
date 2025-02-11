@@ -1,0 +1,38 @@
+<button class="add-flashcard-btn" (click)="toggleForm()">
+    <span class="plus-icon">+</span> Add Flashcard
+  </button>
+  
+  <!-- Flashcard Form (Hidden by Default) -->
+  <div *ngIf="isFormVisible" class="flashcard-form-container">
+    <form (ngSubmit)="onSubmit()" #flashcardForm="ngForm">
+      <!-- Front View Input -->
+      <div>
+        <label for="frontView">Front View:</label>
+        <input
+          type="text"
+          id="frontView"
+          name="frontView"
+          [(ngModel)]="newFlashcard.frontView"
+          required
+        />
+      </div>
+  
+      <!-- Back View Input -->
+      <div>
+        <label for="backView">Back View:</label>
+        <input
+          type="text"
+          id="backView"
+          name="backView"
+          [(ngModel)]="newFlashcard.backView"
+          required
+        />
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="!flashcardForm.form.valid">
+        Create Flashcard
+      </button>
+    </form>
+  </div>
+  
