@@ -1,0 +1,5 @@
+[
+    { "id": 1, "question": "Was ist Angular?", "answer": "Ein Framework für Webanwendungen" },
+    { "id": 2, "question": "Was ist TypeScript?", "answer": "Ein typisierter Übersatz von JavaScript" }
+  ]
+  
