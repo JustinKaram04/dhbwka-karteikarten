@@ -1,0 +1,12 @@
+<div class="flashcard-list-container">
+    <h2>Flashcards</h2>
+    <div class="flashcard-list">
+        <div *ngFor="let card of flashcards" class="flashcard">
+            <app-flashcard 
+            [frontView]="card.frontView" 
+            [backView]="card.backView"
+            [isToggled]="card.isToggled"
+          ></app-flashcard>
+      </div>
+    </div>
+  </div>

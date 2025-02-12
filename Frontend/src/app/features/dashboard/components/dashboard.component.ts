@@ -4,12 +4,13 @@ import { FlashcardService } from '../../../flashcard.service';
 import { Flashcard } from '../../flashcards/components/Flashcard';
 import { FlashcardComponent } from '../../flashcards/components/flashcard.component';
 import { AddFlashcardComponent } from '../../flashcards/components/add-flashcard/add-flashcard.component';
+import { FlashcardListComponent } from '../../flashcards/components/flashcard-list/flashcard-list.component';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FlashcardComponent, AddFlashcardComponent],
+  imports: [CommonModule, FlashcardComponent, AddFlashcardComponent, FlashcardListComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

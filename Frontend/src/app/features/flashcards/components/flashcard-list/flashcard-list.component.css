@@ -1,0 +1,24 @@
+.flashcard-list-container {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    max-width: 800px;
+  }
+  
+  .flashcard-list {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .flashcard {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
