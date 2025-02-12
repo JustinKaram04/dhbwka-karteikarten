@@ -22,5 +22,6 @@ export class DashboardComponent implements OnInit {
     this.flashcardService.getFlashcards().subscribe((data) => {
       this.flashcards = data;
     });
+    console.log(this.flashcards);
   }
 }
