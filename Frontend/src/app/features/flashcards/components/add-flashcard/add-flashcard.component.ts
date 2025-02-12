@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { FlashcardService } from '../../../../flashcard.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -25,11 +27,30 @@ export class AddFlashcardComponent {
     this.isFormVisible = !this.isFormVisible;
   }
 
+
   // Placeholder for form submission logic
   onSubmit(): void {
-    console.log('Flashcard submitted:', this.newFlashcard);
-    // Reset form and hide it after submission
-    this.newFlashcard = { frontView: '', backView: '' };
-    this.isFormVisible = false;
+    const newCard = {
+      id: Date.now(), // Generate a unique ID based on timestamp
+      frontView: this.newFlashcard.frontView,
+      backView: this.newFlashcard.backView,
+      isToggled: false, // Default value for toggled state
+    };
+  
+    // Use the FlashcardService to save the new flashcard
+    this.flashcardService.safeFlashcard(newCard).subscribe(
+      (response) => {
+        console.log('New flashcard saved:', response);
+        alert('Flashcard successfully added!');
+        this.newFlashcard = {
+          frontView: '',
+          backView: '',
+        };
+      },
+      (error) => {
+        console.error('Error saving flashcard:', error);
+        alert('Failed to add flashcard. Please try again.');
+      }
+    );
   }
 }

@@ -1,0 +1,16 @@
+{
+  "flashcards": [
+    {
+      "id": 1,
+      "frontView": "What is Angular?",
+      "backView": "A framework for building web applications",
+      "isToggled": false
+    },
+    {
+      "id": 2,
+      "frontView": "What is TypeScript?",
+      "backView": "A superset of JavaScript with types",
+      "isToggled": false
+    }
+  ]
+}
