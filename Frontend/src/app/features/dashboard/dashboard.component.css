@@ -1,0 +1,95 @@
+/* Allgemeines Layout */
+.dashboard {
+  font-family: Arial, sans-serif;
+  padding: 1.5rem;
+  background-color: #f5f5f5;
+}
+
+
+
+/* Content Layout */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Themenbereiche */
+.topics {
+  background-color: #d3d3d3;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+.topics h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Topic Cards */
+.topic-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.topic-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.topic-card:hover {
+  border-color: #84abd4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.topic-image {
+  height: 100px;
+  background: linear-gradient(135deg, #e0e0e0, #f8f8f8);/* Allgemeines Layout */
+  .info-page {
+    font-family: Arial, sans-serif;
+    padding: 1.5rem;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Content Layout */
+  .info-content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 2rem;
+    align-items: flex-start;
+    flex: 1;
+  }
+  
+  /* Infoseiten-Bereich */
+  .info-section {
+    background-color: #d3d3d3;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .info-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+.topic-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+}
