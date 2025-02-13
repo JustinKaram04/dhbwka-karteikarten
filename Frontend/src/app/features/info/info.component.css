@@ -1,10 +1,7 @@
 .infoseite-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  padding: 1.5rem;
+  background-color: #f5f5f5;
   }
   
   .infoseite-container h1 {
@@ -35,5 +32,37 @@
   
   .infoseite-container a:hover {
     text-decoration: underline;
+  }
+  
+
+  .topic-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .topic-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .topic-card:hover {
+    border-color: #84abd4;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+  .topic-image {
+    height: 100px;
+    background: linear-gradient(135deg, #e0e0e0, #f8f8f8);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+  .topic-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
   }
   
