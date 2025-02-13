@@ -12,5 +12,5 @@ import { HeaderComponent } from '../../shared/components/header/header.component
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  topics = ['Politik', 'Physik', 'Geschichte'];
+  topics = ['Politik', 'Physik', 'Geschichte',];
 }
