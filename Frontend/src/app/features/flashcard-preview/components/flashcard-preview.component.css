@@ -1,16 +1,107 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(45deg, #b4b5c3, #444244);
-    font-family: Helvetica, sans-serif;
-    color: rgb(211, 211, 211);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 98vh;
+  overflow: hidden;
+  background: linear-gradient(45deg, #b4b5c3, #444244);
+  font-family: Helvetica, sans-serif;
+  color: rgb(211, 211, 211);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.left-section,
+.middle-section,
+.right-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Flashcard Container */
+.middle-section {
+  perspective: 1000px;
+}
+
+.card {
+  height: 500px;
+  width: 750px;
+  position: relative;
+  transition: transform 2s;
+  transform-style: preserve-3d;
+}
+
+.flipped {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  height: 100%;
+  width: 100%;
+  border-radius: 2rem;
+  box-shadow: 0 0 5px 2px rgba(50, 50, 50, 0.25);
+  position: absolute;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+}
+
+.front {
+  background-color: #b1b6c1;
+}
+
+.back {
+  background-color: #3a3a3a;
+  transform: rotateY(180deg);
+}
+
+/* Navigation Arrows */
+.left_arrow,
+.right_arrow {
+  width: 100px;
+  height: 100px;
+  opacity: 0.5;
+  transition: 0.5s;
+  position: relative;
+}
+
+.left_arrow {
+  border-left: 10px solid #fff;
+  border-bottom: 10px solid #fff;
+  transform: rotate(45deg);
+}
+
+.right_arrow {
+  border-top: 10px solid #fff;
+  border-right: 10px solid #fff;
+  transform: rotate(45deg);
+}
+
+/* Klick-Animation */
+.clicked {
+  opacity: 1 !important;
+}
+
+.left_arrow.clicked {
+  transform: translateX(-30px) rotate(45deg) !important;
+}
+
+.right_arrow.clicked {
+  transform: translateX(30px) rotate(45deg) !important;
+}
