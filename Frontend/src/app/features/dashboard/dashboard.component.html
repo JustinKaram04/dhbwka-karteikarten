@@ -9,9 +9,10 @@
       <main class="topics">
         <h2>Themenbereiche</h2>
         <div class="topic-container">
-          <div class="topic-card" *ngFor="let topic of topics">
-            <div class="topic-image"></div>
-            <div class="topic-title">{{ topic }}</div>
+          <div class="topic-container">
+            <div class="topic-card" *ngFor="let thema of themengebiete" (click)="navigateToThemengebiet(thema.id)">
+              <h2>{{ thema.name }}</h2>
+            </div>
           </div>
         </div>
       </main>
