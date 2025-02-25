@@ -1,0 +1,13 @@
+<form (ngSubmit)="inputCheck(inputUsername, inputPassword)">
+    <label for="username">Benutzername:</label><br>
+    <input type="text" id="username" [(ngModel)]="inputUsername" name="inputUsername" required><br><br>
+  
+    <!-- Label und Eingabefeld für Passwort -->
+    <label for="password">Passwort:</label><br>
+    <input type="password" id="password" [(ngModel)]="inputPassword" name="inputPassword" required><br><br>
+  
+    <!-- Login-Button -->
+    <button type="submit">Login</button>
+  </form>
+  
+  <p *ngIf="loginFailed" style="color: red;">Login Fehlgeschlagen</p>
