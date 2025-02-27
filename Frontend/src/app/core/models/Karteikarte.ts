@@ -3,6 +3,7 @@ export class Flashcard {
       public id: number,
       public frontView: string,
       public backView: string,
+      public subtopic: string,
       public isToggled: boolean = false // Default to not flipped
     ) {}
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
-import { Flashcard } from '../Flashcard';
-import { FlashcardService } from '../../../../flashcard.service';
+import { Flashcard } from '../../../../core/models/Karteikarte';
+import { GetDataServiceService } from '../../../../core/services/getdataServices/get-data-service.service';
 import { FlashcardComponent } from '../flashcard.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { FlashcardComponent } from '../flashcard.component';
 export class FlashcardListComponent {
   flashcards: Flashcard[] = [];
 
-  constructor(private flashcardService: FlashcardService) {}
+  constructor(private getdataServiceService: getdataServiceService) {}
 
   ngOnInit(): void {
     this.loadFlashcards();
@@ -22,7 +22,7 @@ export class FlashcardListComponent {
   }
 
   loadFlashcards(): void {
-    this.flashcardService.getFlashcards().subscribe((data) => {
+    this.getdataServiceService.getFlashcards().subscribe((data) => {
       this.flashcards = data;
     });
   }

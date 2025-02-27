@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { LoginComponent } from "./features/auth/login/login.component";
+import { LoginComponent } from "./features/login/login.component";
 
 @Component({
   selector: "app-root",
