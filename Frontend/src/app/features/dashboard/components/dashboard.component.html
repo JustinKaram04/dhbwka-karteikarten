@@ -1,14 +1,20 @@
-<div>
-    <h2>All Flashcards:</h2>
+<div class="dashboard">
+
+  <app-header></app-header>
+    <!-- Inhalt -->
+    <div class="content">
+   <app-sidebar></app-sidebar>
+
+      <!-- Themenbereiche -->
+      <main class="topics">
+        <h2>Themenbereiche</h2>
+        <div class="topic-container">
+          <div class="topic-container">
+            <div class="topic-card" *ngFor="let thema of themengebiete" (click)="navigateToThemengebiet(thema.id)">
+              <h2>{{ thema.name }}</h2>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   </div>
-  
-  <div *ngFor="let card of flashcards">
-    <app-flashcard 
-    [frontView]="card.frontView" 
-    [backView]="card.backView"
-    [isToggled]="card.isToggled"
-  ></app-flashcard>
-</div>
-
-
-<app-add-flashcard></app-add-flashcard>

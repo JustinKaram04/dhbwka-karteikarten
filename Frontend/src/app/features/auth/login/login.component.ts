@@ -26,7 +26,7 @@ export class LoginComponent {
     if (this.masterUsername === inputUsername && this.masterPassword === inputPassword) {
       console.log('Login erfolgreich');
       this.loginFailed = false;
-      this.router.navigate(['/mainpage']);
+      this.router.navigate(['']);
     } else {
       console.log('Login fehlgeschlagen');
       this.loginFailed = true;
