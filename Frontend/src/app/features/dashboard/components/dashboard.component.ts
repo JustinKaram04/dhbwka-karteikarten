@@ -8,6 +8,7 @@ import { FlashcardComponent } from '../../flashcards/components/flashcard.compon
 import { AddFlashcardComponent } from '../../flashcards/components/add-flashcard/add-flashcard.component';
 import { GetDataService } from '../../../core/services/getDataServices/get-data.service';
 import { Router } from '@angular/router';
+import { ITopic } from '../../../core/models/itopic';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { Router } from '@angular/router';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  themengebiete: any[] = [];
+  themengebiete: ITopic[] = [];
 
   constructor(private dataService: GetDataService, private router: Router) {}
 

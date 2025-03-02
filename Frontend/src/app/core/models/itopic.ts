@@ -1,6 +1,9 @@
+import { ISubtopic } from "./isubtopic";
+
+
 export interface ITopic {
-    Id: string;
+    id: string;
     name: string;
     description: string;
-    subtopics: string[];
+    subtopics: ISubtopic[];
 }

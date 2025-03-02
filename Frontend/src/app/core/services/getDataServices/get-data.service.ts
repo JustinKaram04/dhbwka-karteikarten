@@ -4,13 +4,14 @@ import { IFlashcard } from '../../models/iflashcard';
 import { find, Observable, of } from 'rxjs';
 import { map } from 'rxjs';
 import { ITopic } from '../../models/itopic';
+import { ISubtopic } from '../../models/isubtopic';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetDataService {
   baseURL: string = 'http://localhost:3000/';
-  TopicURL: string = this.baseURL + 'Topic';
+  TopicURL: string = this.baseURL + 'topics';
   public TopicList: Observable<ITopic[]> = of([]); 
 
 
@@ -30,7 +31,13 @@ export class GetDataService {
     );
 }
 
-  getSubtopics(topicName: string): Observable<string[]> {
+  getSingleTopic(id: string): Observable<ITopic | undefined> {
+    return this.TopicList.pipe(
+      map(topics => topics.find(topic => topic.id === id))
+    );
+}
+
+  getSubtopics(topicName: string): Observable<ISubtopic[]> {
     return this.TopicList.pipe(
       map(topics => {
         const topic = topics.find(t => t.name === topicName); // Use Array.find
@@ -39,8 +46,8 @@ export class GetDataService {
     );
   }
 
-  getFlashcards (subtopic: string): Observable<IFlashcard[]> {
-    return this.http.get<IFlashcard[]>(this.baseURL + 'Flashcard?subtopic=' + subtopic);
+  getFlashcards (subtopicid: string): Observable<IFlashcard[]> {
+    return this.http.get<IFlashcard[]>(this.baseURL + 'flashcards?subtopic=' + subtopicid);
   }
 
 
