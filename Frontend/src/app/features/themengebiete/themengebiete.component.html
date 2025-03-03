@@ -9,7 +9,7 @@
       <h2>Unterthemen</h2>
     
       <div class="unterthemen-list">
-        <ng-container *ngIf="unterthemen$ | async as unterthemen">
+        <ng-container>
           <div class="unterthema-card" *ngFor="let unterthema of unterthemen" (click)="navigateToUnterthema(unterthema.id)">
             <h3>{{ unterthema.name }}</h3>
           </div>

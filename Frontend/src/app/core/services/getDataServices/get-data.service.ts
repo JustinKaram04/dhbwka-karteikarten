@@ -5,6 +5,7 @@ import { find, Observable, of } from 'rxjs';
 import { map } from 'rxjs';
 import { ITopic } from '../../models/itopic';
 import { ISubtopic } from '../../models/isubtopic';
+import { OnInit } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,12 @@ export class GetDataService {
 
 
   constructor(private http: HttpClient) { }
+
+
+  ngOnInit(): void {
+    this.loadingTopics();
+}
+ 
 
   loadingTopics(): void {
     this.TopicList = this.http.get<ITopic[]>(this.TopicURL);
@@ -31,11 +38,18 @@ export class GetDataService {
     );
 }
 
-  getSingleTopic(id: string): Observable<ITopic | undefined> {
-    return this.TopicList.pipe(
-      map(topics => topics.find(topic => topic.id === id))
-    );
+getSingleTopic(id: string): ITopic | undefined {
+  let foundTopic: ITopic | undefined;
+  
+  this.TopicList.pipe(
+    map(topics => topics.find(topic => topic.id === id))
+  ).subscribe(topic => {
+    foundTopic = topic;
+  });
+
+  return foundTopic;
 }
+
 
   getSubtopics(topicName: string): Observable<ISubtopic[]> {
     return this.TopicList.pipe(

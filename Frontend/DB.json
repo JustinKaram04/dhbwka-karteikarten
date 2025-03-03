@@ -93,7 +93,7 @@
     },
     {
       "id": "flashcard2",
-      "subtopic": "subtopic2",
+      "subtopic": "subtopic1",
       "question": "What command initializes a new TypeScript project?",
       "answer": "npx tsc --init",
       "istoggled": false,
@@ -101,7 +101,7 @@
     },
     {
       "id": "flashcard3",
-      "subtopic": "subtopic3",
+      "subtopic": "subtopic1",
       "question": "How do you declare a variable with a specific type in TypeScript?",
       "answer": "const variableName: Type = value;",
       "istoggled": true,
@@ -109,7 +109,7 @@
     },
     {
       "id": "flashcard4",
-      "subtopic": "subtopic4",
+      "subtopic": "subtopic1",
       "question": "Name three primitive data types in TypeScript.",
       "answer": "number, string, boolean",
       "istoggled": false,
