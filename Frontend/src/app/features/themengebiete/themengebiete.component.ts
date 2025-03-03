@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { OnInit } from '@angular/core';
 import { ITopic } from '../../core/models/itopic';
+import { ISubtopic } from '../../core/models/isubtopic';
 
 @Component({
   selector: 'app-themengebiete',
@@ -19,7 +20,7 @@ import { ITopic } from '../../core/models/itopic';
 export class ThemengebieteComponent implements OnInit{
   themengebietId!: string;
   themengebietName: string = '';
-  unterthemen$: Observable<string[]> = of([]);
+  unterthemen$: Observable<ISubtopic[]> = of([]);
   currentTopic$: Observable<ITopic | undefined> = of(undefined);
 
   constructor(private route: ActivatedRoute, private service: GetDataService, private router: Router) {}
@@ -27,19 +28,29 @@ export class ThemengebieteComponent implements OnInit{
   ngOnInit() {
     this.currentTopic$ = this.route.paramMap.pipe(
       switchMap(params => {
-        this.themengebietId = String(params.get('id'));
-        return this.service.getSingleTopic(this.themengebietId);
+        const id = params.get('id');
+        if (id) {
+          this.themengebietId = id;
+          return this.service.getSingleTopic(id);
+        } else {
+          console.error('No ID provided in route');
+          return of(undefined);
+        }
+    
       }),
       tap(topic => {
+        console.log('Received topic:', topic); // Debug log
         if (topic) {
           this.themengebietName = topic.name;
-          this.unterthemen$ = of(topic.subtopics.map(sub => sub.name));
+          this.unterthemen$ = of(topic.subtopics);
+          console.log('Subtopics:', topic.subtopics); // Debug log
         } else {
           console.error('Topic not found');
           // Handle the case when topic is not found (e.g., navigate to error page)
         }
       })
     );
+    console.log(this.themengebietId);
   }
 
   navigateToUnterthema(unterthemaId: string) {
@@ -58,4 +69,8 @@ export class ThemengebieteComponent implements OnInit{
     });
     this.unterthemen = this.service.getSubtopics(this.themengebietId);
     };
-  } */
+  } 
+    
+      this.themengebietId = String(params.get('id'));
+        return this.service.getSingleTopic(this.themengebietId);
+  */

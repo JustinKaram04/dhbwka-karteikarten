@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToThemengebiet(id: string) {
+    console.log('Navigating to theme with ID:', id); // Add this for debugging
     this.router.navigate(['/themen', id]);
   }
 }

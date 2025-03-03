@@ -1,7 +1,7 @@
 {
   "topics": [
     {
-      "Id": "topic1",
+      "id": "topic1",
       "name": "Introduction to TypeScript",
       "description": "A beginner-friendly overview of TypeScript and its features.",
       "subtopics": [
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "Id": "topic2",
+      "id": "topic2",
       "name": "Advanced TypeScript Concepts",
       "description": "Exploring advanced features of TypeScript, including generics, decorators, and more.",
       "subtopics": [
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "Id": "topic3",
+      "id": "topic3",
       "name": "TypeScript and React",
       "description": "Using TypeScript with React to build type-safe and maintainable user interfaces.",
       "subtopics": [
@@ -84,7 +84,7 @@
   ],
   "flashcards": [
     {
-      "Id": "flashcard1",
+      "id": "flashcard1",
       "subtopic": "subtopic1",
       "question": "What is TypeScript?",
       "answer": "TypeScript is a superset of JavaScript that adds optional static typing.",
@@ -92,7 +92,7 @@
       "learningProgress": 0.2
     },
     {
-      "Id": "flashcard2",
+      "id": "flashcard2",
       "subtopic": "subtopic2",
       "question": "What command initializes a new TypeScript project?",
       "answer": "npx tsc --init",
@@ -100,7 +100,7 @@
       "learningProgress": 0.5
     },
     {
-      "Id": "flashcard3",
+      "id": "flashcard3",
       "subtopic": "subtopic3",
       "question": "How do you declare a variable with a specific type in TypeScript?",
       "answer": "const variableName: Type = value;",
@@ -108,7 +108,7 @@
       "learningProgress": 0.8
     },
     {
-      "Id": "flashcard4",
+      "id": "flashcard4",
       "subtopic": "subtopic4",
       "question": "Name three primitive data types in TypeScript.",
       "answer": "number, string, boolean",
@@ -116,7 +116,7 @@
       "learningProgress": 0.3
     },
     {
-      "Id": "flashcard5",
+      "id": "flashcard5",
       "subtopic": "subtopic5",
       "question": "What are generics in TypeScript?",
       "answer": "Generics allow you to write reusable code that can work with different types.",
@@ -124,7 +124,7 @@
       "learningProgress": 0.9
     },
     {
-      "Id": "flashcard6",
+      "id": "flashcard6",
       "subtopic": "subtopic6",
       "question": "What are decorators used for in TypeScript?",
       "answer": "Decorators provide a way to add metadata to classes, methods, properties, or parameters.",
@@ -132,7 +132,7 @@
       "learningProgress": 0.1
     },
     {
-      "Id": "flashcard7",
+      "id": "flashcard7",
       "subtopic": "subtopic7",
       "question": "What is the purpose of modules in TypeScript?",
       "answer": "Modules are used to organize code into reusable units.",
@@ -140,7 +140,7 @@
       "learningProgress": 0.6
     },
     {
-      "Id": "flashcard8",
+      "id": "flashcard8",
       "subtopic": "subtopic9",
       "question": "What is the best way to create a new react project with typescript?",
       "answer": "npx create-react-app my-app --template typescript",
@@ -148,7 +148,7 @@
       "learningProgress": 0.4
     },
     {
-      "Id": "flashcard9",
+      "id": "flashcard9",
       "subtopic": "subtopic10",
       "question": "How can you define the type for the props of a React component in TypeScript?",
       "answer": "By defining an interface or type for the props.",
@@ -156,7 +156,7 @@
       "learningProgress": 0.7
     },
     {
-      "Id": "flashcard10",
+      "id": "flashcard10",
       "subtopic": "subtopic12",
       "question": "How should you type the useState hook in a React component?",
       "answer": "const [state, setState] = useState<Type>(initialValue);",

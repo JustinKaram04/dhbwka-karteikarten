@@ -2,12 +2,12 @@
     <h1>Karteikarten</h1>
   
     <ul>
-      <div *ngIf="karteikarten$ | async as karteikarten">
-        <li *ngFor="let karte of karteikarten$">
-          <strong>Frage:</strong> {{ karte.frage }} <br>
-          <strong>Antwort:</strong> {{ karte.antwort }}
+      <ng-container *ngIf="karteikarten$ | async as karteikarten">
+        <li *ngFor="let karte of karteikarten">
+          <strong>Frage:</strong> {{ karte.question }} <br>
+          <strong>Antwort:</strong> {{ karte.answer }}
         </li>
-      </div>
+      </ng-container>
     </ul>
   </div>
   
