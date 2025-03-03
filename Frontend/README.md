@@ -18,7 +18,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Deploy
 
-Deploy works automatically with each push to github pages. The template is deployed to [dhbw-ka-webengineering.github.io/Template_Angular/](https://dhbw-ka-webengineering.github.io/Template_Angular/)
+Deploy works automatically with each push to github pages. The template is deployed to (https://justinkaram04.github.io/dhbwka-karteikarten//)
 
 Because of the _Template_Angular_ path in the URL, `--base-href="/Template_Angular/"` is required in line 7 of the [package.json file](package.json). If you deploy the repo to a different URL, you will need to adapt or remove this part.
 
