@@ -1,3 +1,14 @@
-<header class="header">
-    <h1>Quickflip</h1>
-  </header>
+<header [class.scrolled]="scrolled">
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="logo" (click)="navigateTo('/dashboard')">
+      <span>Quickflip</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+      <button (click)="navigateTo('/dashboard')">Startseite</button>
+      <button (click)="navigateTo('/info')">Info</button>
+    </nav>
+  </div>
+</header>

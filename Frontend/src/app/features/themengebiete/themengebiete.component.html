@@ -1,18 +1,32 @@
-<div class="themengebiet-container">
+<div class="themengebiet-container" (click)="closeMenu()">
   <app-header></app-header>
 
-<div class="content">
-    <app-sidebar></app-sidebar>
-
-<div class="themengebiete">
+  <div class="themengebiete">
     <h1>{{ themengebietName }}</h1>
     <h2>Unterthemen:</h2>
-  
+
     <div class="unterthemen-container">
-      <div class="unterthemen-card" *ngFor="let unterthema of unterthemen" (click)="navigateToUnterthema(unterthema.id)">
+      <div 
+        class="unterthemen-card" 
+        *ngFor="let unterthema of unterthemen"
+        (click)="navigateToUnterthema(unterthema.id)"
+        (mouseenter)="hoveredId = unterthema.id"
+        (mouseleave)="hoveredId = null"
+      >
         <h3>{{ unterthema.name }}</h3>
+
+        <div 
+          class="menu-icon"
+          *ngIf="hoveredId === unterthema.id"
+          (click)="toggleMenu(unterthema.id, $event)"
+        >
+          &#x22EE; <!-- Unicode für 3 punkte-->
+
+        <div class="menu" *ngIf="activeMenuId === unterthema.id">
+          <button (click)="bearbeiten(unterthema.id)">Bearbeiten</button>
+          <button (click)="loeschen(unterthema.id)">Löschen</button>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </div>
