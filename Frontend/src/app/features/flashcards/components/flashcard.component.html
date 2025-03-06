@@ -1,1 +1,8 @@
-<p>flashcard works!</p>
+<div class="flashcard" (click)="toggleFlip()">
+    <div *ngIf="!isToggled" class="front">
+      {{ frontView }}
+    </div>
+    <div *ngIf="isToggled" class="back">
+      {{ backView }}
+    </div>
+  </div>
