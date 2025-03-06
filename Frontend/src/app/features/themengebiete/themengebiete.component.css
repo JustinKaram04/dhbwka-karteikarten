@@ -1,50 +1,61 @@
-.themengebiet{
+/* Allgemeines Layout */
+.themengebiete-container {
   font-family: Arial, sans-serif;
   padding: 1.5rem;
   background-color: #f5f5f5;
 }
+
+
+
+/* Content Layout */
 .content {
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: 2rem;
   align-items: flex-start;
 }
-.themengebiet-container {
-  font-family: Arial, sans-serif;
-  padding: 1.5rem;
-  background-color: #f5f5f5;
-  }
-  
-  .themengebiet-container h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #333;
-  }
-  
-  .themengebiet-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #555;
-  }
-  
-  .unterthemen-list {
+
+/* Themenbereiche */
+.themengebiete {
+  background-color: #d3d3d3;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+.themengebiete h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Topic Cards */
+.unterthemen-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.unterthemen-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.unterthemen-card:hover {
+  border-color: #84abd4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.unterthemen-image {
+  height: 100px;
+  background: linear-gradient(135deg, #e0e0e0, #f8f8f8);/* Allgemeines Layout */
+  .info-page {
+    font-family: Arial, sans-serif;
+    padding: 1.5rem;
+    background-color: #f5f5f5;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
   }
   
-  .unterthema-card {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .unterthema-card:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #0056b3;
-  }
-  
+}
