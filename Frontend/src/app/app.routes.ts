@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
-import { DashboardComponent } from './features/dashboard/components/dashboard.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ThemengebieteComponent } from './features/themengebiete/themengebiete.component';
 import { UnterthemenComponent } from './features/unterthemen/unterthemen.component';
 import { InfoComponent } from './features/info/info.component';
