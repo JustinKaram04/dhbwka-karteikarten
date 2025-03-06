@@ -1,27 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route } from '@angular/router';
-import { KarteikartenService } from '../../core/services/karteikarten.service';
+import { GetDataService } from '../../core/services/getDataServices/get-data.service';
 import { CommonModule } from '@angular/common';
+import { IFlashcard } from '../../core/models/iflashcard';
+import { Observable, of } from 'rxjs';
+import { HeaderComponent } from '../../shared/generalComponents/header/header.component';
+import { FlashcardPreviewComponent } from '../flashcard-preview/flashcard-preview.component';
 @Component({
   selector: 'app-unterthemen',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent],
   templateUrl: './unterthemen.component.html',
   styleUrl: './unterthemen.component.css'
 })
 export class UnterthemenComponent {
-  themengebietId!: number; 
-  unterthemaId!: number;
-  karteikarten: any[] = [];
+  unterthemaId!: string;
+  karteikarten$!: Observable<IFlashcard[]>;
 
-  constructor(private route: ActivatedRoute, private service: KarteikartenService) {}
+  constructor(private route: ActivatedRoute, private service: GetDataService) {}
 
   ngOnInit() {
-    this.themengebietId = Number(this.route.snapshot.paramMap.get('id')); // 🔹 Die ID wird aus der URL gelesen
-    this.unterthemaId = Number(this.route.snapshot.paramMap.get('unterthemaId'));
+    
+    this.unterthemaId = String(this.route.snapshot.paramMap.get('unterthemaId'));
 
-    this.service.getKarteikarten(this.themengebietId, this.unterthemaId).subscribe(data => {
-      this.karteikarten = data;
-    });
-  }
+    this.karteikarten$ = this.service.getFlashcards(this.unterthemaId);
+  };
 }
