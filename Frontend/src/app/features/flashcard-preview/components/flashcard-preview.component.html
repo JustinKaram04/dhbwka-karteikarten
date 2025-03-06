@@ -1,23 +1,44 @@
 <body>
     <div class="container">
-      <div class="left-section">
-        <div class="left_arrow" [class.clicked]="leftClicked" (click)="previousCard()"></div>
-      </div>
-  
-      <div class="middle-section" (click)="toggleFlip()">
-        <div class="card" [class.flipped]="isFlipped">
-          <div class="front">
-            <h1>Front of the Card</h1>
-          </div>
-          <div class="back">
-            <h1>Back of the Card</h1>
-          </div>
+        <div class = "top-section">
+            <div class="left-section">
+                <div class="left_arrow" [class.clicked]="leftClicked" (click)="previousCard()"></div>
+            </div>
+    
+            <div class="middle-section" (click)="toggleFlip()">
+                <div class="card" [class.flipped]="isFlipped">
+                    <div class="front">
+                        <h1>Front of the Card</h1>
+                    </div>
+                    <div class="back">
+                        <h1>Back of the Card</h1>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="right-section">
+                <div class="right_arrow" [class.clicked]="rightClicked" (click)="nextCard()"></div>
+            </div>
         </div>
-      </div>
-  
-      <div class="right-section">
-        <div class="right_arrow" [class.clicked]="rightClicked" (click)="nextCard()"></div>
-      </div>
+
+        <div class = "under-section">
+            <div class = button-wrong-div>
+                <button class = button-wrong (click)="updateProgress(-20)">
+                    <h1>✖</h1>
+                </button>
+            </div>
+
+            <div class="progress">
+                <div class="progress__fill" [style.width.%]="progress"></div>
+                <span class="progress__text">{{ progress }}%</span>
+            </div>
+
+            <div class = button-right-div>
+                <button class = button-right (click)="updateProgress(20)">
+                    <h1>✔</h1>
+                </button>
+            </div>
+        </div>
     </div>
 </body>
   

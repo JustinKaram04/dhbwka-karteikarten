@@ -16,3 +16,4 @@ import { FlashcardPreviewComponent } from "./features/flashcard-preview/componen
 export class AppComponent {
   title = "TINF24B5";
 }
+  

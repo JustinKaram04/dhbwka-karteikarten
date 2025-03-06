@@ -25,4 +25,12 @@ export class FlashcardPreviewComponent {
     this.rightClicked = true;
     setTimeout(() => this.rightClicked = false, 300);
   }
+
+  progress: number = 0; // Startwert (kann angepasst werden)
+
+  updateProgress(change: number): void {
+    this
+    .progress = Math.min(100, Math.max(0, this.progress + change));
+  }
+
 }
