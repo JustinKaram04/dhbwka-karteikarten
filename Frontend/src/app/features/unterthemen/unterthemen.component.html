@@ -1,13 +1,28 @@
 
-<div class="unterthema-container">
-    <h1>Karteikarten</h1>
-  
-    <ul>
-      <li *ngFor="let karte of karteikarten">
-        <strong>Frage:</strong> {{ karte.frage }} <br>
-        <strong>Antwort:</strong> {{ karte.antwort }}
-      </li>
-    </ul>
-  </div>
 
+<div class="unterthema">
+  <app-header></app-header>
   
+  <div class="content">
+    <app-sidebar></app-sidebar>
+  
+    <div class="unterthema-container">
+      <h1>Karteikarten</h1>
+      <h2>Fragen und Antworten</h2>
+    
+      <div class="karteikarten-list">
+        <ng-container *ngIf="karteikarten$ | async as karteikarten">
+          <div class="karteikarte-card" *ngFor="let karte of karteikarten">
+            <h3>Frage:</h3>
+            <p>{{ karte.question }}</p>
+            <h3>Antwort:</h3>
+            <p>{{ karte.answer }}</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+
