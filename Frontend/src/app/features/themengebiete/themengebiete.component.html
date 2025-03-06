@@ -8,25 +8,33 @@
     <div class="unterthemen-container">
       <div 
         class="unterthemen-card" 
-        *ngFor="let unterthema of unterthemen"
+        *ngFor="let unterthema of unterthemen$ | async"
         (click)="navigateToUnterthema(unterthema.id)"
         (mouseenter)="hoveredId = unterthema.id"
         (mouseleave)="hoveredId = null"
       >
         <h3>{{ unterthema.name }}</h3>
 
+        <!-- Drei Punkte (stoppt Event-Propagation) -->
         <div 
           class="menu-icon"
           *ngIf="hoveredId === unterthema.id"
           (click)="toggleMenu(unterthema.id, $event)"
         >
-          &#x22EE; <!-- Unicode für 3 punkte-->
+          &#x22EE;
+        </div>
 
-        <div class="menu" *ngIf="activeMenuId === unterthema.id">
+        <!-- Kontextmenü (stoppt Event-Propagation) -->
+        <div 
+          class="menu"
+          *ngIf="activeMenuId === unterthema.id"
+          (click)="$event.stopPropagation()"
+        >
           <button (click)="bearbeiten(unterthema.id)">Bearbeiten</button>
           <button (click)="loeschen(unterthema.id)">Löschen</button>
         </div>
       </div>
     </div>
   </div>
+  <router-outlet></router-outlet>
 </div>

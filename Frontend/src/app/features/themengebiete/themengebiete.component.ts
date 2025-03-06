@@ -1,46 +1,44 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { KarteikartenService } from '../../core/services/karteikarten.service';
+import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../../shared/components/header/header.component";
+import { GetDataService } from '../../core/services/getDataServices/get-data.service';
+import { Observable } from 'rxjs';
+import { ISubtopic } from '../../core/models/isubtopic';
+import { ITopic } from '../../core/models/itopic';
 
 @Component({
   selector: 'app-themengebiete',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, RouterOutlet],
   templateUrl: './themengebiete.component.html',
   styleUrl: './themengebiete.component.css'
 })
 export class ThemengebieteComponent {
-  themengebietId!: number;
+  topicId!: string;
   themengebietName: string = '';
-  unterthemen: any[] = [];
-  activeMenuId: number | null = null;
-  hoveredId: number | null = null;
-
-  constructor(private route: ActivatedRoute, private service: KarteikartenService, private router: Router) {}
+  unterthemen$: Observable<ISubtopic[]> | null = null;
+  activeMenuId: string | null = null;
+  hoveredId: string | null = null;
+  constructor(private route: ActivatedRoute, private service: GetDataService, private router: Router) {}
 
   ngOnInit() {
-    this.themengebietId = Number(this.route.snapshot.paramMap.get('id'));
+    this.topicId = this.route.snapshot.paramMap.get('topicId') || '';
 
-    this.service.getThemengebiete().subscribe(themen => {
-      const gefundenesThema = themen.find(t => t.id === this.themengebietId);
-      if (gefundenesThema) {
-        this.themengebietName = gefundenesThema.name;
+    this.service.getSingleTopic(this.topicId).subscribe((thema: ITopic | undefined) => {
+      if (thema) {
+        this.themengebietName = thema.name;
       }
     });
 
-    this.service.getUnterthemen(this.themengebietId).subscribe(data => {
-      this.unterthemen = data;
-    });
+    this.unterthemen$ = this.service.getSubtopics(this.themengebietName);
   }
 
-  navigateToUnterthema(unterthemaId: number) {
-    console.log('➡️ Navigiere zu Unterthema ID:', unterthemaId);
-    this.router.navigate(['/themen', this.themengebietId, unterthemaId]);
+  navigateToUnterthema(subtopicId: string) {
+    this.router.navigate([subtopicId], { relativeTo: this.route });
   }
 
-  toggleMenu(id: number, event: MouseEvent) {
+  toggleMenu(id: string, event: MouseEvent) {
     event.stopPropagation();
     this.activeMenuId = this.activeMenuId === id ? null : id;
   }
@@ -49,12 +47,12 @@ export class ThemengebieteComponent {
     this.activeMenuId = null;
   }
 
-  bearbeiten(id: number) {
+  bearbeiten(id: string) {
     console.log(`Bearbeiten: ${id}`);
     this.closeMenu();
   }
 
-  loeschen(id: number) {
+  loeschen(id: string) {
     console.log(`Löschen: ${id}`);
     this.closeMenu();
   }

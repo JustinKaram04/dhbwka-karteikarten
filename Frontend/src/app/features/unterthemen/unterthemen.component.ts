@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route } from '@angular/router';
-import { GetDataService } from '../../core/services/getDataServices/get-data.service';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from "../../shared/components/header/header.component";
+import { GetDataService } from '../../core/services/getDataServices/get-data.service';
+import { Observable } from 'rxjs';
+import { ISubtopic } from '../../core/models/isubtopic';
+import { ITopic } from '../../core/models/itopic';
 import { IFlashcard } from '../../core/models/iflashcard';
-import { Observable, of } from 'rxjs';
-import { HeaderComponent } from '../../shared/generalComponents/header/header.component';
-import { FlashcardPreviewComponent } from '../flashcard-preview/flashcard-preview.component';
 @Component({
   selector: 'app-unterthemen',
   standalone: true,
@@ -14,15 +15,18 @@ import { FlashcardPreviewComponent } from '../flashcard-preview/flashcard-previe
   styleUrl: './unterthemen.component.css'
 })
 export class UnterthemenComponent {
-  unterthemaId!: string;
-  karteikarten$!: Observable<IFlashcard[]>;
+  subtopicId!: string;
+  flashcards$: Observable<IFlashcard[]> | null = null;
 
   constructor(private route: ActivatedRoute, private service: GetDataService) {}
 
   ngOnInit() {
-    
-    this.unterthemaId = String(this.route.snapshot.paramMap.get('unterthemaId'));
+    this.subtopicId = this.route.snapshot.paramMap.get('subtopicId') || '';
 
-    this.karteikarten$ = this.service.getFlashcards(this.unterthemaId);
-  };
+    console.log("🔍 Unterthema-ID aus URL:", this.subtopicId); // DEBUGGING
+
+    if (this.subtopicId) {
+      this.flashcards$ = this.service.getFlashcards(this.subtopicId);
+    }
+  }
 }

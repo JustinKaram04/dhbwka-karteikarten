@@ -1,23 +1,31 @@
 <div class="unterthema">
   <app-header></app-header>
-  
-  <div class="content">
-  
-    <div class="unterthema-container">
-      <h1>Karteikarten</h1>
-      <h2>Fragen und Antworten</h2>
-    
-      <div class="karteikarten-list">
-        <ng-container *ngIf="karteikarten$ | async as karteikarten">
+
+  <div class="karteikarten-container">
+    <h1>Karteikarten</h1>
+    <h2>Fragen und Antworten</h2>
+
+    <div class="karteikarten-list">
+      <ng-container *ngIf="flashcards$ | async as karteikarten; else loading">
+        <div *ngIf="karteikarten.length > 0; else noData">
           <div class="karteikarte-card" *ngFor="let karte of karteikarten">
             <h3>Frage:</h3>
             <p>{{ karte.question }}</p>
             <h3>Antwort:</h3>
             <p>{{ karte.answer }}</p>
           </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
+
+      <!-- Ladeanzeige -->
+      <ng-template #loading>
+        <p>Lade Karteikarten...</p>
+      </ng-template>
+
+      <!-- Kein Daten -->
+      <ng-template #noData>
+        <p>Keine Karteikarten gefunden.</p>
+      </ng-template>
     </div>
   </div>
 </div>
-  

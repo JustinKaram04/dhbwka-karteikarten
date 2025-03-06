@@ -1,35 +1,39 @@
 <div class="dashboard" (click)="closeMenu()">
   <app-header></app-header>
 
+  <main class="topics">
+    <h2>Themenbereiche:</h2>
+    
+    <!-- Themenliste -->
+    <div class="topic-container">
+      <div 
+        class="topic-card"
+        *ngFor="let thema of themengebiete$ | async"
+        (click)="navigateToThemengebiet(thema.id)"
+        (mouseenter)="hoveredId = thema.id"
+        (mouseleave)="hoveredId = null"
+      >
+        <h2>{{ thema.name }}</h2>
 
-    <main class="topics">
-      <h2>Themenbereiche:</h2>
-      <div class="topic-container">
+        <!-- Drei-Punkte-Menü (wird nur bei Hover angezeigt) -->
         <div 
-          class="topic-card"
-          *ngFor="let thema of themengebiete"
-          (click)="navigateToThemengebiet(thema.id)"
-          (mouseenter)="hoveredId = thema.id"
-          (mouseleave)="hoveredId = null"
+          class="menu-icon"
+          *ngIf="hoveredId === thema.id"
+          (click)="toggleMenu(thema.id, $event)"
         >
-          <h2>{{ thema.name }}</h2>
+          &#x22EE;
+        </div>
 
-          <!-- Drei Punkte (stoppt Event-Propagation) -->
-          <div 
-            class="menu-icon"
-            *ngIf="hoveredId === thema.id"
-            (click)="toggleMenu(thema.id, $event)"
-          >
-            &#x22EE;
-          </div>
-
-          <!-- Kontextmenü (stoppt Event-Propagation) -->
-          <div class="menu" *ngIf="activeMenuId === thema.id" (click)="$event.stopPropagation()">
-            <button (click)="bearbeiten(thema.id, $event)">Bearbeiten</button>
-            <button (click)="loeschen(thema.id, $event)">Löschen</button>
-          </div>
+        <!-- Kontextmenü (wird nur bei aktivem Menü angezeigt) -->
+        <div 
+          class="menu"
+          *ngIf="activeMenuId === thema.id"
+          (click)="$event.stopPropagation()"
+        >
+          <button (click)="bearbeiten(thema.id, $event)">Bearbeiten</button>
+          <button (click)="loeschen(thema.id, $event)">Löschen</button>
         </div>
       </div>
-    </main>
-  </div>
-
+    </div>
+  </main>
+</div>

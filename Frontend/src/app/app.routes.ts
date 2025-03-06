@@ -8,12 +8,13 @@ import { InfoComponent } from './features/info/info.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent},
-  { path: '', component: DashboardComponent }, // Startseite    
-  { path: 'themen/:id', component: ThemengebieteComponent },
-  { path: 'themen/:id/:unterthemaId', component: UnterthemenComponent }, // Route für Unterthemen
-  { path: 'info', component: InfoComponent }, // Infoseite
-  { path: '**', redirectTo: '' }, // Fallback zur Startseite
-  // Weitere Routen hier hinzufügen
+  { path: '', component: DashboardComponent },     
+  { path: 'themengebiet/:topicId', component: ThemengebieteComponent },  
+  { path: 'themengebiet/:topicId/:subtopicId', component: UnterthemenComponent }  
+,
+  { path: 'info', component: InfoComponent },
+  { path: '**', redirectTo: '' }, 
+ 
 ];
 
 @NgModule({
