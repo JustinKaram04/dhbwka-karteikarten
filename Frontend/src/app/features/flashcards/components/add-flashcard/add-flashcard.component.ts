@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FlashcardService } from '../../../../flashcard.service';
 import { Observable } from 'rxjs';
 
 
@@ -18,7 +17,8 @@ export class AddFlashcardComponent {
     frontView: '',
     backView: '',
   };
-
+}
+/*
 
   constructor(private flashcardService: FlashcardService) {}
 
@@ -53,4 +53,5 @@ export class AddFlashcardComponent {
       }
     );
   }
-}
+
+*/

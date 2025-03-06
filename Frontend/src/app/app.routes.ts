@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainpageComponent } from './core/mainpage/mainpage.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { DashboardComponent } from './features/dashboard/components/dashboard.component';
 import { ThemengebieteComponent } from './features/themengebiete/themengebiete.component';
@@ -8,7 +7,6 @@ import { UnterthemenComponent } from './features/unterthemen/unterthemen.compone
 import { InfoComponent } from './features/info/info.component';
 
 export const routes: Routes = [
-  { path: 'mainpage', component: MainpageComponent },
   { path: 'login', component: LoginComponent},
   { path: '', component: DashboardComponent }, // Startseite    
   { path: 'themen/:id', component: ThemengebieteComponent },
