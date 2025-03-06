@@ -1,65 +1,43 @@
-/* Allgemeines Layout */
-.themengebiet-container {
+.dashboard {
   font-family: Arial, sans-serif;
   padding: 1.5rem;
   background-color: #f5f5f5;
   padding-top: 7rem;
 }
 
-/* Themenbereiche */
-.themengebiete {
+.topics {
   background-color: #d3d3d3;
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-}
 
-.themengebiete h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1rem;
 }
-
-.themengebiete h2 {
+.topics h2 {
   font-size: 1.8rem;
-  font-weight: bold;
   margin-bottom: 1.5rem;
   color: #333;
 }
 
-/* Unterthemen Container */
-.unterthemen-container {
+.topic-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+  gap: 2rem; 
 }
 
-/* Unterthemen Karten */
-.unterthemen-card {
+.topic-card {
   background-color: #f8f9fa;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1. rem; 
   text-align: center;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   position: relative;
 }
-
-/* Gleiche Schriftart & Format wie die Themenbereiche */
-.unterthemen-card h3 {
-  font-size: 1.5rem; /* Schriftgröße anpassen */
-  font-weight: bold; /* Fett wie in Themenbereichen */
-  color: #333;
-  margin: 0;
-}
-
-.unterthemen-card:hover {
+.topic-card:hover {
   border-color: #84abd4;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Drei-Punkte-Menü */
 .menu-icon {
   position: absolute;
   top: 10px;
@@ -73,7 +51,7 @@
   display: none;
 }
 
-.unterthemen-card:hover .menu-icon {
+.topic-card:hover .menu-icon {
   display: block;
 }
 
@@ -81,7 +59,6 @@
   background: rgba(200, 200, 200, 0.9);
 }
 
-/* Kontextmenü */
 .menu {
   position: absolute;
   top: 30px;
@@ -104,15 +81,8 @@
   cursor: pointer;
   width: 100%;
 }
-
 .menu button:hover {
   background: #eee;
 }
 
-/* Bildbereich für Unterthemen */
-.unterthemen-image {
-  height: 100px;
-  background: linear-gradient(135deg, #e0e0e0, #f8f8f8);
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-}
+

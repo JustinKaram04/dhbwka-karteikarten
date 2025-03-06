@@ -1,0 +1,53 @@
+/* Standard Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 2rem; 
+  transition: padding 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1000;
+  
+ 
+}
+
+header.scrolled {
+  padding: 0.8rem 2rem; 
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+  transition: color 0.3s ease;
+}
+
+nav button:hover {
+  color: #007bff;
+}
+

@@ -1,0 +1,35 @@
+<div class="dashboard" (click)="closeMenu()">
+  <app-header></app-header>
+
+
+    <main class="topics">
+      <h2>Themenbereiche:</h2>
+      <div class="topic-container">
+        <div 
+          class="topic-card"
+          *ngFor="let thema of themengebiete"
+          (click)="navigateToThemengebiet(thema.id)"
+          (mouseenter)="hoveredId = thema.id"
+          (mouseleave)="hoveredId = null"
+        >
+          <h2>{{ thema.name }}</h2>
+
+          <!-- Drei Punkte (stoppt Event-Propagation) -->
+          <div 
+            class="menu-icon"
+            *ngIf="hoveredId === thema.id"
+            (click)="toggleMenu(thema.id, $event)"
+          >
+            &#x22EE;
+          </div>
+
+          <!-- Kontextmenü (stoppt Event-Propagation) -->
+          <div class="menu" *ngIf="activeMenuId === thema.id" (click)="$event.stopPropagation()">
+            <button (click)="bearbeiten(thema.id, $event)">Bearbeiten</button>
+            <button (click)="loeschen(thema.id, $event)">Löschen</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+

@@ -5,12 +5,11 @@ import { CommonModule } from '@angular/common';
 import { IFlashcard } from '../../core/models/iflashcard';
 import { Observable, of } from 'rxjs';
 import { HeaderComponent } from '../../shared/generalComponents/header/header.component';
-import { SidebarComponent } from '../../shared/generalComponents/sidebar/sidebar.component';
 import { FlashcardPreviewComponent } from '../flashcard-preview/flashcard-preview.component';
 @Component({
   selector: 'app-unterthemen',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, SidebarComponent],
+  imports: [CommonModule, HeaderComponent],
   templateUrl: './unterthemen.component.html',
   styleUrl: './unterthemen.component.css'
 })
