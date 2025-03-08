@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../../shared/components/header/header.component";
 import { GetDataService } from '../../core/services/getDataServices/get-data.service';
@@ -10,7 +10,7 @@ import { IFlashcard } from '../../core/models/iflashcard';
 @Component({
   selector: 'app-unterthemen',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, RouterOutlet],
   templateUrl: './unterthemen.component.html',
   styleUrl: './unterthemen.component.css'
 })
@@ -18,7 +18,7 @@ export class UnterthemenComponent {
   subtopicId!: string;
   flashcards$: Observable<IFlashcard[]> | null = null;
 
-  constructor(private route: ActivatedRoute, private service: GetDataService) {}
+  constructor(private route: ActivatedRoute, private service: GetDataService, private router: Router) {}
 
   ngOnInit() {
     this.subtopicId = this.route.snapshot.paramMap.get('subtopicId') || '';
@@ -28,5 +28,8 @@ export class UnterthemenComponent {
     if (this.subtopicId) {
       this.flashcards$ = this.service.getFlashcards(this.subtopicId);
     }
+  }
+  openLernmodus() {
+    this.router.navigate(['lernmodus'], { relativeTo: this.route });
   }
 }

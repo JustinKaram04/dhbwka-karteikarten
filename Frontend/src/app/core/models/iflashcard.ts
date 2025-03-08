@@ -4,5 +4,5 @@ export interface IFlashcard {
     question: string;
     answer: string;
     istoggled: boolean;
-    learningProgress: number;
+    learningProgress: number; //between 0 and 6
 }

@@ -89,7 +89,7 @@
       "question": "What is TypeScript?",
       "answer": "TypeScript is a superset of JavaScript that adds optional static typing.",
       "istoggled": false,
-      "learningProgress": 0.2
+      "learningProgress": 5
     },
     {
       "id": "flashcard2",
@@ -97,7 +97,7 @@
       "question": "What command initializes a new TypeScript project?",
       "answer": "npx tsc --init",
       "istoggled": false,
-      "learningProgress": 0.5
+      "learningProgress": 5
     },
     {
       "id": "flashcard3",
@@ -105,7 +105,7 @@
       "question": "How do you declare a variable with a specific type in TypeScript?",
       "answer": "const variableName: Type = value;",
       "istoggled": true,
-      "learningProgress": 0.8
+      "learningProgress": 2
     },
     {
       "id": "flashcard4",
@@ -113,7 +113,7 @@
       "question": "Name three primitive data types in TypeScript.",
       "answer": "number, string, boolean",
       "istoggled": false,
-      "learningProgress": 0.3
+      "learningProgress": 1
     },
     {
       "id": "flashcard5",
