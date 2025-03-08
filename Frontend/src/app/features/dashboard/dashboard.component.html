@@ -3,35 +3,53 @@
 
   <main class="topics">
     <h2>Themenbereiche:</h2>
-    
-    <!-- Themenliste -->
+
     <div class="topic-container">
-      <div 
-        class="topic-card"
+      <div class="topic-card add-card" (click)="showAddTopicInput = true" title="Neues Thema hinzufügen">
+        <span class="plus-icon">+</span>
+      </div>
+
+      <div *ngIf="showAddTopicInput" class="input-container">
+        <label for="newTopicInput">Neues Themengebiet:</label>
+        <input id="newTopicInput" type="text" [(ngModel)]="newTopicName" placeholder="Themenname..." />
+
+        <label for="newTopicDescription">Beschreibung:</label>
+        <textarea id="newTopicDescription" [(ngModel)]="newTopicDescription" placeholder="Beschreibung..."></textarea>
+
+        <button (click)="addTopic()" [disabled]="!newTopicName.trim()">Hinzufügen</button>
+        <button (click)="showAddTopicInput = false">Abbrechen</button>
+      </div>
+
+      <div class="topic-card"
         *ngFor="let thema of themengebiete$ | async"
-        (click)="navigateToThemengebiet(thema.id)"
+        (click)="navigateToThemengebiet(thema.id, $event)"
         (mouseenter)="hoveredId = thema.id"
         (mouseleave)="hoveredId = null"
       >
-        <h2>{{ thema.name }}</h2>
+        <div *ngIf="editingTopicId === thema.id">
+          <input type="text" [(ngModel)]="editedTopicName" placeholder="Neuer Name..." />
+          <textarea [(ngModel)]="editedTopicDescription" placeholder="Neue Beschreibung..."></textarea>
 
-        <!-- Drei-Punkte-Menü (wird nur bei Hover angezeigt) -->
-        <div 
-          class="menu-icon"
-          *ngIf="hoveredId === thema.id"
-          (click)="toggleMenu(thema.id, $event)"
-        >
-          &#x22EE;
+          <button (click)="saveTopic()">💾 Speichern</button>
+          <button (click)="cancelEditing()">❌ Abbrechen</button>
         </div>
 
-        <!-- Kontextmenü (wird nur bei aktivem Menü angezeigt) -->
-        <div 
-          class="menu"
-          *ngIf="activeMenuId === thema.id"
-          (click)="$event.stopPropagation()"
-        >
-          <button (click)="bearbeiten(thema.id, $event)">Bearbeiten</button>
-          <button (click)="loeschen(thema.id, $event)">Löschen</button>
+        <div *ngIf="editingTopicId !== thema.id">
+          <h2>{{ thema.name }}</h2>
+          <p>{{ thema.description }}</p>
+
+          <div class="menu-icon"
+            *ngIf="hoveredId === thema.id"
+            (click)="toggleMenu(thema.id, $event)">
+            &#x22EE;
+          </div>
+
+          <div class="menu"
+            *ngIf="activeMenuId === thema.id"
+            (click)="$event.stopPropagation()">
+            <button (click)="startEditing(thema, $event)">Bearbeiten</button>
+            <button (click)="loeschen(thema.id, $event)">Löschen</button>
+          </div>
         </div>
       </div>
     </div>

@@ -6,35 +6,57 @@
     <h2>Unterthemen:</h2>
 
     <div class="unterthemen-container">
+      <div class="unterthemen-card add-card" (click)="showAddSubtopicInput = true">
+        <span class="plus-icon">+</span>
+      </div>
+
+      <div *ngIf="showAddSubtopicInput" class="input-container">
+        <label for="newSubtopicName">Unterthema:</label>
+        <input id="newSubtopicName" type="text" [(ngModel)]="newSubtopicName" placeholder="Name eingeben..." />
+
+        <label for="newSubtopicDescription">Beschreibung:</label>
+        <textarea id="newSubtopicDescription" [(ngModel)]="newSubtopicDescription" placeholder="Beschreibung eingeben..."></textarea>
+
+        <div class="button-group">
+          <button (click)="addSubtopic()" [disabled]="!newSubtopicName.trim()">Hinzufügen</button>
+          <button class="cancel-btn" (click)="showAddSubtopicInput = false">Abbrechen</button>
+        </div>
+      </div>
+
       <div 
         class="unterthemen-card" 
         *ngFor="let unterthema of unterthemen$ | async"
-        (click)="navigateToUnterthema(unterthema.id)"
+        (click)="navigateToUnterthema(unterthema.id, $event)"
         (mouseenter)="hoveredId = unterthema.id"
         (mouseleave)="hoveredId = null"
       >
-        <h3>{{ unterthema.name }}</h3>
+        <div *ngIf="editingSubtopicId === unterthema.id" class="edit-mode">
+          <label for="editSubtopicName">Neuer Name:</label>
+          <input id="editSubtopicName" type="text" [(ngModel)]="editedSubtopicName" placeholder="Neuer Name eingeben..." />
 
-        <!-- Drei Punkte (stoppt Event-Propagation) -->
-        <div 
-          class="menu-icon"
-          *ngIf="hoveredId === unterthema.id"
-          (click)="toggleMenu(unterthema.id, $event)"
-        >
-          &#x22EE;
+          <label for="editSubtopicDescription">Neue Beschreibung:</label>
+          <textarea id="editSubtopicDescription" [(ngModel)]="editedSubtopicDescription" placeholder="Neue Beschreibung eingeben..."></textarea>
+
+          <div class="button-group">
+            <button (click)="saveSubtopic()">💾 Speichern</button>
+            <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
+          </div>
         </div>
 
-        <!-- Kontextmenü (stoppt Event-Propagation) -->
-        <div 
-          class="menu"
-          *ngIf="activeMenuId === unterthema.id"
-          (click)="$event.stopPropagation()"
-        >
-          <button (click)="bearbeiten(unterthema.id)">Bearbeiten</button>
-          <button (click)="loeschen(unterthema.id)">Löschen</button>
+        <div *ngIf="editingSubtopicId !== unterthema.id">
+          <h3>{{ unterthema.name }}</h3>
+          <p>{{ unterthema.description }}</p>
+
+          <div class="menu-icon" *ngIf="hoveredId === unterthema.id" (click)="toggleMenu(unterthema.id, $event)">
+            &#x22EE;
+          </div>
+
+          <div class="menu" *ngIf="activeMenuId === unterthema.id" (click)="$event.stopPropagation()">
+            <button (click)="startEditing(unterthema, $event)">Bearbeiten</button>
+            <button class="delete-btn" (click)="loeschen(unterthema.id, $event)">Löschen</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <router-outlet></router-outlet>
 </div>

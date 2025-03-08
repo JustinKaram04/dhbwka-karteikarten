@@ -1,81 +1,91 @@
 {
   "topics": [
     {
-      "id": "topic1",
+      "id": "1",
       "name": "Introduction to TypeScript",
       "description": "A beginner-friendly overview of TypeScript and its features.",
       "subtopics": [
         {
-          "id": "subtopic1",
+          "id": "1",
           "name": "What is TypeScript?",
-          "description": "An introduction to TypeScript."
+          "description": "An introduction to TypeScript.htzrsfhh"
         },
         {
-          "id": "subtopic2",
+          "id": "2",
           "name": "Setting up a TypeScript project",
           "description": "How to set up a TypeScript project."
         },
         {
-          "id": "subtopic3",
+          "id": "3",
           "name": "Basic TypeScript syntax",
           "description": "The basic syntax of TypeScript."
         },
         {
-          "id": "subtopic4",
+          "id": "4",
           "name": "Data types in TypeScript",
           "description": "Different data types in TypeScript."
+        },
+        {
+          "id": "5",
+          "name": "test",
+          "description": "hallo"
+        },
+        {
+          "id": "6",
+          "name": "grfe",
+          "description": "gre"
         }
       ]
     },
     {
-      "id": "topic2",
+      "id": "2",
       "name": "Advanced TypeScript Concepts",
       "description": "Exploring advanced features of TypeScript, including generics, decorators, and more.",
       "subtopics": [
         {
-          "id": "subtopic5",
+          "id": "5",
           "name": "Generics",
           "description": "Understanding generics in TypeScript."
         },
         {
-          "id": "subtopic6",
+          "id": "6",
           "name": "Decorators",
           "description": "Using decorators in TypeScript."
         },
         {
-          "id": "subtopic7",
+          "id": "7",
           "name": "Modules and namespaces",
           "description": "Working with modules and namespaces in TypeScript."
         },
         {
-          "id": "subtopic8",
+          "id": "8",
           "name": "Working with external libraries",
           "description": "How to use external libraries with TypeScript."
         }
       ]
     },
     {
-      "id": "topic3",
+      "id": "3",
       "name": "TypeScript and React",
       "description": "Using TypeScript with React to build type-safe and maintainable user interfaces.",
       "subtopics": [
         {
-          "id": "subtopic9",
+          "id": "9",
           "name": "Setting up a React project with TypeScript",
           "description": "How to set up a React project with TypeScript."
         },
         {
-          "id": "subtopic10",
+          "id": "10",
           "name": "Typing React components",
           "description": "How to type React components in TypeScript."
         },
         {
-          "id": "subtopic11",
+          "id": "11",
           "name": "Working with props and state",
           "description": "Managing props and state in TypeScript."
         },
         {
-          "id": "subtopic12",
+          "id": "12",
           "name": "Using hooks with TypeScript",
           "description": "Using hooks in React with TypeScript."
         }
@@ -84,84 +94,60 @@
   ],
   "flashcards": [
     {
-      "id": "flashcard1",
-      "subtopic": "subtopic1",
+      "id": "1",
+      "subtopic": "1",
       "question": "What is TypeScript?",
       "answer": "TypeScript is a superset of JavaScript that adds optional static typing.",
       "istoggled": false,
       "learningProgress": 0.2
     },
     {
-      "id": "flashcard2",
-      "subtopic": "subtopic1",
+      "id": "2",
+      "subtopic": "1",
       "question": "What command initializes a new TypeScript project?",
       "answer": "npx tsc --init",
       "istoggled": false,
       "learningProgress": 0.5
     },
     {
-      "id": "flashcard3",
-      "subtopic": "subtopic1",
+      "id": "3",
+      "subtopic": "1",
       "question": "How do you declare a variable with a specific type in TypeScript?",
       "answer": "const variableName: Type = value;",
       "istoggled": true,
       "learningProgress": 0.8
     },
     {
-      "id": "flashcard4",
-      "subtopic": "subtopic1",
+      "id": "4",
+      "subtopic": "1",
       "question": "Name three primitive data types in TypeScript.",
       "answer": "number, string, boolean",
       "istoggled": false,
       "learningProgress": 0.3
     },
     {
-      "id": "flashcard5",
-      "subtopic": "subtopic5",
+      "id": "5",
+      "subtopic": "5",
       "question": "What are generics in TypeScript?",
       "answer": "Generics allow you to write reusable code that can work with different types.",
       "istoggled": true,
       "learningProgress": 0.9
     },
     {
-      "id": "flashcard6",
-      "subtopic": "subtopic6",
+      "id": "6",
+      "subtopic": "6",
       "question": "What are decorators used for in TypeScript?",
       "answer": "Decorators provide a way to add metadata to classes, methods, properties, or parameters.",
       "istoggled": false,
       "learningProgress": 0.1
     },
     {
-      "id": "flashcard7",
-      "subtopic": "subtopic7",
+      "id": "7",
+      "subtopic": "7",
       "question": "What is the purpose of modules in TypeScript?",
       "answer": "Modules are used to organize code into reusable units.",
       "istoggled": true,
       "learningProgress": 0.6
-    },
-    {
-      "id": "flashcard8",
-      "subtopic": "subtopic9",
-      "question": "What is the best way to create a new react project with typescript?",
-      "answer": "npx create-react-app my-app --template typescript",
-      "istoggled": false,
-      "learningProgress": 0.4
-    },
-    {
-      "id": "flashcard9",
-      "subtopic": "subtopic10",
-      "question": "How can you define the type for the props of a React component in TypeScript?",
-      "answer": "By defining an interface or type for the props.",
-      "istoggled": true,
-      "learningProgress": 0.7
-    },
-    {
-      "id": "flashcard10",
-      "subtopic": "subtopic12",
-      "question": "How should you type the useState hook in a React component?",
-      "answer": "const [state, setState] = useState<Type>(initialValue);",
-      "istoggled": false,
-      "learningProgress": 0.25
     }
   ]
 }

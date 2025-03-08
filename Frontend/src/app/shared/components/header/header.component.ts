@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { DarkModeService } from '../../../core/services/dark-modeServices/dark-mode.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   scrolled: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private darkModeService: DarkModeService) {}
 
   @HostListener('window:scroll', [])
   onScroll() {
@@ -19,5 +19,9 @@ export class HeaderComponent {
 
   navigateTo(route: string) {
     this.router.navigate([route]);
+  }
+
+  toggleDarkMode(): void {
+    this.darkModeService.toggleDarkMode();
   }
 }
