@@ -2,17 +2,18 @@
   <app-header></app-header>
 
   <div class="karteikarten-container">
-    <h1>Karteikarten</h1>
-    <h2>Fragen und Antworten</h2>
-
     <div class="karteikarten-list">
       <ng-container *ngIf="flashcards$ | async as karteikarten; else loading">
-        <div *ngIf="karteikarten.length > 0; else noData">
+        <div *ngIf="karteikarten.length > 0; else noData" class="grid-container">
           <div class="karteikarte-card" *ngFor="let karte of karteikarten">
-            <h3>Frage:</h3>
-            <p>{{ karte.question }}</p>
-            <h3>Antwort:</h3>
-            <p>{{ karte.answer }}</p>
+            <div class="upper">
+              <h3>Frage:</h3>
+              <p>{{ karte.question }}</p>
+            </div>
+            <div class="lower">
+              <h3>Antwort:</h3>
+              <p>{{ karte.answer }}</p>
+            </div>
           </div>
         </div>
       </ng-container>
