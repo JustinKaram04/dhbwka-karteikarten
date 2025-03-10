@@ -1,13 +1,26 @@
-<form (ngSubmit)="inputCheck(inputUsername, inputPassword)">
-  <label for="username">Benutzername:</label><br>
-  <input type="text" id="username" [(ngModel)]="inputUsername" name="inputUsername" required><br><br>
+<app-header></app-header>
+<div class="login-container">
+  <form (ngSubmit)="inputCheck(inputUsername, inputPassword)" class="login-form">
+    <h2>Login</h2>
+    
+    <div class="form-group">
+      <label for="username">Benutzername:</label>
+      <input type="text" id="username" [(ngModel)]="inputUsername" name="inputUsername" required>
+    </div>
 
-  <!-- Label und Eingabefeld für Passwort -->
-  <label for="password">Passwort:</label><br>
-  <input type="password" id="password" [(ngModel)]="inputPassword" name="inputPassword" required><br><br>
+    <div class="form-group">
+      <label for="password">Passwort:</label>
+      <input type="password" id="password" [(ngModel)]="inputPassword" name="inputPassword" required>
+    </div>
 
-  <!-- Login-Button -->
-  <button type="submit">Login</button>
-</form>
+    <button type="submit" class="login-button">Login</button>
+  </form>
 
-<p *ngIf="loginFailed" style="color: red;">Login Fehlgeschlagen</p>
+  <p *ngIf="loginFailed" class="error-message">
+    <i class="fas fa-exclamation-circle"></i> Login fehlgeschlagen
+  </p>
+
+  <p class="signup-reminder">
+    Noch kein Konto? <a (click)="navigateToSignup()">Hier registrieren</a>
+  </p>
+</div>

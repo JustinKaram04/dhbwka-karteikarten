@@ -1,0 +1,39 @@
+<app-header></app-header>
+<div class="registration-container">
+  <form (ngSubmit)="registerUser()" class="registration-form">
+    <h2>Registrieren</h2>
+
+    <div class="form-group">
+      <label for="username">Benutzername:</label>
+      <input
+        type="text"
+        id="username"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-Mail:</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" required/>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Passwort:</label>
+      <input
+        type="password" id="password" [(ngModel)]="password" name="password" required/>
+      
+    </div>
+
+    <button type="submit" class="register-button" [disabled]="!registrationForm.valid">Registrieren</button>
+  </form>
+
+  <p *ngIf="registrationFailed" class="error-message">
+    <i class="fas fa-exclamation-circle"></i> Registrierung fehlgeschlagen
+  </p>
+
+  <p class="login-reminder">
+    Bereits ein Konto? <a (click)="navigateToLogin()">Hier anmelden</a>
+  </p>
+</div>
