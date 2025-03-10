@@ -1,24 +1,43 @@
-<div class="container">
-  <div class="left-section">
-    <div class="left_arrow" 
-         [class.clicked]="leftClicked" 
-         (click)="previousCard()"></div>
-  </div>
-
-  <div class="middle-section" (click)="toggleFlip()">
-    <div class="card" [class.flipped]="isFlipped">
-      <div class="front">
-        <h1>{{ currentFlashcard?.question }}</h1>
+<body>
+  <div class="container">
+    <div class = "top-section">
+      <div class="left-section">
+        <div class="left_arrow" [class.clicked]="leftClicked" (click)="previousCard()"></div>
       </div>
-      <div class="back">
-        <h1>{{ currentFlashcard?.answer }}</h1>
+
+      <div class="middle-section" (click)="toggleFlip()">
+        <div class="card" [class.flipped]="isFlipped">
+          <div class="front">
+            <h1>{{ currentFlashcard?.question }}</h1>
+          </div>
+          <div class="back">
+            <h1>{{ currentFlashcard?.answer }}</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-section">
+        <div class="right_arrow" [class.clicked]="rightClicked" (click)="nextCard()"></div>
+      </div>
+    </div>
+
+    <div class = "under-section">
+      <div class = button-wrong-div>
+          <button class = "button-wrong" (click)="changeProgress(-1)">
+              <h1>✖</h1>
+          </button>
+      </div>
+
+      <div class="progress">
+          <div class="progress__fill" [style.width.%]="getBarProgressPercentage()"></div>
+          <span class="progress__text">{{ learningProgress }} / 6</span>
+      </div>
+
+      <div class="button-right-div">
+          <button class = "button-right" (click)="changeProgress(1)">
+              <h1>✔</h1>
+          </button>
       </div>
     </div>
   </div>
-
-  <div class="right-section">
-    <div class="right_arrow" 
-         [class.clicked]="rightClicked" 
-         (click)="nextCard()"></div>
-  </div>
-</div>
+</body>

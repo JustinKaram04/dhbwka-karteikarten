@@ -203,4 +203,37 @@ export class GetDataService {
       })
     );
   }
+  // 🔹 Einzigartige ID für ein neues Thema
+  generateNextTopicId(): Observable<string> {
+    return this.getTopics().pipe(
+      take(1),
+      map(topics => {
+        const maxId = topics.length > 0 ? Math.max(...topics.map(t => parseInt(t.id, 10))) : 0;
+        return (maxId + 1).toString();
+      })
+    );
+  }
+
+  // 🔹 IDs für Unterthemen sollen bei 1 starten – pro Thema
+  generateNextSubtopicId(topicId: string): Observable<string> {
+    return this.getSubtopics(topicId).pipe(
+      take(1),
+      map(subtopics => {
+        const maxId = subtopics.length > 0 ? Math.max(...subtopics.map(s => parseInt(s.id, 10))) : 0;
+        return (maxId + 1).toString();
+      })
+    );
+  }
+
+  // 🔹 IDs für Flashcards sollen bei 1 starten – pro Unterthema
+  generateNextFlashcardId(topicId: string, subtopicId: string): Observable<string> {
+    return this.getFlashcards(topicId, subtopicId).pipe(
+      take(1),
+      map(flashcards => {
+        const maxId = flashcards.length > 0 ? Math.max(...flashcards.map(f => parseInt(f.id, 10))) : 0;
+        return (maxId + 1).toString();
+      })
+    );
+  }
+
 }

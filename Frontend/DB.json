@@ -23,6 +23,76 @@
               "answer": "Mit der Mitternachtsformel.",
               "istoggled": false,
               "learningProgress": 1
+            },
+            {
+              "id": "3",
+              "question": "Was ist ein Polynom?",
+              "answer": "Ein algebraischer Ausdruck, der aus Variablen und Koeffizienten besteht, die nur addiert, subtrahiert und multipliziert werden.",
+              "istoggled": false,
+              "learningProgress": 0
+            },
+            {
+              "id": "4",
+              "question": "Was bedeutet 'Faktorisieren'?",
+              "answer": "Das Zerlegen eines algebraischen Ausdrucks in Faktoren.",
+              "istoggled": false,
+              "learningProgress": 2
+            },
+            {
+              "id": "5",
+              "question": "Was ist eine Ungleichung?",
+              "answer": "Eine mathematische Aussage, die zwei Ausdrücke mit einem Ungleichheitszeichen vergleicht.",
+              "istoggled": false,
+              "learningProgress": 3
+            },
+            {
+              "id": "6",
+              "question": "Was ist der Unterschied zwischen rationalen und irrationalen Zahlen?",
+              "answer": "Rationale Zahlen können als Bruch dargestellt werden, irrationale nicht.",
+              "istoggled": false,
+              "learningProgress": 4
+            },
+            {
+              "id": "7",
+              "question": "Was ist eine Funktion?",
+              "answer": "Eine Zuordnung, bei der jedem Element einer Eingangsmenge genau ein Element einer Zielmenge zugeordnet wird.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "8",
+              "question": "Was ist der Unterschied zwischen einer Gleichung und einer Identität?",
+              "answer": "Eine Gleichung ist nur für bestimmte Werte der Variablen wahr, eine Identität ist für alle Werte wahr.",
+              "istoggled": false,
+              "learningProgress": 3
+            },
+            {
+              "id": "9",
+              "question": "Was ist eine Matrixmultiplikation?",
+              "answer": "Eine Operation, bei der zwei Matrizen multipliziert werden, um eine neue Matrix zu erhalten.",
+              "istoggled": false,
+              "learningProgress": 2
+            },
+            {
+              "id": "10",
+              "question": "Was ist ein Logarithmus?",
+              "answer": "Der Exponent, zu dem eine Basis erhoben werden muss, um eine bestimmte Zahl zu erhalten.",
+              "istoggled": false,
+              "learningProgress": 6
+            },
+            {
+              "id": "11",
+              "question": "Was ist der Unterschied zwischen Permutation und Kombination?",
+              "answer": "Bei Permutationen ist die Reihenfolge wichtig, bei Kombinationen nicht.",
+              "istoggled": false,
+              "learningProgress": 3
+            },
+            {
+              "id": "12",
+              "question": "Was ist eine Determinante?",
+              "answer": "Ein skalarer Wert, der aus den Elementen einer quadratischen Matrix berechnet wird.",
+              "istoggled": false,
+              "learningProgress": 1
             }
           ]
         },
@@ -60,6 +130,12 @@
               "learningProgress": 2
             }
           ]
+        },
+        {
+          "id": "4",
+          "name": "sdmc",
+          "description": "xhmx",
+          "flashcards": []
         }
       ]
     },

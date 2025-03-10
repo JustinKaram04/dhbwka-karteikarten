@@ -34,6 +34,6 @@ export class UnterthemenComponent {
     }
   }
   openLernmodus() {
-    this.router.navigate(['lernmodus'], { relativeTo: this.route });
+    this.router.navigate(['Lernmodus'], { relativeTo: this.route });
   }
 }

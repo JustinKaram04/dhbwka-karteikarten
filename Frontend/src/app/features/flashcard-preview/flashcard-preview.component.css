@@ -5,22 +5,30 @@
   }
   
   body {
-    height: 98vh;
-    overflow: hidden;
+    height: auto;
+    overflow: auto;
     background: linear-gradient(45deg, #b4b5c3, #444244);
     font-family: Helvetica, sans-serif;
     color: rgb(211, 211, 211);
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
   }
   
   .container {
     display: flex;
-    width: 100%;
+    flex-direction: column;
+    width: 100vw;
     height: 100vh;
+    position: relative;
   }
-  
+  .top-section {
+    display: flex;
+    flex: 0.75; /* Nutzt den ganzen Platz */
+  }
+
   .left-section,
   .middle-section,
   .right-section {
@@ -29,10 +37,22 @@
     justify-content: center;
     align-items: center;
   }
-  
+  /* Untere Section wird an den unteren Rand gesetzt */
+  .under-section {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    z-index: 1;
+  }
+
   /* Flashcard Container */
   .middle-section {
-    perspective: 1000px;
+    perspective: 1220px;
   }
   
   .card {
@@ -41,6 +61,8 @@
     position: relative;
     transition: transform 2s;
     transform-style: preserve-3d;
+    z-index: 9999;
+    overflow: visible;
   }
   
   .flipped {
@@ -63,7 +85,7 @@
   }
   
   .front {
-    background-color: #b1b6c1;
+    background-color: #3a3a3a;
   }
   
   .back {
@@ -104,4 +126,83 @@
   
   .right_arrow.clicked {
     transform: translateX(30px) rotate(45deg) !important;
+  }
+  .under-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #b4b5c3;
+    height: 50px;
+  }
+  
+  .progress {
+    position: relative;
+    width: 500px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress__fill {
+    width: 0%;
+    height: 100%;
+    background: rgb(84, 83, 83);
+    transition: all 0.2s;
+  }
+  
+  .progress__text {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    font: bold 14px "Quicksand", sans-serif;
+    color: #000000;
+  }
+  
+  .button-wrong-div {
+    display: flex;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;	
+    margin-right: 30px;
+    margin-bottom: 5px;
+  }
+  
+  .button-right-div {
+    display: flex;
+    gap: 10px;
+    padding: 10px 15px;
+    border: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 30px;
+    margin-bottom: 5px;
+  }
+  
+  .button-wrong {
+    background: #b4b5c3;
+    border: none;
+    color: rgb(84, 83, 83)
+  }
+  
+  .button-right {
+    background: #b4b5c3;
+    border: none;
+    color: rgb(84, 83, 83)
+  }
+  
+  button.button-right:active h1 {
+    transform: scale(1.2);
+    color: white; /* Weiß beim Klicken */
+  }
+  
+  button.button-wrong:active h1 {
+    transform: scale(1.2);
+    color: white; /* Weiß beim Klicken */
   }
