@@ -4,7 +4,27 @@
   <main class="topics">
     <h2>Themenbereiche:</h2>
 
+    <!-- 🔍 Such- & Filtercontainer -->
+    <div class="search-filter-container">
+      <div class="filter-group">
+        <label for="topicSearch">🔍 Suche:</label>
+        <input id="topicSearch" type="text" (input)="updateSearchTerm($event)" placeholder="Themengebiet suchen..." title="Themengebiet suchen" />
+      </div>
+
+      <div class="filter-group">
+        <label for="sortOption">📌 Sortieren nach:</label>
+        <select id="sortOption" title="Themengebiete sortieren" (change)="updateSortOption($event)">
+          <option value="">Sortieren nach...</option>
+          <option value="id-asc">ID (aufsteigend)</option>
+          <option value="id-desc">ID (absteigend)</option>
+          <option value="name-asc">Alphabetisch (A-Z)</option>
+          <option value="name-desc">Alphabetisch (Z-A)</option>
+        </select>
+      </div>
+    </div>
+
     <div class="topic-container">
+      <!-- 🆕 Neues Themengebiet hinzufügen -->
       <div class="topic-card add-card" (click)="showAddTopicInput = true" title="Neues Thema hinzufügen">
         <span class="plus-icon">+</span>
       </div>
@@ -16,12 +36,15 @@
         <label for="newTopicDescription">Beschreibung:</label>
         <textarea id="newTopicDescription" [(ngModel)]="newTopicDescription" placeholder="Beschreibung..."></textarea>
 
-        <button (click)="addTopic()" [disabled]="!newTopicName.trim()">Hinzufügen</button>
-        <button (click)="showAddTopicInput = false">Abbrechen</button>
+        <div class="button-group">
+          <button (click)="addTopic()" [disabled]="!newTopicName.trim()">Hinzufügen</button>
+          <button class="cancel-btn" (click)="showAddTopicInput = false">Abbrechen</button>
+        </div>
       </div>
 
+      <!-- 📝 Themengebiete anzeigen -->
       <div class="topic-card"
-        *ngFor="let thema of themengebiete$ | async"
+        *ngFor="let thema of filteredThemengebiete$ | async"
         (click)="navigateToThemengebiet(thema.id, $event)"
         (mouseenter)="hoveredId = thema.id"
         (mouseleave)="hoveredId = null"
@@ -30,20 +53,24 @@
           <input type="text" [(ngModel)]="editedTopicName" placeholder="Neuer Name..." />
           <textarea [(ngModel)]="editedTopicDescription" placeholder="Neue Beschreibung..."></textarea>
 
-          <button (click)="saveTopic()">💾 Speichern</button>
-          <button (click)="cancelEditing()">❌ Abbrechen</button>
+          <div class="button-group">
+            <button (click)="saveTopic()">💾 Speichern</button>
+            <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
+          </div>
         </div>
 
         <div *ngIf="editingTopicId !== thema.id">
           <h2>{{ thema.name }}</h2>
           <p>{{ thema.description }}</p>
 
+          <!-- ⚙ Menü-Button (⋮) -->
           <div class="menu-icon"
             *ngIf="hoveredId === thema.id"
             (click)="toggleMenu(thema.id, $event)">
             &#x22EE;
           </div>
 
+          <!-- 🎛 Kontextmenü -->
           <div class="menu"
             *ngIf="activeMenuId === thema.id"
             (click)="$event.stopPropagation()">

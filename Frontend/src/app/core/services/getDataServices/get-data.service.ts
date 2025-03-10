@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, forkJoin } from 'rxjs';
 import { ITopic } from '../../models/itopic';
 import { ISubtopic } from '../../models/isubtopic';
 import { IFlashcard } from '../../models/iflashcard';
-import { switchMap, map, tap, of } from 'rxjs';
+import { take, switchMap, map, tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,6 @@ import { switchMap, map, tap, of } from 'rxjs';
 export class GetDataService {
   private baseURL = 'http://localhost:3000/';
   private topicsURL = `${this.baseURL}topics`;
-  private flashcardsURL = `${this.baseURL}flashcards`;
 
   private topicListSubject = new BehaviorSubject<ITopic[]>([]);
   public topicList$ = this.topicListSubject.asObservable();
@@ -33,115 +32,209 @@ export class GetDataService {
     return this.topicList$;
   }
 
+  /** 🔎 Einzelnes Thema holen */
   getSingleTopic(id: string): Observable<ITopic | undefined> {
     return this.topicList$.pipe(
       map(topics => topics.find(topic => topic.id === id))
     );
   }
 
-  /** 📌 Neuen Themenbereich hinzufügen (POST) */
+  /** 📌 Neues Thema hinzufügen */
   addTopic(newTopic: ITopic): Observable<ITopic> {
     return this.http.post<ITopic>(this.topicsURL, newTopic).pipe(
-      tap(() => this.loadTopics()) 
+      tap(() => this.loadTopics())
     );
   }
-  
 
-  /** ✏ Ein bestehendes Thema aktualisieren (PUT) */
-/** ✏ Ein bestehendes Thema aktualisieren (PUT) */
-updateTopic(topicId: string, updatedTopic: Partial<ITopic>): Observable<ITopic> {
-  return this.getSingleTopic(topicId).pipe(
-    map(existingTopic => ({
-      ...existingTopic, // Alle bestehenden Daten behalten
-      ...updatedTopic  // Neue Daten überschreiben
-    })),
-    switchMap(finalTopic => this.http.put<ITopic>(`${this.topicsURL}/${topicId}`, finalTopic)),
-    tap(() => this.loadTopics())
-  );
-}
+  /** 🛠 Thema aktualisieren */
+  updateTopic(topicId: string, updatedTopic: Partial<ITopic>): Observable<void> {
+    return this.http.put<void>(`${this.topicsURL}/${topicId}`, updatedTopic).pipe(
+      tap(() => this.loadTopics())
+    );
+  }
 
-
-  /** ❌ Thema löschen (DELETE) */
+  /** ❌ Thema löschen (inkl. Unterthemen & Flashcards) */
   deleteTopic(topicId: string): Observable<void> {
-    return this.http.delete<void>(`${this.topicsURL}/${topicId}`).pipe(
-      tap(() => {
-        const updatedTopics = this.topicListSubject.value.filter(t => t.id !== topicId);
-        this.topicListSubject.next(updatedTopics);
+    return this.getSingleTopic(topicId).pipe(
+      take(1),
+      switchMap(topic => {
+        if (!topic) {
+          console.error(`❌ Fehler: Thema ${topicId} nicht gefunden!`);
+          return of();
+        }
+
+        console.log(`🗑 Lösche ${topic.subtopics.length} Unterthemen...`);
+        const deleteSubtopics = topic.subtopics.map(sub =>
+          this.deleteSubtopic(topicId, sub.id)
+        );
+
+        return deleteSubtopics.length > 0 ? forkJoin(deleteSubtopics) : of(null);
+      }),
+      switchMap(() => this.http.delete<void>(`${this.topicsURL}/${topicId}`)),
+      tap(() => this.loadTopics())
+    );
+  }
+
+  /** 📥 Unterthemen abrufen */
+  getSubtopics(topicId: string): Observable<ISubtopic[]> {
+    return this.getSingleTopic(topicId).pipe(
+      map(topic => topic ? topic.subtopics : [])
+    );
+  }
+
+  /** ➕ Neues Unterthema hinzufügen */
+  addSubtopic(topicId: string, newSubtopic: ISubtopic): Observable<void> {
+    return this.getSingleTopic(topicId).pipe(
+      take(1),
+      switchMap(topic => {
+        if (!topic) {
+          console.error(`❌ Fehler: Thema ${topicId} nicht gefunden!`);
+          return of();
+        }
+
+        topic.subtopics.push({ ...newSubtopic, flashcards: [] });
+        return this.updateTopic(topicId, topic);
       })
     );
   }
 
-getSubtopics(topicName: string): Observable<ISubtopic[]> {
-  return this.http.get<ITopic[]>(this.topicsURL).pipe(
+  /** 🛠 Unterthema aktualisieren */
+  updateSubtopic(topicId: string, subtopicId: string, updatedSubtopic: Partial<ISubtopic>): Observable<void> {
+    return this.getSingleTopic(topicId).pipe(
+      take(1),
+      switchMap(topic => {
+        if (!topic) {
+          console.error(`❌ Fehler: Thema ${topicId} nicht gefunden!`);
+          return of();
+        }
+
+        topic.subtopics = topic.subtopics.map(sub =>
+          sub.id === subtopicId ? { ...sub, ...updatedSubtopic } : sub
+        );
+        return this.updateTopic(topicId, topic);
+      })
+    );
+  }
+
+  /** ❌ Unterthema löschen (inkl. Flashcards) */
+  deleteSubtopic(topicId: string, subtopicId: string): Observable<void> {
+    return this.getSingleTopic(topicId).pipe(
+      take(1),
+      switchMap(topic => {
+        if (!topic) {
+          console.error(`❌ Fehler: Thema ${topicId} nicht gefunden!`);
+          return of();
+        }
+
+        return this.getFlashcards(topicId, subtopicId).pipe(
+          take(1),
+          switchMap(flashcards => {
+            const deleteFlashcards = flashcards.map(card => this.deleteFlashcard(topicId, subtopicId, card.id));
+
+            return deleteFlashcards.length > 0 ? forkJoin(deleteFlashcards) : of(null);
+          }),
+          switchMap(() => {
+            topic.subtopics = topic.subtopics.filter(sub => sub.id !== subtopicId);
+            return this.updateTopic(topicId, topic);
+          })
+        );
+      })
+    );
+  }
+
+  getFlashcards(topicId: string, subtopicId: string): Observable<IFlashcard[]> {
+    return this.getSingleTopic(topicId).pipe(
+      map(topic => {
+        if (!topic) return [];
+        const subtopic = topic.subtopics.find(st => st.id === subtopicId);
+        return subtopic ? subtopic.flashcards : [];
+      })
+    );
+  }
+
+  /** ➕ Flashcard hinzufügen */
+  addFlashcard(topicId: string, subtopicId: string, newFlashcard: IFlashcard): Observable<void> {
+    return this.getSingleTopic(topicId).pipe(
+      take(1),
+      switchMap(topic => {
+        if (!topic) {
+          console.error(`❌ Fehler: Thema ${topicId} nicht gefunden!`);
+          return of();
+        }
+
+        const subtopic = topic.subtopics.find(sub => sub.id === subtopicId);
+        if (!subtopic) {
+          console.error(`❌ Fehler: Unterthema ${subtopicId} nicht gefunden!`);
+          return of();
+        }
+
+        subtopic.flashcards.push(newFlashcard);
+        return this.updateTopic(topicId, topic);
+      })
+    );
+  }
+
+  updateFlashcard(topicId: string, subtopicId: string, flashcardId: string, updatedFlashcard: Partial<IFlashcard>): Observable<void> {
+    return this.getSingleTopic(topicId).pipe(
+      take(1),
+      switchMap(topic => {
+        if (!topic) return of();
+        const subtopic = topic.subtopics.find(sub => sub.id === subtopicId);
+        if (!subtopic) return of();
+
+        subtopic.flashcards = subtopic.flashcards.map(card =>
+          card.id === flashcardId ? { ...card, ...updatedFlashcard } : card
+        );
+
+        return this.updateTopic(topicId, topic);
+      })
+    );
+  }
+
+  deleteFlashcard(topicId: string, subtopicId: string, flashcardId: string): Observable<void> {
+    return this.getSingleTopic(topicId).pipe(
+      take(1),
+      switchMap(topic => {
+        if (!topic) return of();
+        const subtopic = topic.subtopics.find(sub => sub.id === subtopicId);
+        if (!subtopic) return of();
+
+        subtopic.flashcards = subtopic.flashcards.filter(card => card.id !== flashcardId);
+        return this.updateTopic(topicId, topic);
+      })
+    );
+  }
+  // 🔹 Einzigartige ID für ein neues Thema
+generateNextTopicId(): Observable<string> {
+  return this.getTopics().pipe(
+    take(1),
     map(topics => {
-      const topic = topics.find(t => t.name === topicName);
-      return topic ? topic.subtopics : [];
+      const maxId = topics.length > 0 ? Math.max(...topics.map(t => parseInt(t.id, 10))) : 0;
+      return (maxId + 1).toString();
     })
   );
 }
 
-  /** 📌 Neues Unterthema hinzufügen (POST) */
-  addSubtopic(topicId: string, newSubtopic: ISubtopic): Observable<ISubtopic> {
-    return this.getTopics().pipe(
-      map(topics => {
-        const topic = topics.find(t => t.id === topicId);
-        if (topic) {
-          topic.subtopics.push(newSubtopic);
-          this.updateTopic(topicId, topic).subscribe(); // Thema mit neuem Unterthema speichern
-        }
-        return newSubtopic;
-      })
-    );
-  }
+// 🔹 IDs für Unterthemen sollen bei 1 starten – pro Thema
+generateNextSubtopicId(topicId: string): Observable<string> {
+  return this.getSubtopics(topicId).pipe(
+    take(1),
+    map(subtopics => {
+      const maxId = subtopics.length > 0 ? Math.max(...subtopics.map(s => parseInt(s.id, 10))) : 0;
+      return (maxId + 1).toString();
+    })
+  );
+}
 
-  /** ✏ Ein Unterthema aktualisieren (PUT) */
-  updateSubtopic(topicId: string, subtopicId: string, updatedSubtopic: Partial<ISubtopic>): Observable<ISubtopic> {
-    return this.getTopics().pipe(
-      map(topics => {
-        const topic = topics.find(t => t.id === topicId);
-        if (topic) {
-          topic.subtopics = topic.subtopics.map(sub =>
-            sub.id === subtopicId ? { ...sub, ...updatedSubtopic } : sub
-          );
-          this.updateTopic(topicId, topic).subscribe(); // Thema mit aktualisiertem Unterthema speichern
-        }
-        return updatedSubtopic as ISubtopic;
-      })
-    );
-  }
+// 🔹 IDs für Flashcards sollen bei 1 starten – pro Unterthema
+generateNextFlashcardId(topicId: string, subtopicId: string): Observable<string> {
+  return this.getFlashcards(topicId, subtopicId).pipe(
+    take(1),
+    map(flashcards => {
+      const maxId = flashcards.length > 0 ? Math.max(...flashcards.map(f => parseInt(f.id, 10))) : 0;
+      return (maxId + 1).toString();
+    })
+  );
+}
 
-  /** ❌ Unterthema löschen (DELETE) */
-  deleteSubtopic(topicId: string, subtopicId: string): Observable<void> {
-    return this.getTopics().pipe(
-      map(topics => {
-        const topic = topics.find(t => t.id === topicId);
-        if (topic) {
-          topic.subtopics = topic.subtopics.filter(sub => sub.id !== subtopicId);
-          this.updateTopic(topicId, topic).subscribe();
-        }
-      })
-    );
-  }
-
-  /** 📥 Alle Flashcards für ein Unterthema */
-  getFlashcards(subtopicId: string): Observable<IFlashcard[]> {
-    return this.http.get<IFlashcard[]>(this.flashcardsURL).pipe(
-      map(flashcards => flashcards.filter(card => card.subtopic === subtopicId))
-    );
-  }
-
-  /** 📌 Neue Flashcard hinzufügen (POST) */
-  addFlashcard(newFlashcard: IFlashcard): Observable<IFlashcard> {
-    return this.http.post<IFlashcard>(this.flashcardsURL, newFlashcard);
-  }
-
-  /** ✏ Flashcard aktualisieren (PUT) */
-  updateFlashcard(flashcardId: string, updatedFlashcard: Partial<IFlashcard>): Observable<IFlashcard> {
-    return this.http.put<IFlashcard>(`${this.flashcardsURL}/${flashcardId}`, updatedFlashcard);
-  }
-
-  /** ❌ Flashcard löschen (DELETE) */
-  deleteFlashcard(flashcardId: string): Observable<void> {
-    return this.http.delete<void>(`${this.flashcardsURL}/${flashcardId}`);
-  }
 }

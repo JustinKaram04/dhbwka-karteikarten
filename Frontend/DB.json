@@ -2,152 +2,283 @@
   "topics": [
     {
       "id": "1",
-      "name": "Introduction to TypeScript",
-      "description": "A beginner-friendly overview of TypeScript and its features.",
+      "name": "Mathematik",
+      "description": "Alles rund um Zahlen und Formeln",
       "subtopics": [
         {
           "id": "1",
-          "name": "What is TypeScript?",
-          "description": "An introduction to TypeScript.htzrsfhh"
+          "name": "Algebra",
+          "description": "Grundlagen der Algebra",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist eine lineare Gleichung?",
+              "answer": "Eine Gleichung der Form ax + b = 0.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "2",
+              "question": "Wie löst man quadratische Gleichungen?",
+              "answer": "Mit der Mitternachtsformel.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
         },
         {
           "id": "2",
-          "name": "Setting up a TypeScript project",
-          "description": "How to set up a TypeScript project."
+          "name": "Geometrie",
+          "description": "Formen und Figuren",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was beschreibt der Satz des Pythagoras?",
+              "answer": "Die Beziehung zwischen den Seitenlängen eines rechtwinkligen Dreiecks.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
         },
         {
           "id": "3",
-          "name": "Basic TypeScript syntax",
-          "description": "The basic syntax of TypeScript."
-        },
-        {
-          "id": "4",
-          "name": "Data types in TypeScript",
-          "description": "Different data types in TypeScript."
-        },
-        {
-          "id": "5",
-          "name": "test",
-          "description": "hallo"
-        },
-        {
-          "id": "6",
-          "name": "grfe",
-          "description": "gre"
+          "name": "Analysis",
+          "description": "Differenzial- und Integralrechnung",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist eine Ableitung?",
+              "answer": "Die Änderungsrate einer Funktion.",
+              "istoggled": false,
+              "learningProgress": 2
+            },
+            {
+              "id": "2",
+              "question": "Was versteht man unter einem Integral?",
+              "answer": "Die Fläche unter einer Kurve.",
+              "istoggled": false,
+              "learningProgress": 2
+            }
+          ]
         }
       ]
     },
     {
       "id": "2",
-      "name": "Advanced TypeScript Concepts",
-      "description": "Exploring advanced features of TypeScript, including generics, decorators, and more.",
+      "name": "Physik",
+      "description": "Die Wissenschaft der Natur",
       "subtopics": [
         {
-          "id": "5",
-          "name": "Generics",
-          "description": "Understanding generics in TypeScript."
+          "id": "1",
+          "name": "Mechanik",
+          "description": "Bewegung und Kräfte",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist Kraft?",
+              "answer": "Eine physikalische Größe, die Bewegung verursacht.",
+              "istoggled": false,
+              "learningProgress": 2
+            }
+          ]
         },
         {
-          "id": "6",
-          "name": "Decorators",
-          "description": "Using decorators in TypeScript."
-        },
-        {
-          "id": "7",
-          "name": "Modules and namespaces",
-          "description": "Working with modules and namespaces in TypeScript."
-        },
-        {
-          "id": "8",
-          "name": "Working with external libraries",
-          "description": "How to use external libraries with TypeScript."
+          "id": "2",
+          "name": "Optik",
+          "description": "Licht und seine Eigenschaften",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist Brechung?",
+              "answer": "Die Richtungsänderung von Licht beim Übergang zwischen Medien.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "2",
+              "question": "Was bedeutet Dispersion?",
+              "answer": "Die Aufspaltung von Licht in seine Spektralfarben.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
         }
       ]
     },
     {
       "id": "3",
-      "name": "TypeScript and React",
-      "description": "Using TypeScript with React to build type-safe and maintainable user interfaces.",
+      "name": "Chemie",
+      "description": "Die Welt der Moleküle",
       "subtopics": [
         {
-          "id": "9",
-          "name": "Setting up a React project with TypeScript",
-          "description": "How to set up a React project with TypeScript."
+          "id": "1",
+          "name": "Organische Chemie",
+          "description": "Kohlenstoffverbindungen und ihre Eigenschaften",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist eine organische Verbindung?",
+              "answer": "Eine Verbindung, die Kohlenstoff enthält.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "2",
+              "question": "Nenne ein Beispiel für ein organisches Lösungsmittel.",
+              "answer": "Aceton.",
+              "istoggled": false,
+              "learningProgress": 2
+            }
+          ]
         },
         {
-          "id": "10",
-          "name": "Typing React components",
-          "description": "How to type React components in TypeScript."
-        },
-        {
-          "id": "11",
-          "name": "Working with props and state",
-          "description": "Managing props and state in TypeScript."
-        },
-        {
-          "id": "12",
-          "name": "Using hooks with TypeScript",
-          "description": "Using hooks in React with TypeScript."
+          "id": "2",
+          "name": "Anorganische Chemie",
+          "description": "Nicht-kohlenstoffbasierte Chemie",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist ein Salz?",
+              "answer": "Eine Verbindung aus positiv und negativ geladenen Ionen.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "2",
+              "question": "Gib ein Beispiel für ein Metalloxid.",
+              "answer": "Eisenoxid (Rost).",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
         }
       ]
-    }
-  ],
-  "flashcards": [
-    {
-      "id": "1",
-      "subtopic": "1",
-      "question": "What is TypeScript?",
-      "answer": "TypeScript is a superset of JavaScript that adds optional static typing.",
-      "istoggled": false,
-      "learningProgress": 0.2
-    },
-    {
-      "id": "2",
-      "subtopic": "1",
-      "question": "What command initializes a new TypeScript project?",
-      "answer": "npx tsc --init",
-      "istoggled": false,
-      "learningProgress": 0.5
-    },
-    {
-      "id": "3",
-      "subtopic": "1",
-      "question": "How do you declare a variable with a specific type in TypeScript?",
-      "answer": "const variableName: Type = value;",
-      "istoggled": true,
-      "learningProgress": 0.8
     },
     {
       "id": "4",
-      "subtopic": "1",
-      "question": "Name three primitive data types in TypeScript.",
-      "answer": "number, string, boolean",
-      "istoggled": false,
-      "learningProgress": 0.3
+      "name": "Geschichte",
+      "description": "Vergangene Ereignisse und ihre Bedeutung",
+      "subtopics": [
+        {
+          "id": "1",
+          "name": "Antike",
+          "description": "Frühzeitliche Zivilisationen",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Wer war Julius Caesar?",
+              "answer": "Ein römischer Staatsmann und Feldherr.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "2",
+              "question": "Welche Bedeutung hatte das Römische Reich?",
+              "answer": "Es prägte Recht, Politik und Kultur Europas.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Mittelalter",
+          "description": "Epochen des Mittelalters",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was war das Feudalsystem?",
+              "answer": "Ein System, in dem Land gegen Dienste vergeben wurde.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Moderne",
+          "description": "Neuzeitliche Entwicklungen",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was löste den Ersten Weltkrieg aus?",
+              "answer": "Ein komplexes Zusammenspiel von politischen Spannungen.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "2",
+              "question": "Wann begann die industrielle Revolution?",
+              "answer": "Im späten 18. Jahrhundert.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "5",
-      "subtopic": "5",
-      "question": "What are generics in TypeScript?",
-      "answer": "Generics allow you to write reusable code that can work with different types.",
-      "istoggled": true,
-      "learningProgress": 0.9
-    },
-    {
-      "id": "6",
-      "subtopic": "6",
-      "question": "What are decorators used for in TypeScript?",
-      "answer": "Decorators provide a way to add metadata to classes, methods, properties, or parameters.",
-      "istoggled": false,
-      "learningProgress": 0.1
-    },
-    {
-      "id": "7",
-      "subtopic": "7",
-      "question": "What is the purpose of modules in TypeScript?",
-      "answer": "Modules are used to organize code into reusable units.",
-      "istoggled": true,
-      "learningProgress": 0.6
+      "name": "Informatik",
+      "description": "Technologie und Algorithmen",
+      "subtopics": [
+        {
+          "id": "1",
+          "name": "Programmierung",
+          "description": "Grundlagen des Codings",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist eine Variable?",
+              "answer": "Ein Container für Werte, die sich ändern können.",
+              "istoggled": false,
+              "learningProgress": 2
+            },
+            {
+              "id": "2",
+              "question": "Was ist eine Schleife?",
+              "answer": "Ein Konstrukt, das wiederholte Abläufe ermöglicht.",
+              "istoggled": false,
+              "learningProgress": 2
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Datenstrukturen",
+          "description": "Organisation und Verwaltung von Daten",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was ist ein Array?",
+              "answer": "Eine Sammlung von Elementen desselben Typs.",
+              "istoggled": false,
+              "learningProgress": 1
+            },
+            {
+              "id": "2",
+              "question": "Was ist ein Baum in der Informatik?",
+              "answer": "Eine hierarchische Datenstruktur.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Algorithmen",
+          "description": "Lösungswege und Problemlösungen",
+          "flashcards": [
+            {
+              "id": "1",
+              "question": "Was unterscheidet Bubble Sort von Quick Sort?",
+              "answer": "Bubble Sort ist einfacher, während Quick Sort bei großen Datenmengen effizienter ist.",
+              "istoggled": false,
+              "learningProgress": 1
+            }
+          ]
+        }
+      ]
     }
   ]
 }

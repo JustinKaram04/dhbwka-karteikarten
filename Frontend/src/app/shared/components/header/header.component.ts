@@ -13,8 +13,9 @@ export class HeaderComponent {
   constructor(private router: Router, private darkModeService: DarkModeService) {}
 
   @HostListener('window:scroll', [])
-  onScroll() {
-    this.scrolled = window.scrollY > 50; // Header wird dünner, wenn man scrollt
+  onWindowScroll() {
+    // Falls wir nach unten gescrollt haben, setze `scrolled` auf true (kleinerer Header)
+    this.scrolled = window.scrollY > 50;
   }
 
   navigateTo(route: string) {

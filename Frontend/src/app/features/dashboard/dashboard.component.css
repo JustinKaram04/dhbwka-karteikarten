@@ -1,3 +1,4 @@
+/* 📌 Allgemeine Stile für das Dashboard */
 .dashboard {
   font-family: Arial, sans-serif;
   padding: 1.5rem;
@@ -7,6 +8,7 @@
   min-height: 100vh;
 }
 
+/* 📌 Container für Themenbereiche */
 .topics {
   background-color: var(--card-bg);
   border-radius: 8px;
@@ -21,20 +23,22 @@
   color: var(--text-color);
 }
 
+/* 📌 Grid für Themengebiete */
 .topic-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
 }
 
+/* 📌 Karten für Themengebiete */
 .topic-card {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   position: relative;
+  transition: all 0.3s ease-in-out;
 }
 
 .topic-card:hover {
@@ -42,9 +46,9 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
+/* 📌 "Thema hinzufügen"-Karte */
 .add-card {
   width: 100%;
-  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +70,7 @@
   }
 }
 
-
+/* 📌 Eingabeformular für neues Thema */
 .input-container {
   display: flex;
   flex-direction: column;
@@ -79,7 +83,7 @@
 
 input, textarea {
   background-color: var(--input-bg, white) !important;
-  color: var(--text-color, black) !important;
+  color: black !important;
   border: 1px solid var(--card-border);
   padding: 10px;
   border-radius: 5px;
@@ -93,6 +97,8 @@ input, textarea {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
 }
+
+/* 📌 Menü-Icon (⋮) */
 .menu-icon {
   position: absolute;
   top: 10px;
@@ -103,7 +109,7 @@ input, textarea {
   color: var(--text-color);
   padding: 6px;
   border-radius: 50%;
-  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease-in-out;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   display: none;
 }
@@ -117,6 +123,7 @@ input, textarea {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* 📌 Kontextmenü */
 .menu {
   position: absolute;
   top: 35px;
@@ -147,6 +154,7 @@ input, textarea {
   background: rgba(255, 255, 255, 0.1);
 }
 
+/* 📌 Buttons */
 button {
   padding: 8px 16px;
   border: none;
@@ -159,3 +167,36 @@ button {
 button:hover {
   background-color: rgba(0, 123, 255, 0.1);
 }
+
+/* 🔎 Such- & Filtercontainer */
+.search-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 🏷️ Filter-Gruppen */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+.search-filter-container input,
+.search-filter-container select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  background-color: white;
+  color: black !important; 
+}
+
