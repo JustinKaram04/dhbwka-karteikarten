@@ -6,16 +6,16 @@ import { ThemengebieteComponent } from './features/themengebiete/themengebiete.c
 import { UnterthemenComponent } from './features/unterthemen/unterthemen.component';
 import { InfoComponent } from './features/info/info.component';
 import { FlashcardPreviewComponent } from './features/flashcard-preview/flashcard-preview.component';
+import { AuthGuard } from './core/services/authguard/authguard.service';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: '', component: DashboardComponent },
-  { path: 'themengebiet/:topicId', component: ThemengebieteComponent },
-  { path: 'themengebiet/:topicId/:subtopicId', component: UnterthemenComponent } ,
-  { path: 'themengebiet/:topicId/:subtopicId/Lernmodus', component: FlashcardPreviewComponent},
-  { path: 'info', component: InfoComponent },
+  { path: 'login', component: LoginComponent },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'themengebiet/:topicId', component: ThemengebieteComponent, canActivate: [AuthGuard] },
+  { path: 'themengebiet/:topicId/:subtopicId', component: UnterthemenComponent, canActivate: [AuthGuard] },
+  { path: 'themengebiet/:topicId/:subtopicId/lernmodus', component: FlashcardPreviewComponent, canActivate: [AuthGuard] },
+  { path: 'info', component: InfoComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' },
-
 ];
 
 @NgModule({

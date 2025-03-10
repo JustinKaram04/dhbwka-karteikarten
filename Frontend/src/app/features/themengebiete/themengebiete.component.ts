@@ -92,7 +92,7 @@ export class ThemengebieteComponent {
       id: newId,
       name: this.newSubtopicName.trim(),
       description: this.newSubtopicDescription.trim(),
-      flashcards: [] // 🟢 Neu: Initialisiere das Unterthema mit einer leeren Flashcard-Liste!
+      flashcards: []
     };
   
     await firstValueFrom(this.service.addSubtopic(this.topicId, newSubtopic));

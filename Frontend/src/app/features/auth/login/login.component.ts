@@ -2,28 +2,24 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  private masterUsername: string = "Developer";
-  private masterPassword: string = "12345678";
-  public loginFailed: boolean = false;
-
   inputUsername: string = "";
   inputPassword: string = "";
+  loginFailed: boolean = false;
 
-  constructor(private router: Router) {}
-
+  constructor(private router: Router, private authService: AuthService) {}
 
   public inputCheck(inputUsername: string, inputPassword: string) {
-    if (this.masterUsername === inputUsername && this.masterPassword === inputPassword) {
+    if (this.authService.login(inputUsername, inputPassword)) {
       console.log('Login erfolgreich');
       this.loginFailed = false;
       this.router.navigate(['']);

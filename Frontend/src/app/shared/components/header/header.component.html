@@ -4,18 +4,17 @@
   <div class="header-container flex justify-between items-center max-w-6xl mx-auto px-6"
        [class.py-6]="!scrolled" [class.py-3]="scrolled">
     
-    <!-- Logo -->
     <div class="logo text-xl font-bold cursor-pointer" (click)="navigateTo('/dashboard')">
       <span class="text-primary-blue dark:text-white">Quickflip</span>
     </div>
 
-    <!-- Navigation -->
     <nav class="flex gap-4">
       <button class="nav-button" (click)="navigateTo('/dashboard')">Startseite</button>
       <button class="nav-button" (click)="navigateTo('/info')">Info</button>
       <button class="nav-button flex items-center gap-2" (click)="toggleDarkMode()">
         🌙 Dark Mode
       </button>
+      <button class="nav-button" (click)="logout()">Logout</button>
     </nav>
   </div>
 </header>
