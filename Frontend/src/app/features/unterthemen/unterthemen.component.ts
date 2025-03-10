@@ -5,14 +5,17 @@ import { HeaderComponent } from "../../shared/components/header/header.component
 import { GetDataService } from '../../core/services/getDataServices/get-data.service';
 import { Observable } from 'rxjs';
 import { IFlashcard } from '../../core/models/iflashcard';
+import { FormsModule } from '@angular/forms';
+import {AddFlashcardComponent} from "../../features/flashcards/components/add-flashcard/add-flashcard.component"
 
 @Component({
   selector: 'app-unterthemen',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, RouterOutlet],
+  imports: [CommonModule, HeaderComponent, RouterOutlet, FormsModule, AddFlashcardComponent],
   templateUrl: './unterthemen.component.html',
   styleUrls: ['./unterthemen.component.css']  // aktualisiert: styleUrls statt styleUrl
 })
+
 export class UnterthemenComponent {
   topicId!: string;
   subtopicId!: string;
