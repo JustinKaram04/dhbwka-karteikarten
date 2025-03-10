@@ -11,14 +11,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: '', component: DashboardComponent },     
   { path: 'themengebiet/:topicId', component: ThemengebieteComponent },  
-  { path: 'themengebiet/:topicId/:subtopicId', component: UnterthemenComponent, children: [
-    { 
-      path: 'lernmodus', 
-      component: FlashcardPreviewComponent 
-    }
-  ] 
-}  
-,
+  { path: 'themengebiet/:topicId/:subtopicId', component: UnterthemenComponent } ,
+  { path: 'themengebiet/:topicId/:subtopicId/Lernmodus', component: FlashcardPreviewComponent}
   { path: 'info', component: InfoComponent },
   { path: '**', redirectTo: '' }, 
  

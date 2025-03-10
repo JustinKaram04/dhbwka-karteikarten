@@ -1,75 +1,122 @@
-/* Allgemeines Layout */
+/* 📌 Allgemeine Stile für das Themengebiet */
 .themengebiet-container {
   font-family: Arial, sans-serif;
   padding: 1.5rem;
-  background-color: #f5f5f5;
   padding-top: 7rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
 }
 
-/* Themenbereiche */
+/* 📌 Container für Themenbereiche */
 .themengebiete {
-  background-color: #d3d3d3;
+  background-color: var(--card-bg);
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-}
-
-.themengebiete h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1rem;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .themengebiete h2 {
   font-size: 1.8rem;
-  font-weight: bold;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--text-color);
 }
 
-/* Unterthemen Container */
+/* 📌 Grid für Unterthemen */
 .unterthemen-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
 }
 
-/* Unterthemen Karten */
+/* 📌 Karten für Unterthemen */
 .unterthemen-card {
-  background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease-in-out;
   position: relative;
-}
-
-/* Gleiche Schriftart & Format wie die Themenbereiche */
-.unterthemen-card h3 {
-  font-size: 1.5rem; /* Schriftgröße anpassen */
-  font-weight: bold; /* Fett wie in Themenbereichen */
-  color: #333;
-  margin: 0;
 }
 
 .unterthemen-card:hover {
   border-color: #84abd4;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+.unterthemen-card h3 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
 
-/* Drei-Punkte-Menü */
+/* 📌 "Thema hinzufügen"-Karte */
+.add-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--card-border);
+  border-radius: 8px;
+  font-size: 50px;
+  font-weight: bold;
+  color: var(--text-color);
+  background-color: var(--card-bg);
+  cursor: pointer;
+  padding: 2rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.add-card:hover {
+  background-color: var(--hover-bg);
+  transform: scale(1.05);
+  border-color: #84abd4;
+}
+
+/* 📌 Eingabeformular für neues Unterthema */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+input, textarea {
+  background-color: var(--input-bg, white) !important;
+  color: black !important;
+  border: 1px solid var(--card-border);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+input:focus, textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 📌 Menü-Icon (⋮) */
 .menu-icon {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
-  font-size: 1.2rem;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 5px;
+  font-size: 1.4rem;
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 6px;
   border-radius: 50%;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   display: none;
 }
 
@@ -78,22 +125,24 @@
 }
 
 .menu-icon:hover {
-  background: rgba(200, 200, 200, 0.9);
+  background: rgba(200, 200, 200, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Kontextmenü */
+/* 📌 Kontextmenü */
 .menu {
   position: absolute;
-  top: 30px;
+  top: 35px;
   right: 10px;
-  background: white;
-  border: 1px solid #ccc;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   z-index: 100;
   display: flex;
   flex-direction: column;
-  min-width: 120px;
+  min-width: 130px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .menu button {
@@ -103,16 +152,81 @@
   text-align: left;
   cursor: pointer;
   width: 100%;
+  color: var(--text-color);
+  font-size: 1rem;
 }
 
 .menu button:hover {
-  background: #eee;
+  background: rgba(255, 255, 255, 0.1);
 }
 
-/* Bildbereich für Unterthemen */
-.unterthemen-image {
-  height: 100px;
-  background: linear-gradient(135deg, #e0e0e0, #f8f8f8);
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
+/* 📌 Buttons */
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
 }
+
+button:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* 🔎 Such- & Filtercontainer */
+.search-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 🏷️ Filter-Gruppen */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+
+.search-filter-container input,
+.search-filter-container select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  background-color: white;
+  color: black !important;
+}
+/* 🔙 Zurück-Button */
+.back-button {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  padding: 10px 15px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:hover {
+  background-color: var(--hover-bg);
+  border-color: #84abd4;
+  transform: scale(1.05);
+}
+
