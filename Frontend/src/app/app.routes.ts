@@ -13,7 +13,6 @@ export const routes: Routes = [
   { path: 'themengebiet/:topicId', component: ThemengebieteComponent },  
   { path: 'themengebiet/:topicId/:subtopicId', component: UnterthemenComponent } ,
   { path: 'themengebiet/:topicId/:subtopicId/Lernmodus', component: FlashcardPreviewComponent}
-,
   { path: 'info', component: InfoComponent },
   { path: '**', redirectTo: '' }, 
  

@@ -1,18 +1,25 @@
 <div class="unterthema">
   <app-header></app-header>
-
+  <router-outlet></router-outlet>
   <div class="karteikarten-container">
     <h1>Karteikarten</h1>
     <h2>Fragen und Antworten</h2>
+    <button class="lernmodus-button" (click)="openLernmodus()">
+      Lernmodus starten
+    </button>
 
     <div class="karteikarten-list">
       <ng-container *ngIf="flashcards$ | async as karteikarten; else loading">
-        <div *ngIf="karteikarten.length > 0; else noData">
+        <div *ngIf="karteikarten.length > 0; else noData" class="grid-container">
           <div class="karteikarte-card" *ngFor="let karte of karteikarten">
-            <h3>Frage:</h3>
-            <p>{{ karte.question }}</p>
-            <h3>Antwort:</h3>
-            <p>{{ karte.answer }}</p>
+            <div class="upper">
+              <h3>Frage:</h3>
+              <p>{{ karte.question }}</p>
+            </div>
+            <div class="lower">
+              <h3>Antwort:</h3>
+              <p>{{ karte.answer }}</p>
+            </div>
           </div>
         </div>
       </ng-container>

@@ -1,23 +1,24 @@
-<body>
-    <div class="container">
-      <div class="left-section">
-        <div class="left_arrow" [class.clicked]="leftClicked" (click)="previousCard()"></div>
+<div class="container">
+  <div class="left-section">
+    <div class="left_arrow" 
+         [class.clicked]="leftClicked" 
+         (click)="previousCard()"></div>
+  </div>
+
+  <div class="middle-section" (click)="toggleFlip()">
+    <div class="card" [class.flipped]="isFlipped">
+      <div class="front">
+        <h1>{{ currentFlashcard?.question }}</h1>
       </div>
-  
-      <div class="middle-section" (click)="toggleFlip()">
-        <div class="card" [class.flipped]="isFlipped">
-          <div class="front">
-            <h1>Front of the Card</h1>
-          </div>
-          <div class="back">
-            <h1>Back of the Card</h1>
-          </div>
-        </div>
-      </div>
-  
-      <div class="right-section">
-        <div class="right_arrow" [class.clicked]="rightClicked" (click)="nextCard()"></div>
+      <div class="back">
+        <h1>{{ currentFlashcard?.answer }}</h1>
       </div>
     </div>
-</body>
-  
+  </div>
+
+  <div class="right-section">
+    <div class="right_arrow" 
+         [class.clicked]="rightClicked" 
+         (click)="nextCard()"></div>
+  </div>
+</div>
