@@ -2,6 +2,7 @@
   <app-header></app-header>
   <router-outlet></router-outlet>
   <div class="karteikarten-container">
+    <button class="back-button" (click)="goBack()">⬅ Zurück</button>
     <h1>Karteikarten</h1>
     <h2>Fragen und Antworten</h2>
     <button class="lernmodus-button" (click)="openLernmodus()">
@@ -12,11 +13,8 @@
       <ng-container *ngIf="flashcards$ | async as karteikarten; else loading">
         <div *ngIf="karteikarten.length > 0; else noData" class="grid-container">
         
-        <!-- ➕ Neues Unterthema hinzufügen -->
-        <div class="karteikarte-card">
-          <span class="plus-icon">+</span>
-        </div>
-        
+          <!-- ➕ Neue Karte hinzufügen -->
+          <app-add-flashcard></app-add-flashcard>
 
           <div class="karteikarte-card" *ngFor="let karte of karteikarten">
             <div class="upper">
