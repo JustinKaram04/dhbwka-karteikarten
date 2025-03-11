@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [HeaderComponent, FormsModule, CommonModule],
+  imports: [HeaderComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
@@ -30,22 +30,20 @@ export class RegistrationComponent {
   }
 
   registerUser() {
-    if (this.service.testUsernameAvailable(this.username) && this.registrationForm.valid) {
-      this.id = Date.now.toString();
+    if (this.registrationForm.valid) {
+      const { username, email, password } = this.registrationForm.value;
+    if (this.service.testUsernameAvailable(username)) {
       this.service.register({
-        id: this.id,
-        username: this.username,
-        email: this.email,
-        password: this.password
+        id: Date.now().toString(),
+        username,
+        email,
+        password
       });
-      console.log('Benutzer registriert:', {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-      });
-      this.router.navigate(['/login']); // Nach erfolgreicher Registrierung zur Login-Seite navigieren
-    } else {
-      this.registrationFailed = true; // Falls Eingaben fehlen, Fehler anzeigen
+        this.router.navigate(['/login']); // Nach erfolgreicher Registrierung zur Login-Seite navigieren
+      }
+      else {
+        this.registrationFailed = true; // Falls Eingaben fehlen, Fehler anzeigen
+      }
     }
   }
 
@@ -53,3 +51,4 @@ export class RegistrationComponent {
     this.router.navigate(['/login']); // Zur Login-Seite navigieren
   }
 }
+
