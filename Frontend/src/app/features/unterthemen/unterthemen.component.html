@@ -1,38 +1,68 @@
-<div class="unterthema">
+<div class="themengebiet-container" (click)="toggleMenu('', $event)">
   <app-header></app-header>
-  <router-outlet></router-outlet>
-  <div class="karteikarten-container">
+  <div class="themengebiete">
+    <button class="back-button" (click)="goBack()">⬅ Zurück</button>
     <h1>Karteikarten</h1>
     <h2>Fragen und Antworten</h2>
-    <button class="lernmodus-button" (click)="openLernmodus()">
-      Lernmodus starten
-    </button>
-
-    <div class="karteikarten-list">
-      <ng-container *ngIf="flashcards$ | async as karteikarten; else loading">
-        <div *ngIf="karteikarten.length > 0; else noData" class="grid-container">
-          <div class="karteikarte-card" *ngFor="let karte of karteikarten">
-            <div class="upper">
-              <h3>Frage:</h3>
-              <p>{{ karte.question }}</p>
-            </div>
-            <div class="lower">
-              <h3>Antwort:</h3>
-              <p>{{ karte.answer }}</p>
-            </div>
+    <button class="back-button" (click)="openLernmodus()">Lernmodus starten</button>
+    
+    <div class="search-filter-container">
+      <div class="filter-group">
+        <label for="search">🔍 Suche:</label>
+        <input id="search" type="text" [(ngModel)]="searchQuery" placeholder="Flashcard suchen..." />
+      </div>
+      <div class="filter-group">
+        <label for="sortOption">📌 Sortieren nach:</label>
+        <select id="sortOption" (change)="updateSortOption($event)">
+          <option value="">Sortieren nach...</option>
+          <option value="question-asc">Frage (A-Z)</option>
+          <option value="question-desc">Frage (Z-A)</option>
+          <option value="answer-asc">Antwort (A-Z)</option>
+          <option value="answer-desc">Antwort (Z-A)</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="unterthemen-container">
+      <div class="unterthemen-card add-card" (click)="showAddCardInput = true">
+        <span class="plus-icon">+</span>
+      </div>
+      
+      <div *ngIf="showAddCardInput" class="input-container">
+        <label for="newQuestion">Frage:</label>
+        <input id="newQuestion" type="text" [(ngModel)]="newQuestion" placeholder="Frage eingeben..." />
+        <label for="newAnswer">Antwort:</label>
+        <textarea id="newAnswer" [(ngModel)]="newAnswer" placeholder="Antwort eingeben..."></textarea>
+        <div class="button-group">
+          <button (click)="addCard()" [disabled]="!newQuestion.trim()">Hinzufügen</button>
+          <button class="cancel-btn" (click)="showAddCardInput = false">Abbrechen</button>
+        </div>
+      </div>
+      
+      <!-- Anzeige der gefilterten & sortierten Flashcards -->
+      <div *ngFor="let card of applyFilters()" class="unterthemen-card" (mouseenter)="hoveredId = card.id" (mouseleave)="hoveredId = null">
+        <div *ngIf="editingCardId === card.id" class="edit-mode">
+          <label for="editQuestion">Frage:</label>
+          <input id="editQuestion" type="text" [(ngModel)]="editedQuestion" placeholder="Neue Frage eingeben..." />
+          <label for="editAnswer">Antwort:</label>
+          <textarea id="editAnswer" [(ngModel)]="editedAnswer" placeholder="Neue Antwort eingeben..."></textarea>
+          <div class="button-group">
+            <button (click)="saveCard()">💾 Speichern</button>
+            <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
           </div>
         </div>
-      </ng-container>
-
-      <!-- Ladeanzeige -->
-      <ng-template #loading>
-        <p>Lade Karteikarten...</p>
-      </ng-template>
-
-      <!-- Kein Daten -->
-      <ng-template #noData>
-        <p>Keine Karteikarten gefunden.</p>
-      </ng-template>
+        <div *ngIf="editingCardId !== card.id">
+          <h3>{{ card.question }}</h3>
+          <p>{{ card.answer }}</p>
+          <div class="menu-icon" *ngIf="hoveredId === card.id" (click)="toggleMenu(card.id, $event)">
+            &#x22EE;
+          </div>
+          <div class="menu" *ngIf="activeMenuId === card.id" (click)="$event.stopPropagation()">
+            <button (click)="startEditing(card, $event)">Bearbeiten</button>
+            <button (click)="deleteCard(card.id, $event)">Löschen</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
