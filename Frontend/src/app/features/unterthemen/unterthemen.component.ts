@@ -177,6 +177,6 @@ export class UnterthemenComponent {
   }
 
   openLernmodus(): void {
-    this.router.navigate([`/themengebiet/${this.topicId}/${this.subtopicId}/Lernmodus`]);
+    this.router.navigate([`/themengebiet/${this.topicId}/${this.subtopicId}/lernmodus`]);
   }
 }
