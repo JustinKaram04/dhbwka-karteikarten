@@ -15,9 +15,16 @@ export class AuthService {
     password: "1",
     email: "",
   }
+  DevUser: IUserData = {
+    id: "2",
+    username:"Developer",
+    password: "12345678",
+    email: "",
+  }
 
   private users: IUserData[] = [
     this.MasterUser,
+    this.DevUser,
     {id: "222", username: "b", password: "2", email: ""},
   ]
 
