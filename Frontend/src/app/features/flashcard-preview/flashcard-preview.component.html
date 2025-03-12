@@ -1,5 +1,6 @@
 <body>
   <div class="container">
+    <button class="back-button" (click)="closeLernmodus()">⬅ Zurück</button>
     <div class = "top-section">
       <div class="left-section">
         <div class="left_arrow" [class.clicked]="leftClicked" (click)="previousCard()"></div>
@@ -22,6 +23,7 @@
     </div>
 
     <div class = "under-section">
+      <p>Dein Lernfortschritt:</p>
       <div class = button-wrong-div>
           <button class = "button-wrong" (click)="changeProgress(-1)">
               <h1>✖</h1>

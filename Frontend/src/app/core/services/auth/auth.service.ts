@@ -17,7 +17,8 @@ export class AuthService {
   }
 
   private users: IUserData[] = [
-    this.MasterUser
+    this.MasterUser,
+    {id: "222", username: "b", password: "2", email: ""},
   ]
 
   testUsernameAvailable(username: string): boolean {

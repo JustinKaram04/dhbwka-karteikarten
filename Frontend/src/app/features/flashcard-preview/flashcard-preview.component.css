@@ -206,3 +206,28 @@
     transform: scale(1.2);
     color: white; /* Weiß beim Klicken */
   }
+
+
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #3a3a3a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    z-index: 1000;
+  }
+  
+  .back-button:hover {
+    background-color: #555;
+  }
+  
+  /* Adjust the top section to accommodate the button */
+  .top-section {
+    padding-top: 60px; /* Increase this value if needed */
+  }

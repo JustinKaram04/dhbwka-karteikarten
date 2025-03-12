@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GetDataService } from '../../core/services/getDataServices/get-data.service';
 import { IFlashcard } from '../../core/models/iflashcard';
 import { WeightedRandomSelectionService } from '../../core/services/Selection/weighted-random-selection.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class FlashcardPreviewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private service: GetDataService,
     private selectionService: WeightedRandomSelectionService<IFlashcard>
   ) {}
@@ -113,5 +115,14 @@ export class FlashcardPreviewComponent implements OnInit {
       default:
         return 0; // Fallback in case of invalid input
     }
+  }
+
+  closeLernmodus() {
+    // Zurück zur vorherigen Seite navigieren
+    this.router.navigate([
+      '/themengebiet', 
+      this.topicId, 
+      this.subtopicId
+    ]);
   }
 }
