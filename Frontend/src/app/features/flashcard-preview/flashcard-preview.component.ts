@@ -1,128 +1,132 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { GetDataService } from '../../core/services/getDataServices/get-data.service';
 import { IFlashcard } from '../../core/models/iflashcard';
 import { WeightedRandomSelectionService } from '../../core/services/Selection/weighted-random-selection.service';
-import { Router } from '@angular/router';
-
+import Chart from 'chart.js/auto';
+import { DarkModeService } from '../../core/services/dark-modeServices/dark-mode.service';
 
 @Component({
   selector: 'app-flashcard-preview',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './flashcard-preview.component.html',
   styleUrls: ['./flashcard-preview.component.css']
 })
-export class FlashcardPreviewComponent implements OnInit {
+export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
+  toggleFlip(): void { this.isFlipped = !this.isFlipped; }
+  nextCard(): void { this.next(); }
+  previousCard(): void { this.previous(); }
+  @ViewChild('resultCanvas') resultCanvas!: ElementRef<HTMLCanvasElement>;
+
+  flashcards: IFlashcard[] = [];
+  currentFlashcard: IFlashcard | null = null;
+  learningProgress = 0;
+  correctCount = 0;
+  totalCount = 0;
+  mode: 'infinite' | 'limited' | null = null;
+  endScreen = false;
   isFlipped = false;
   leftClicked = false;
   rightClicked = false;
-  learningProgress: number = 0;
-  topicId: string = '';
-  subtopicId: string = '';
-  currentFlashcard: IFlashcard | null = null;
-  flashcards: IFlashcard[] = [];
+  isDark = false;
+  private chart: Chart | null = null;
+
+  private topicId!: string;
+  private subtopicId!: string;
 
   constructor(
+    private service: GetDataService,
+    private selection: WeightedRandomSelectionService<IFlashcard>,
     private route: ActivatedRoute,
     private router: Router,
-    private service: GetDataService,
-    private selectionService: WeightedRandomSelectionService<IFlashcard>
+    private darkModeService: DarkModeService
   ) {}
 
-  ngOnInit() {
-    // Beide Parameter (topicId und subtopicId) aus den übergeordneten Routen auslesen
+  ngOnInit(): void {
     this.topicId = this.route.snapshot.paramMap.get('topicId') || '';
     this.subtopicId = this.route.snapshot.paramMap.get('subtopicId') || '';
-      console.log("Subtopic-ID:", this.subtopicId, "Topic-ID:", this.topicId);
-
-      if (this.topicId && this.subtopicId) {
-        // Beide IDs an getFlashcards übergeben
-        this.service.getFlashcards(this.topicId, this.subtopicId).subscribe({
-          next: (flashcards) => {
-            this.flashcards = flashcards;
-            console.log('Fetched flashcards:', this.flashcards);
-            // Initialisiere die Auswahlfunktionalität mit den erhaltenen Karteikarten
-            this.selectionService.initialize(this.flashcards);
-            this.currentFlashcard = this.selectionService.nextCard() || null;
-            console.log('Current flashcard:', this.currentFlashcard);
-            this.getProgress();
-          },
-          error: (err) => {
-            console.error('Error fetching flashcards:', err);
-          }
-        });
-      }
-    
+    this.service.getFlashcards(this.topicId, this.subtopicId)
+      .subscribe(cards => this.flashcards = cards);
   }
 
-  toggleFlip() {
-    this.isFlipped = !this.isFlipped;
+  ngAfterViewInit(): void {}
+
+  selectMode(mode: 'infinite' | 'limited'): void {
+    this.mode = mode;
+    this.selection.initialize(this.flashcards, mode);
+    if (mode === 'limited') {
+      this.totalCount = this.flashcards.filter(c => c.learningProgress < 6).length;
+    }
+    this.next();
   }
 
-  previousCard() {
-    this.leftClicked = true;
-    setTimeout(() => {
-      this.leftClicked = false;
-      this.currentFlashcard = this.selectionService.previousCard();
-      this.getProgress();
-    }, 150);
+  next(): void {
+    const next = this.selection.nextCard();
+    if (!next && this.mode === 'limited') {
+      this.endScreen = true;
+      setTimeout(() => this.renderChart(), 100);
+    } else {
+      this.currentFlashcard = next || null;
+      this.updateProgress();
+    }
   }
 
-  nextCard() {
-    this.rightClicked = true;
-    this.isFlipped = false;
-    setTimeout(() => {
-      this.rightClicked = false;
-      this.currentFlashcard = this.selectionService.nextCard();
-      this.getProgress();
-    }, 150);
+  previous(): void {
+    const prev = this.selection.previousCard();
+    if (prev) {
+      this.currentFlashcard = prev;
+      this.updateProgress();
+    }
   }
 
-  getProgress(): void {
+  updateProgress(): void {
     this.learningProgress = this.currentFlashcard?.learningProgress || 0;
   }
 
-  changeProgress(progress: number): void {
-    if (progress<0 && this.learningProgress>0) {
-      this.learningProgress =-1;
-      this.service.updateLearningProgress(this.topicId, this.subtopicId, this.currentFlashcard?.id || '', this.learningProgress);
-      this.nextCard();
-    } else if (progress>0 && this.learningProgress<6) {
-      this.learningProgress =+1;
-      this.service.updateLearningProgress(this.topicId, this.subtopicId, this.currentFlashcard?.id || '', this.learningProgress);
-      this.nextCard();
-    }
-    else {
-      this.nextCard();
-    }
+  changeProgress(delta: number): void {
+    if (!this.currentFlashcard) return;
+    const card = this.currentFlashcard;
+    const newVal = Math.max(0, Math.min(6, card.learningProgress + delta));
+    card.learningProgress = newVal;
+    this.learningProgress = newVal;
+    this.service.updateLearningProgress(this.topicId, this.subtopicId, card.id, newVal)
+      .subscribe(() => {
+        if (this.mode === 'limited' && delta > 0) {
+          this.correctCount++;
+        }
+        this.next();
+      });
   }
 
-  getBarProgressPercentage(): number {
-    switch (this.learningProgress) {
-      case 1:
-        return 16;
-      case 2:
-        return 33;
-      case 3:
-        return 50;
-      case 4:
-        return 66;
-      case 5:
-        return 83;
-      case 6:
-        return 100;
-      default:
-        return 0; // Fallback in case of invalid input
-    }
+  renderChart(): void {
+    if (!this.resultCanvas) return;
+    if (this.chart) this.chart.destroy();
+    const ctx = this.resultCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
+    this.chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Richtig', 'Falsch'],
+        datasets: [{
+          data: [this.correctCount, this.totalCount - this.correctCount],
+          backgroundColor: ['#2ecc71', '#e74c3c']
+        }]
+      },
+      options: { responsive: true }
+    });
   }
 
-  closeLernmodus() {
-    // Zurück zur vorherigen Seite navigieren
-    this.router.navigate([
-      '/themengebiet', 
-      this.topicId, 
-      this.subtopicId
-    ]);
+  retry(): void {
+    this.endScreen = false;
+    this.correctCount = 0;
+    this.chart?.destroy();
+    this.selection.reset();
+    this.next();
+  }
+
+  close(): void {
+    this.router.navigate(['/themengebiet', this.topicId, this.subtopicId]);
   }
 }

@@ -1,27 +1,25 @@
-<div class="themengebiet-container" (click)="closeMenu()">
+<div class="dashboard" (click)="closeMenu()">
   <app-header></app-header>
-
-  <div class="themengebiete">
-    <button class="back-button" (click)="goBack()">⬅ Zurück</button>
-
-    <h1>{{ themengebietName }}</h1>
-    <h2>Unterthemen:</h2>
-
-    <!-- 🔎 Such- & Sortierfunktionen -->
+  <main class="topics">
+    <h2>Themenbereiche:</h2>
     <div class="search-filter-container">
       <div class="filter-group">
-        <label for="search">🔍 Suche:</label>
+        <label for="topicSearch">🔍 Suche:</label>
         <input
-          id="search"
+          id="topicSearch"
           type="text"
-          [(ngModel)]="searchQuery"
-          placeholder="Unterthema suchen..."
+          (input)="updateSearchQuery($event)"
+          placeholder="Themengebiet suchen..."
+          title="Themengebiet suchen"
         />
       </div>
-
       <div class="filter-group">
         <label for="sortOption">📌 Sortieren nach:</label>
-        <select id="sortOption" title="Unterthemen sortieren" (change)="updateSortOption($event)">
+        <select
+          id="sortOption"
+          title="Themengebiete sortieren"
+          (change)="updateSortCriteria($event)"
+        >
           <option value="">Sortieren nach...</option>
           <option value="id-asc">ID (aufsteigend)</option>
           <option value="id-desc">ID (absteigend)</option>
@@ -30,80 +28,64 @@
         </select>
       </div>
     </div>
-
-    <div class="unterthemen-container">
-      <!-- ➕ Neues Unterthema hinzufügen -->
-      <div class="unterthemen-card add-card" (click)="showAddSubtopicInput = true">
+    <div class="topic-container">
+      <div
+        class="topic-card add-card"
+        (click)="showAddTopicInput = true"
+        title="Neues Thema hinzufügen"
+      >
         <span class="plus-icon">+</span>
       </div>
-
-      <!-- 📌 Eingabefelder für neues Unterthema -->
-      <div *ngIf="showAddSubtopicInput" class="input-container">
-        <label for="newSubtopicName">Unterthema:</label>
-        <input 
-          id="newSubtopicName" 
-          type="text" 
-          [(ngModel)]="newSubtopicName" 
-          placeholder="Name eingeben..."
+      <div *ngIf="showAddTopicInput" class="input-container">
+        <label for="newTopicInput">Neues Themengebiet:</label>
+        <input
+          id="newTopicInput"
+          type="text"
+          [(ngModel)]="newTopicName"
+          placeholder="Themenname..."
         />
-
-        <label for="newSubtopicDescription">Beschreibung:</label>
-        <textarea 
-          id="newSubtopicDescription" 
-          [(ngModel)]="newSubtopicDescription" 
-          placeholder="Beschreibung eingeben..."
+        <label for="newTopicDescription">Beschreibung:</label>
+        <textarea
+          id="newTopicDescription"
+          [(ngModel)]="newTopicDescription"
+          placeholder="Beschreibung..."
         ></textarea>
-
         <div class="button-group">
-          <button (click)="addSubtopic()" [disabled]="!newSubtopicName.trim()">Hinzufügen</button>
-          <button class="cancel-btn" (click)="showAddSubtopicInput = false">Abbrechen</button>
+          <button (click)="addTopic()" [disabled]="!newTopicName.trim()">Hinzufügen</button>
+          <button class="cancel-btn" (click)="showAddTopicInput = false">Abbrechen</button>
         </div>
       </div>
-
-      <!-- 📌 Gefilterte & sortierte Unterthemen -->
-      <div 
-        class="unterthemen-card" 
-        *ngFor="let unterthema of applyFilters()"
-        (click)="navigateToUnterthema(unterthema.id, $event)"
-        (mouseenter)="hoveredId = unterthema.id"
+      <div
+        class="topic-card"
+        *ngFor="let topic of (applyFilters() | async)"
+        (click)="navigateToTopic(topic.id, $event)"
+        (mouseenter)="hoveredId = topic.id"
         (mouseleave)="hoveredId = null"
       >
-        <div *ngIf="editingSubtopicId === unterthema.id" class="edit-mode">
-          <label for="editSubtopicName">Neuer Name:</label>
-          <input 
-            id="editSubtopicName" 
-            type="text" 
-            [(ngModel)]="editedSubtopicName" 
-            placeholder="Neuer Name eingeben..."
-          />
-
-          <label for="editSubtopicDescription">Neue Beschreibung:</label>
-          <textarea 
-            id="editSubtopicDescription" 
-            [(ngModel)]="editedSubtopicDescription" 
-            placeholder="Neue Beschreibung eingeben..."
-          ></textarea>
-
+        <div *ngIf="editingTopicId === topic.id">
+          <input type="text" [(ngModel)]="editedTopicName" placeholder="Neuer Name..." />
+          <textarea [(ngModel)]="editedTopicDescription" placeholder="Neue Beschreibung..."></textarea>
           <div class="button-group">
-            <button (click)="saveSubtopic()">💾 Speichern</button>
+            <button (click)="saveTopic()">💾 Speichern</button>
             <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
           </div>
         </div>
-
-        <div *ngIf="editingSubtopicId !== unterthema.id">
-          <h3>{{ unterthema.name }}</h3>
-          <p>{{ unterthema.description }}</p>
-
-          <div class="menu-icon" *ngIf="hoveredId === unterthema.id" (click)="toggleMenu(unterthema.id, $event)">
+        <div *ngIf="editingTopicId !== topic.id">
+          <h2>{{ topic.name }}</h2>
+          <p>{{ topic.description }}</p>
+          <div
+            class="menu-icon"
+            *ngIf="hoveredId === topic.id"
+            (click)="toggleMenu(topic.id, $event)"
+          >
             &#x22EE;
           </div>
-
-          <div class="menu" *ngIf="activeMenuId === unterthema.id" (click)="$event.stopPropagation()">
-            <button (click)="startEditing(unterthema, $event)">Bearbeiten</button>
-            <button class="delete-btn" (click)="loeschen(unterthema.id, $event)">Löschen</button>
+          <div class="menu" *ngIf="activeMenuId === topic.id" (click)="$event.stopPropagation()">
+            <button (click)="startEditing(topic, $event)">Bearbeiten</button>
+            <button (click)="deleteTopic(topic.id, $event)">Löschen</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </div>

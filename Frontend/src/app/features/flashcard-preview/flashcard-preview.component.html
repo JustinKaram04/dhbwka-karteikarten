@@ -1,45 +1,32 @@
-<body>
-  <div class="container">
-    <button class="back-button" (click)="closeLernmodus()">⬅ Zurück</button>
-    <div class = "top-section">
-      <div class="left-section">
-        <div class="left_arrow" [class.clicked]="leftClicked" (click)="previousCard()"></div>
-      </div>
+<div *ngIf="!mode && !endScreen" class="mode-selection">
+  <button class="mode-btn" (click)="selectMode('infinite')">Unendlicher Modus</button>
+  <button class="mode-btn" (click)="selectMode('limited')">Nur unvollständige</button>
+</div>
 
-      <div class="middle-section" (click)="toggleFlip()">
-        <div class="card" [class.flipped]="isFlipped">
-          <div class="front">
-            <h1>{{ currentFlashcard?.question }}</h1>
-          </div>
-          <div class="back">
-            <h1>{{ currentFlashcard?.answer }}</h1>
-          </div>
-        </div>
-      </div>
-
-      <div class="right-section">
-        <div class="right_arrow" [class.clicked]="rightClicked" (click)="nextCard()"></div>
+<div *ngIf="mode && !endScreen" [class.dark]="isDark" class="container">
+  <button class="back-button" (click)="close()">⬅ Zurück</button>
+  <div class="top-section">
+    <div class="left-section"><div class="left_arrow" (click)="previousCard()"></div></div>
+    <div class="middle-section" (click)="toggleFlip()">
+      <div class="card" [class.flipped]="isFlipped">
+        <div class="front"><h1>{{currentFlashcard?.question}}</h1></div>
+        <div class="back"><h1>{{currentFlashcard?.answer}}</h1></div>
       </div>
     </div>
-
-    <div class = "under-section">
-      <p>Dein Lernfortschritt:</p>
-      <div class = button-wrong-div>
-          <button class = "button-wrong" (click)="changeProgress(-1)">
-              <h1>✖</h1>
-          </button>
-      </div>
-
-      <div class="progress">
-          <div class="progress__fill" [style.width.%]="getBarProgressPercentage()"></div>
-          <span class="progress__text">{{ learningProgress }} / 6</span>
-      </div>
-
-      <div class="button-right-div">
-          <button class = "button-right" (click)="changeProgress(1)">
-              <h1>✔</h1>
-          </button>
-      </div>
-    </div>
+    <div class="right-section"><div class="right_arrow" (click)="nextCard()"></div></div>
   </div>
-</body>
+  <div class="under-section">
+    <button class="action-btn wrong" (click)="changeProgress(-1)">✖</button>
+    <div class="progress"><div class="progress__fill" [style.width.%]="(learningProgress/6)*100"></div><span class="progress__text">{{learningProgress}}/6</span></div>
+    <button class="action-btn correct" (click)="changeProgress(1)">✔</button>
+  </div>
+</div>
+
+<div *ngIf="endScreen" [class.dark]="isDark" class="result-screen">
+  <h2>Ergebnis: {{((correctCount/totalCount)*100)|number:'1.0-0'}}%</h2>
+  <canvas #resultCanvas width="200" height="200"></canvas>
+  <div class="result-actions">
+    <button class="result-btn" (click)="retry()">Weiter lernen</button>
+    <button class="result-btn" (click)="close()">Beenden</button>
+  </div>
+</div>

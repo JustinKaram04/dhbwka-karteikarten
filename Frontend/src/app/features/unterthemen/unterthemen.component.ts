@@ -1,182 +1,209 @@
 import { Component, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../../shared/components/header/header.component';
+import { HeaderComponent } from "../../shared/components/header/header.component";
 import { GetDataService } from '../../core/services/getDataServices/get-data.service';
-import { Observable, of, firstValueFrom } from 'rxjs';
-import { IFlashcard } from '../../core/models/iflashcard';
-import { take, switchMap, map, tap } from 'rxjs/operators';
-import { DarkModeService } from '../../core/services/dark-modeServices/dark-mode.service';
+import { Observable, firstValueFrom, BehaviorSubject } from 'rxjs';
+import { ISubtopic } from '../../core/models/isubtopic';
+import { ITopic } from '../../core/models/itopic';
+import { FormsModule } from '@angular/forms';
+import { take, switchMap, map, tap, of, forkJoin, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-unterthemen',
   standalone: true,
   imports: [CommonModule, FormsModule, HeaderComponent],
   templateUrl: './unterthemen.component.html',
-  styleUrls: ['./unterthemen.component.scss']
+  styleUrl: './unterthemen.component.scss'
 })
 export class UnterthemenComponent {
   topicId!: string;
-  subtopicId!: string;
-  flashcards$: Observable<IFlashcard[]> = of([]);
-  searchQuery: string = '';
-  sortCriteria: string = 'question-asc';
-  hoveredId: string | null = null;
+  themengebietName: string = '';
+  unterthemen$ = new BehaviorSubject<ISubtopic[]>([]);
   activeMenuId: string | null = null;
-  showAddCardInput: boolean = false;
-  newQuestion: string = '';
-  newAnswer: string = '';
-  editingCardId: string | null = null;
-  editedQuestion: string = '';
-  editedAnswer: string = '';
+  hoveredId: string | null = null;
+
+  showAddSubtopicInput: boolean = false;
+  newSubtopicName: string = '';
+  newSubtopicDescription: string = '';
+
+  editingSubtopicId: string | null = null;
+  editedSubtopicName: string = '';
+  editedSubtopicDescription: string = '';
+
+  searchQuery: string = '';
+  sortCriteria: string = 'name';
 
   constructor(
     private route: ActivatedRoute,
     private service: GetDataService,
     private router: Router,
-    private ngZone: NgZone,
-    private darkModeService: DarkModeService
+    private ngZone: NgZone
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.topicId = this.route.snapshot.paramMap.get('topicId') || '';
-    this.subtopicId = this.route.snapshot.paramMap.get('subtopicId') || '';
-    if (this.topicId && this.subtopicId) {
-      this.loadFlashcards();
-    }
+
+    this.service.getSingleTopic(this.topicId).subscribe((thema: ITopic | undefined) => {
+      if (thema) {
+        this.themengebietName = thema.name;
+        this.service.getSubtopics(this.topicId).subscribe(subtopics => {
+          this.unterthemen$.next(subtopics);
+        });
+      }
+    });
   }
 
-  loadFlashcards(): void {
-    this.flashcards$ = this.service.getFlashcards(this.topicId, this.subtopicId);
+  applyFilters(): ISubtopic[] {
+    return this.unterthemen$.value
+      .filter(subtopic => subtopic.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+      .sort((a, b) => {
+        switch (this.sortCriteria) {
+          case 'id-asc':
+            return parseInt(a.id, 10) - parseInt(b.id, 10);
+          case 'id-desc':
+            return parseInt(b.id, 10) - parseInt(a.id, 10);
+          case 'name-asc':
+            return a.name.localeCompare(b.name);
+          case 'name-desc':
+            return b.name.localeCompare(a.name);
+          default:
+            return 0;
+        }
+      });
   }
-
-  applyFilters(): IFlashcard[] {
-    let cards: IFlashcard[] = [];
-    this.flashcards$.subscribe(data => cards = data).unsubscribe();
-    let filtered = cards;
-    if (this.searchQuery.trim()) {
-      const q = this.searchQuery.toLowerCase();
-      filtered = filtered.filter(card =>
-        card.question.toLowerCase().includes(q) ||
-        card.answer.toLowerCase().includes(q) ||
-        card.id.toLowerCase().includes(q)
-      );
-    }
-    return this.sortCards(filtered, this.sortCriteria);
-  }
-
-  private sortCards(cards: IFlashcard[], criteria: string): IFlashcard[] {
-    switch (criteria) {
-      case 'question-asc':
-        return cards.sort((a, b) => a.question.localeCompare(b.question));
-      case 'question-desc':
-        return cards.sort((a, b) => b.question.localeCompare(a.question));
-      case 'answer-asc':
-        return cards.sort((a, b) => a.answer.localeCompare(b.answer));
-      case 'answer-desc':
-        return cards.sort((a, b) => b.answer.localeCompare(a.answer));
-      default:
-        return cards;
-    }
-  }
-
-  updateSortOption(event: Event): void {
+  
+  updateSortOption(event: Event) {
     this.sortCriteria = (event.target as HTMLSelectElement).value;
   }
 
-  goBack(): void {
-    this.router.navigate(['../'], { relativeTo: this.route });
-  }
-
-  toggleMenu(id: string, event: MouseEvent): void {
-    event.stopPropagation();
-    this.activeMenuId = this.activeMenuId === id ? null : id;
-  }
-
-  startEditing(card: IFlashcard, event: MouseEvent): void {
-    event.stopPropagation();
-    this.editingCardId = card.id;
-    this.editedQuestion = card.question;
-    this.editedAnswer = card.answer;
-    this.activeMenuId = null;
-  }
-
-  async saveCard(): Promise<void> {
-    if (!this.editingCardId || !this.editedQuestion.trim()) return;
-    try {
-      await firstValueFrom(this.service.updateFlashcard(
-        this.topicId,
-        this.subtopicId,
-        this.editingCardId,
-        { question: this.editedQuestion.trim(), answer: this.editedAnswer.trim() }
-      ));
-      this.editingCardId = null;
-      this.activeMenuId = null;
-      this.loadFlashcards();
-    } catch (err) {
-      console.error(err);
+  navigateToUnterthema(subtopicId: string, event: MouseEvent) {
+    if ((event.target as HTMLElement).tagName === 'BUTTON' || (event.target as HTMLElement).tagName === 'INPUT' || (event.target as HTMLElement).tagName === 'TEXTAREA') {
+      return;
     }
+    this.router.navigate([subtopicId], { relativeTo: this.route });
   }
 
-  cancelEditing(): void {
-    this.editingCardId = null;
-    this.activeMenuId = null;
+  async addSubtopic(): Promise<void> {
+    if (!this.newSubtopicName.trim()) return;
+  
+    const newId = await firstValueFrom(this.generateNextSubtopicId());
+    const newSubtopic: ISubtopic = {
+      id: newId,
+      name: this.newSubtopicName.trim(),
+      description: this.newSubtopicDescription.trim(),
+      flashcards: []
+    };
+  
+    await firstValueFrom(this.service.addSubtopic(this.topicId, newSubtopic));
+  
+    this.ngZone.run(() => {
+      this.unterthemen$.next([...this.unterthemen$.value, newSubtopic]);
+      this.newSubtopicName = '';
+      this.newSubtopicDescription = '';
+      this.showAddSubtopicInput = false;
+    });
   }
+  
 
-  async deleteCard(cardId: string, event: MouseEvent): Promise<void> {
-    event.stopPropagation();
-    if (!confirm('Soll diese Flashcard wirklich gelöscht werden?')) return;
-    try {
-      await firstValueFrom(this.service.deleteFlashcard(this.topicId, this.subtopicId, cardId));
-      this.activeMenuId = null;
-      this.loadFlashcards();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  private generateNextFlashcardId(): Observable<string> {
-    return this.service.getFlashcards(this.topicId, this.subtopicId).pipe(
-      take(1),
-      map(flashcards => {
-        if (!flashcards || flashcards.length === 0) {
+  private generateNextSubtopicId(): Observable<string> {
+    return this.service.getSubtopics(this.topicId).pipe(
+      map(subtopics => {
+        if (!subtopics || subtopics.length === 0) {
           return '1';
         }
-        const validIds = flashcards
-          .map(card => parseInt(card.id, 10))
-          .filter(n => !isNaN(n));
+
+        const validIds = subtopics
+          .map(sub => parseInt(sub.id, 10))
+          .filter(n => !isNaN(n) && n > 0);
+
         const maxId = validIds.length > 0 ? Math.max(...validIds) : 0;
         return (maxId + 1).toString();
       })
     );
   }
 
-  async addCard(): Promise<void> {
-    if (!this.newQuestion.trim() || !this.newAnswer.trim()) return;
-    
-    const newId = await firstValueFrom(this.generateNextFlashcardId());
-    
-    const newCard: IFlashcard = {
-      id: newId,
-      question: this.newQuestion.trim(),
-      answer: this.newAnswer.trim(),
-      istoggled: false,
-      learningProgress: 0
-    };
-    
+  toggleMenu(id: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.activeMenuId = this.activeMenuId === id ? null : id;
+  }
+
+  startEditing(subtopic: ISubtopic, event: MouseEvent): void {
+    event.stopPropagation();
+    this.editingSubtopicId = subtopic.id;
+    this.editedSubtopicName = subtopic.name;
+    this.editedSubtopicDescription = subtopic.description || '';
+  }
+
+  async saveSubtopic(): Promise<void> {
+    if (!this.editingSubtopicId || !this.editedSubtopicName.trim()) return;
+
     try {
-      await firstValueFrom(this.service.addFlashcard(this.topicId, this.subtopicId, newCard));
-      this.newQuestion = '';
-      this.newAnswer = '';
-      this.showAddCardInput = false;
-      this.loadFlashcards();
+      const updatedSubtopic: Partial<ISubtopic> = {
+        name: this.editedSubtopicName.trim(),
+        description: this.editedSubtopicDescription.trim()
+      };
+
+      await firstValueFrom(this.service.updateSubtopic(this.topicId, this.editingSubtopicId, updatedSubtopic));
+      this.unterthemen$.next(
+        this.unterthemen$.value.map(sub =>
+          sub.id === this.editingSubtopicId ? { ...sub, ...updatedSubtopic } : sub
+        )
+      );
+      this.editingSubtopicId = null;
     } catch (err) {
-      console.error(err);
+      console.error('❌ Fehler beim Bearbeiten:', err);
     }
   }
 
-  openLernmodus(): void {
-    this.router.navigate([`/themengebiet/${this.topicId}/${this.subtopicId}/lernmodus`]);
+  loeschen(subtopicId: string, event: MouseEvent) {
+    event.stopPropagation();
+
+    if (!subtopicId) {
+      console.error('❌ Fehler: Unterthema-ID ist undefined oder leer!');
+      return;
+    }
+
+    if (!confirm('❗ Soll dieses Unterthema und alle verbundenen Karteikarten wirklich gelöscht werden?')) return;
+
+    this.service.getFlashcards(this.topicId, subtopicId).pipe(
+      take(1),
+      switchMap(flashcards => {
+        if (!flashcards || flashcards.length === 0) {
+          return this.service.deleteSubtopic(this.topicId, subtopicId);
+        }
+
+        console.log(`🗑 Lösche ${flashcards.length} Flashcards vor dem Löschen des Unterthemas...`);
+
+        const deleteRequests = flashcards.map(card => this.service.deleteFlashcard(this.topicId, subtopicId, card.id));
+
+        return forkJoin(deleteRequests).pipe(
+          switchMap(() => this.service.deleteSubtopic(this.topicId, subtopicId))
+        );
+      }),
+      tap(() => {
+        this.ngZone.run(() => {
+          this.unterthemen$.next(this.unterthemen$.value.filter(sub => sub.id !== subtopicId));
+          this.activeMenuId = null;
+        });
+        console.log(`✅ Unterthema ${subtopicId} wurde gelöscht!`);
+      }),
+      catchError(err => {
+        console.error('❌ Fehler beim Löschen des Unterthemas:', err);
+        return of(null);
+      })
+    ).subscribe();
+  }
+
+  cancelEditing(): void {
+    this.editingSubtopicId = null;
+  }
+
+  closeMenu(): void {
+    this.activeMenuId = null;
+  }
+
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
   }
 }
