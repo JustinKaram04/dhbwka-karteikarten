@@ -1,11 +1,16 @@
+
 <div class="themengebiet-container" (click)="toggleMenu('', $event)">
   <app-header></app-header>
   <div class="themengebiete">
+
     <button class="back-button" (click)="goBack()">⬅ Zurück</button>
     <h1>Karteikarten</h1>
     <h2>Fragen und Antworten</h2>
-    <button class="back-button" (click)="openLernmodus()">Lernmodus starten</button>
-    
+    <div class="actions">
+      <button class="back-button" (click)="openLernmodus()">Lernmodus starten</button>
+      <button class="back-button reset-btn" (click)="resetAllProgress()">🎯 Lernstände zurücksetzen</button>
+    </div>
+
     <div class="search-filter-container">
       <div class="filter-group">
         <label for="search">🔍 Suche:</label>
@@ -13,21 +18,21 @@
       </div>
       <div class="filter-group">
         <label for="sortOption">📌 Sortieren nach:</label>
-        <select id="sortOption" (change)="updateSortOption($event)">
-          <option value="">Sortieren nach...</option>
+        <select id="sortOption" [(ngModel)]="sortCriteria" (change)="updateSortOption($event)">
           <option value="question-asc">Frage (A-Z)</option>
           <option value="question-desc">Frage (Z-A)</option>
           <option value="answer-asc">Antwort (A-Z)</option>
           <option value="answer-desc">Antwort (Z-A)</option>
+          <option value="progress-asc">Lernstand (niedrig → hoch)</option>
+          <option value="progress-desc">Lernstand (hoch → niedrig)</option>
         </select>
       </div>
     </div>
-    
+
     <div class="unterthemen-container">
       <div class="unterthemen-card add-card" (click)="showAddCardInput = true">
         <span class="plus-icon">+</span>
       </div>
-      
       <div *ngIf="showAddCardInput" class="input-container">
         <label for="newQuestion">Frage:</label>
         <input id="newQuestion" type="text" [(ngModel)]="newQuestion" placeholder="Frage eingeben..." />
@@ -38,8 +43,6 @@
           <button class="cancel-btn" (click)="showAddCardInput = false">Abbrechen</button>
         </div>
       </div>
-      
-      <!-- Anzeige der gefilterten & sortierten Flashcards -->
       <div *ngFor="let card of applyFilters()" class="unterthemen-card" (mouseenter)="hoveredId = card.id" (mouseleave)="hoveredId = null">
         <div *ngIf="editingCardId === card.id" class="edit-mode">
           <label for="editQuestion">Frage:</label>
@@ -51,12 +54,15 @@
             <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
           </div>
         </div>
-        <div *ngIf="editingCardId !== card.id">
+        <div *ngIf="editingCardId !== card.id" class="card-content">
+          <div class="progress-dot" [ngClass]="{
+            'dot-red': card.learningProgress <= 1,
+            'dot-yellow': card.learningProgress >= 2 && card.learningProgress <= 4,
+            'dot-green': card.learningProgress >= 5
+          }" title="Lernstand: {{card.learningProgress}}"></div>
           <h3>{{ card.question }}</h3>
           <p>{{ card.answer }}</p>
-          <div class="menu-icon" *ngIf="hoveredId === card.id" (click)="toggleMenu(card.id, $event)">
-            &#x22EE;
-          </div>
+          <div class="menu-icon" *ngIf="hoveredId === card.id" (click)="toggleMenu(card.id, $event)">&#x22EE;</div>
           <div class="menu" *ngIf="activeMenuId === card.id" (click)="$event.stopPropagation()">
             <button (click)="startEditing(card, $event)">Bearbeiten</button>
             <button (click)="deleteCard(card.id, $event)">Löschen</button>
