@@ -1,65 +1,106 @@
-<div class="themengebiet-container" (click)="toggleMenu('', $event)">
+<div class="themengebiet-container" (click)="closeMenu()">
   <app-header></app-header>
+
   <div class="themengebiete">
     <button class="back-button" (click)="goBack()">⬅ Zurück</button>
-    <h1>Karteikarten</h1>
-    <h2>Fragen und Antworten</h2>
-    <button class="back-button" (click)="openLernmodus()">Lernmodus starten</button>
-    
+
+    <h1>{{ themengebietName }}</h1>
+    <h2>Unterthemen:</h2>
+
+    <!-- 🔎 Such- & Sortierfunktionen -->
     <div class="search-filter-container">
       <div class="filter-group">
         <label for="search">🔍 Suche:</label>
-        <input id="search" type="text" [(ngModel)]="searchQuery" placeholder="Flashcard suchen..." />
+        <input
+          id="search"
+          type="text"
+          [(ngModel)]="searchQuery"
+          placeholder="Unterthema suchen..."
+        />
       </div>
+
       <div class="filter-group">
         <label for="sortOption">📌 Sortieren nach:</label>
-        <select id="sortOption" (change)="updateSortOption($event)">
+        <select id="sortOption" title="Unterthemen sortieren" (change)="updateSortOption($event)">
           <option value="">Sortieren nach...</option>
-          <option value="question-asc">Frage (A-Z)</option>
-          <option value="question-desc">Frage (Z-A)</option>
-          <option value="answer-asc">Antwort (A-Z)</option>
-          <option value="answer-desc">Antwort (Z-A)</option>
+          <option value="id-asc">ID (aufsteigend)</option>
+          <option value="id-desc">ID (absteigend)</option>
+          <option value="name-asc">Alphabetisch (A-Z)</option>
+          <option value="name-desc">Alphabetisch (Z-A)</option>
         </select>
       </div>
     </div>
-    
+
     <div class="unterthemen-container">
-      <div class="unterthemen-card add-card" (click)="showAddCardInput = true">
+      <!-- ➕ Neues Unterthema hinzufügen -->
+      <div class="unterthemen-card add-card" (click)="showAddSubtopicInput = true">
         <span class="plus-icon">+</span>
       </div>
-      
-      <div *ngIf="showAddCardInput" class="input-container">
-        <label for="newQuestion">Frage:</label>
-        <input id="newQuestion" type="text" [(ngModel)]="newQuestion" placeholder="Frage eingeben..." />
-        <label for="newAnswer">Antwort:</label>
-        <textarea id="newAnswer" [(ngModel)]="newAnswer" placeholder="Antwort eingeben..."></textarea>
+
+      <!-- 📌 Eingabefelder für neues Unterthema -->
+      <div *ngIf="showAddSubtopicInput" class="input-container">
+        <label for="newSubtopicName">Unterthema:</label>
+        <input 
+          id="newSubtopicName" 
+          type="text" 
+          [(ngModel)]="newSubtopicName" 
+          placeholder="Name eingeben..."
+        />
+
+        <label for="newSubtopicDescription">Beschreibung:</label>
+        <textarea 
+          id="newSubtopicDescription" 
+          [(ngModel)]="newSubtopicDescription" 
+          placeholder="Beschreibung eingeben..."
+        ></textarea>
+
         <div class="button-group">
-          <button (click)="addCard()" [disabled]="!newQuestion.trim()">Hinzufügen</button>
-          <button class="cancel-btn" (click)="showAddCardInput = false">Abbrechen</button>
+          <button (click)="addSubtopic()" [disabled]="!newSubtopicName.trim()">Hinzufügen</button>
+          <button class="cancel-btn" (click)="showAddSubtopicInput = false">Abbrechen</button>
         </div>
       </div>
-      
-      <!-- Anzeige der gefilterten & sortierten Flashcards -->
-      <div *ngFor="let card of applyFilters()" class="unterthemen-card" (mouseenter)="hoveredId = card.id" (mouseleave)="hoveredId = null">
-        <div *ngIf="editingCardId === card.id" class="edit-mode">
-          <label for="editQuestion">Frage:</label>
-          <input id="editQuestion" type="text" [(ngModel)]="editedQuestion" placeholder="Neue Frage eingeben..." />
-          <label for="editAnswer">Antwort:</label>
-          <textarea id="editAnswer" [(ngModel)]="editedAnswer" placeholder="Neue Antwort eingeben..."></textarea>
+
+      <!-- 📌 Gefilterte & sortierte Unterthemen -->
+      <div 
+        class="unterthemen-card" 
+        *ngFor="let unterthema of applyFilters()"
+        (click)="navigateToUnterthema(unterthema.id, $event)"
+        (mouseenter)="hoveredId = unterthema.id"
+        (mouseleave)="hoveredId = null"
+      >
+        <div *ngIf="editingSubtopicId === unterthema.id" class="edit-mode">
+          <label for="editSubtopicName">Neuer Name:</label>
+          <input 
+            id="editSubtopicName" 
+            type="text" 
+            [(ngModel)]="editedSubtopicName" 
+            placeholder="Neuer Name eingeben..."
+          />
+
+          <label for="editSubtopicDescription">Neue Beschreibung:</label>
+          <textarea 
+            id="editSubtopicDescription" 
+            [(ngModel)]="editedSubtopicDescription" 
+            placeholder="Neue Beschreibung eingeben..."
+          ></textarea>
+
           <div class="button-group">
-            <button (click)="saveCard()">💾 Speichern</button>
+            <button (click)="saveSubtopic()">💾 Speichern</button>
             <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
           </div>
         </div>
-        <div *ngIf="editingCardId !== card.id">
-          <h3>{{ card.question }}</h3>
-          <p>{{ card.answer }}</p>
-          <div class="menu-icon" *ngIf="hoveredId === card.id" (click)="toggleMenu(card.id, $event)">
+
+        <div *ngIf="editingSubtopicId !== unterthema.id">
+          <h3>{{ unterthema.name }}</h3>
+          <p>{{ unterthema.description }}</p>
+
+          <div class="menu-icon" *ngIf="hoveredId === unterthema.id" (click)="toggleMenu(unterthema.id, $event)">
             &#x22EE;
           </div>
-          <div class="menu" *ngIf="activeMenuId === card.id" (click)="$event.stopPropagation()">
-            <button (click)="startEditing(card, $event)">Bearbeiten</button>
-            <button (click)="deleteCard(card.id, $event)">Löschen</button>
+
+          <div class="menu" *ngIf="activeMenuId === unterthema.id" (click)="$event.stopPropagation()">
+            <button (click)="startEditing(unterthema, $event)">Bearbeiten</button>
+            <button class="delete-btn" (click)="loeschen(unterthema.id, $event)">Löschen</button>
           </div>
         </div>
       </div>

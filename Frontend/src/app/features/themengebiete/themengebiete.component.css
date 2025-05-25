@@ -1,5 +1,5 @@
-/* 📌 Allgemeine Stile für das Themengebiet */
-.themengebiet-container {
+/* 📌 Allgemeine Stile für das Dashboard */
+.dashboard {
   font-family: Arial, sans-serif;
   padding: 1.5rem;
   padding-top: 7rem;
@@ -9,7 +9,7 @@
 }
 
 /* 📌 Container für Themenbereiche */
-.themengebiete {
+.topics {
   background-color: var(--card-bg);
   border-radius: 8px;
   padding: 2rem;
@@ -17,39 +17,33 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.themengebiete h2 {
+.topics h2 {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
   color: var(--text-color);
 }
 
-/* 📌 Grid für Unterthemen */
-.unterthemen-container {
+/* 📌 Grid für Themengebiete */
+.topic-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
 }
 
-/* 📌 Karten für Unterthemen */
-.unterthemen-card {
+/* 📌 Karten für Themengebiete */
+.topic-card {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
-  transition: all 0.3s ease-in-out;
   position: relative;
+  transition: all 0.3s ease-in-out;
 }
 
-.unterthemen-card:hover {
+.topic-card:hover {
   border-color: #84abd4;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-.unterthemen-card h3 {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: var(--text-color);
-  margin-bottom: 0.5rem;
 }
 
 /* 📌 "Thema hinzufügen"-Karte */
@@ -68,15 +62,15 @@
   padding: 2rem;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background-color: var(--hover-bg);
+    transform: scale(1.05);
+    border-color: #84abd4;
+  }
 }
 
-.add-card:hover {
-  background-color: var(--hover-bg);
-  transform: scale(1.05);
-  border-color: #84abd4;
-}
-
-/* 📌 Eingabeformular für neues Unterthema */
+/* 📌 Eingabeformular für neues Thema */
 .input-container {
   display: flex;
   flex-direction: column;
@@ -96,12 +90,12 @@ input, textarea {
   font-size: 16px;
   width: 100%;
   transition: all 0.2s;
-}
 
-input:focus, textarea:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
 }
 
 /* 📌 Menü-Icon (⋮) */
@@ -120,7 +114,7 @@ input:focus, textarea:focus {
   display: none;
 }
 
-.unterthemen-card:hover .menu-icon {
+.topic-card:hover .menu-icon {
   display: block;
 }
 
@@ -195,7 +189,6 @@ button:hover {
   align-items: flex-start;
   gap: 0.3rem;
 }
-
 .search-filter-container input,
 .search-filter-container select {
   padding: 10px;
@@ -204,29 +197,6 @@ button:hover {
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   background-color: white;
-  color: black !important;
-}
-/* 🔙 Zurück-Button */
-.back-button {
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  font-size: 1rem;
-  padding: 10px 15px;
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.back-button:hover {
-  background-color: var(--hover-bg);
-  border-color: #84abd4;
-  transform: scale(1.05);
+  color: black !important; 
 }
 

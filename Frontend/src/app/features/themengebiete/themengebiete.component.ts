@@ -1,209 +1,198 @@
-import { Component, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { HeaderComponent } from "../../shared/components/header/header.component";
-import { GetDataService } from '../../core/services/getDataServices/get-data.service';
-import { Observable, firstValueFrom, BehaviorSubject } from 'rxjs';
-import { ISubtopic } from '../../core/models/isubtopic';
-import { ITopic } from '../../core/models/itopic';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { take, switchMap, map, tap, of, forkJoin, catchError } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { GetDataService } from '../../core/services/getDataServices/get-data.service';
+import { Observable, firstValueFrom, forkJoin, of } from 'rxjs';
+import { ITopic } from '../../core/models/itopic';
+import { map, switchMap, tap, take, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-themengebiete',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [HeaderComponent, CommonModule, RouterModule, FormsModule],
   templateUrl: './themengebiete.component.html',
-  styleUrl: './themengebiete.component.scss'
+  styleUrls: ['./themengebiete.component.scss']
 })
-export class ThemengebieteComponent {
-  topicId!: string;
-  themengebietName: string = '';
-  unterthemen$ = new BehaviorSubject<ISubtopic[]>([]);
-  activeMenuId: string | null = null;
-  hoveredId: string | null = null;
-
-  showAddSubtopicInput: boolean = false;
-  newSubtopicName: string = '';
-  newSubtopicDescription: string = '';
-
-  editingSubtopicId: string | null = null;
-  editedSubtopicName: string = '';
-  editedSubtopicDescription: string = '';
+export class ThemengebieteComponent implements OnInit {
+  topics$!: Observable<ITopic[]>;
+  filteredTopics$!: Observable<ITopic[]>;
 
   searchQuery: string = '';
   sortCriteria: string = 'name';
 
-  constructor(
-    private route: ActivatedRoute,
-    private service: GetDataService,
-    private router: Router,
-    private ngZone: NgZone
-  ) {}
+  hoveredId: string | null = null;
+  activeMenuId: string | null = null;
+  showAddTopicInput: boolean = false;
+  isAddingTopic: boolean = false;
 
-  ngOnInit() {
-    this.topicId = this.route.snapshot.paramMap.get('topicId') || '';
+  newTopicName: string = '';
+  newTopicDescription: string = '';
 
-    this.service.getSingleTopic(this.topicId).subscribe((thema: ITopic | undefined) => {
-      if (thema) {
-        this.themengebietName = thema.name;
-        this.service.getSubtopics(this.topicId).subscribe(subtopics => {
-          this.unterthemen$.next(subtopics);
-        });
-      }
-    });
+  editingTopicId: string | null = null;
+  editedTopicName: string = '';
+  editedTopicDescription: string = '';
+
+  constructor(private themenService: GetDataService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.topics$ = this.themenService.getTopics();
+    this.filteredTopics$ = this.applyFilters();
   }
 
-  applyFilters(): ISubtopic[] {
-    return this.unterthemen$.value
-      .filter(subtopic => subtopic.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      .sort((a, b) => {
-        switch (this.sortCriteria) {
-          case 'id-asc':
-            return parseInt(a.id, 10) - parseInt(b.id, 10);
-          case 'id-desc':
-            return parseInt(b.id, 10) - parseInt(a.id, 10);
-          case 'name-asc':
-            return a.name.localeCompare(b.name);
-          case 'name-desc':
-            return b.name.localeCompare(a.name);
-          default:
-            return 0;
+  applyFilters(): Observable<ITopic[]> {
+    return this.topics$.pipe(
+      map(topics => {
+        let filtered = topics;
+        if (this.searchQuery.trim()) {
+          filtered = filtered.filter(topic =>
+            topic.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          );
         }
-      });
-  }
-  
-  updateSortOption(event: Event) {
-    this.sortCriteria = (event.target as HTMLSelectElement).value;
+        return this.sortTopics(filtered, this.sortCriteria);
+      })
+    );
   }
 
-  navigateToUnterthema(subtopicId: string, event: MouseEvent) {
-    if ((event.target as HTMLElement).tagName === 'BUTTON' || (event.target as HTMLElement).tagName === 'INPUT' || (event.target as HTMLElement).tagName === 'TEXTAREA') {
+  private sortTopics(topics: ITopic[], sortOption: string): ITopic[] {
+    switch (sortOption) {
+      case 'id-asc':
+        return topics.sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
+      case 'id-desc':
+        return topics.sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10));
+      case 'name-asc':
+        return topics.sort((a, b) => a.name.localeCompare(b.name));
+      case 'name-desc':
+        return topics.sort((a, b) => b.name.localeCompare(a.name));
+      default:
+        return topics;
+    }
+  }
+
+  updateSearchQuery(event: Event): void {
+    this.searchQuery = (event.target as HTMLInputElement).value;
+    this.filteredTopics$ = this.applyFilters();
+  }
+
+  updateSortCriteria(event: Event): void {
+    this.sortCriteria = (event.target as HTMLSelectElement).value;
+    this.filteredTopics$ = this.applyFilters();
+  }
+
+  navigateToTopic(topicId: string, event: MouseEvent): void {
+    const blockedTags = ['BUTTON', 'INPUT', 'TEXTAREA'];
+    if (blockedTags.includes((event.target as HTMLElement).tagName)) return;
+    this.router.navigate(['/themengebiet', topicId]);
+  }
+
+  toggleMenu(id: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.activeMenuId = this.activeMenuId === id ? null : id;
+  }
+
+  startEditing(topic: ITopic, event: MouseEvent): void {
+    event.stopPropagation();
+    this.editingTopicId = topic.id;
+    this.editedTopicName = topic.name;
+    this.editedTopicDescription = topic.description || '';
+  }
+
+  async saveTopic(): Promise<void> {
+    if (!this.editingTopicId || !this.editedTopicName.trim()) {
+      console.warn('⚠️ Kein gültiger Name eingegeben – Bearbeitung abgebrochen!');
       return;
     }
-    this.router.navigate([subtopicId], { relativeTo: this.route });
+    try {
+      const currentTopic = await firstValueFrom(this.themenService.getSingleTopic(this.editingTopicId));
+      if (!currentTopic) {
+        console.error('❌ Fehler: Thema nicht gefunden!');
+        return;
+      }
+      const updatedTopic: Partial<ITopic> = {
+        name: this.editedTopicName.trim(),
+        description: this.editedTopicDescription.trim(),
+        subtopics: currentTopic.subtopics
+      };
+      await firstValueFrom(this.themenService.updateTopic(this.editingTopicId, updatedTopic));
+      this.editingTopicId = null;
+      this.filteredTopics$ = this.applyFilters();
+    } catch (err) {
+      console.error('❌ Fehler beim Bearbeiten:', err);
+    }
   }
 
-  async addSubtopic(): Promise<void> {
-    if (!this.newSubtopicName.trim()) return;
-  
-    const newId = await firstValueFrom(this.generateNextSubtopicId());
-    const newSubtopic: ISubtopic = {
-      id: newId,
-      name: this.newSubtopicName.trim(),
-      description: this.newSubtopicDescription.trim(),
-      flashcards: []
-    };
-  
-    await firstValueFrom(this.service.addSubtopic(this.topicId, newSubtopic));
-  
-    this.ngZone.run(() => {
-      this.unterthemen$.next([...this.unterthemen$.value, newSubtopic]);
-      this.newSubtopicName = '';
-      this.newSubtopicDescription = '';
-      this.showAddSubtopicInput = false;
-    });
+  async deleteTopic(id: string, event: MouseEvent): Promise<void> {
+    event.stopPropagation();
+    if (!confirm('❗ Soll dieses Thema mit allen Unterthemen & Flashcards wirklich gelöscht werden?')) return;
+    try {
+      await firstValueFrom(
+        this.themenService.getSingleTopic(id).pipe(
+          take(1),
+          switchMap(topic => {
+            if (!topic) throw new Error(`Thema ${id} nicht gefunden!`);
+            const subtopicDeleteRequests = topic.subtopics.map(sub =>
+              this.themenService.deleteSubtopic(id, sub.id)
+            );
+            return subtopicDeleteRequests.length > 0
+              ? forkJoin(subtopicDeleteRequests)
+              : of(null);
+          }),
+          switchMap(() => this.themenService.deleteTopic(id)),
+          tap(() => {
+            console.log(`✅ Thema ${id} mit allen Unterthemen gelöscht!`);
+            this.activeMenuId = null;
+          })
+        )
+      );
+      this.filteredTopics$ = this.applyFilters();
+    } catch (err) {
+      console.error('❌ Fehler beim Löschen:', err);
+    }
   }
-  
 
-  private generateNextSubtopicId(): Observable<string> {
-    return this.service.getSubtopics(this.topicId).pipe(
-      map(subtopics => {
-        if (!subtopics || subtopics.length === 0) {
-          return '1';
-        }
+  cancelEditing(): void {
+    this.editingTopicId = null;
+  }
 
-        const validIds = subtopics
-          .map(sub => parseInt(sub.id, 10))
-          .filter(n => !isNaN(n) && n > 0);
+  async addTopic(): Promise<void> {
+    if (this.isAddingTopic || !this.newTopicName.trim()) return;
+    this.isAddingTopic = true;
+    const trimmedName = this.newTopicName.trim();
+    const trimmedDescription = this.newTopicDescription.trim();
+    this.newTopicName = '';
+    this.newTopicDescription = '';
+    try {
+      const newId = await firstValueFrom(this.generateNextId());
+      const newTopic: ITopic = {
+        id: newId,
+        name: trimmedName,
+        description: trimmedDescription,
+        subtopics: []
+      };
+      await firstValueFrom(this.themenService.addTopic(newTopic));
+      this.showAddTopicInput = false;
+      this.filteredTopics$ = this.applyFilters();
+    } catch (err) {
+      console.error('❌ Fehler beim Hinzufügen:', err);
+    } finally {
+      this.isAddingTopic = false;
+    }
+  }
 
+  private generateNextId(): Observable<string> {
+    return this.themenService.getTopics().pipe(
+      take(1),
+      map(topics => {
+        if (!topics || topics.length === 0) return '1';
+        const validIds = topics.map(t => parseInt(t.id, 10)).filter(n => !isNaN(n) && n > 0);
         const maxId = validIds.length > 0 ? Math.max(...validIds) : 0;
         return (maxId + 1).toString();
       })
     );
   }
 
-  toggleMenu(id: string, event: MouseEvent) {
-    event.stopPropagation();
-    this.activeMenuId = this.activeMenuId === id ? null : id;
-  }
-
-  startEditing(subtopic: ISubtopic, event: MouseEvent): void {
-    event.stopPropagation();
-    this.editingSubtopicId = subtopic.id;
-    this.editedSubtopicName = subtopic.name;
-    this.editedSubtopicDescription = subtopic.description || '';
-  }
-
-  async saveSubtopic(): Promise<void> {
-    if (!this.editingSubtopicId || !this.editedSubtopicName.trim()) return;
-
-    try {
-      const updatedSubtopic: Partial<ISubtopic> = {
-        name: this.editedSubtopicName.trim(),
-        description: this.editedSubtopicDescription.trim()
-      };
-
-      await firstValueFrom(this.service.updateSubtopic(this.topicId, this.editingSubtopicId, updatedSubtopic));
-      this.unterthemen$.next(
-        this.unterthemen$.value.map(sub =>
-          sub.id === this.editingSubtopicId ? { ...sub, ...updatedSubtopic } : sub
-        )
-      );
-      this.editingSubtopicId = null;
-    } catch (err) {
-      console.error('❌ Fehler beim Bearbeiten:', err);
-    }
-  }
-
-  loeschen(subtopicId: string, event: MouseEvent) {
-    event.stopPropagation();
-
-    if (!subtopicId) {
-      console.error('❌ Fehler: Unterthema-ID ist undefined oder leer!');
-      return;
-    }
-
-    if (!confirm('❗ Soll dieses Unterthema und alle verbundenen Karteikarten wirklich gelöscht werden?')) return;
-
-    this.service.getFlashcards(this.topicId, subtopicId).pipe(
-      take(1),
-      switchMap(flashcards => {
-        if (!flashcards || flashcards.length === 0) {
-          return this.service.deleteSubtopic(this.topicId, subtopicId);
-        }
-
-        console.log(`🗑 Lösche ${flashcards.length} Flashcards vor dem Löschen des Unterthemas...`);
-
-        const deleteRequests = flashcards.map(card => this.service.deleteFlashcard(this.topicId, subtopicId, card.id));
-
-        return forkJoin(deleteRequests).pipe(
-          switchMap(() => this.service.deleteSubtopic(this.topicId, subtopicId))
-        );
-      }),
-      tap(() => {
-        this.ngZone.run(() => {
-          this.unterthemen$.next(this.unterthemen$.value.filter(sub => sub.id !== subtopicId));
-          this.activeMenuId = null;
-        });
-        console.log(`✅ Unterthema ${subtopicId} wurde gelöscht!`);
-      }),
-      catchError(err => {
-        console.error('❌ Fehler beim Löschen des Unterthemas:', err);
-        return of(null);
-      })
-    ).subscribe();
-  }
-
-  cancelEditing(): void {
-    this.editingSubtopicId = null;
-  }
-
   closeMenu(): void {
     this.activeMenuId = null;
-  }
-
-  goBack(): void {
-    this.router.navigate(['/dashboard']);
   }
 }
