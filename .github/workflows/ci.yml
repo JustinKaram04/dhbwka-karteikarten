@@ -87,14 +87,13 @@ jobs:
       - name: Setup Node.js (Frontend)
         uses: actions/setup-node@v4
         with:
-          node-version: "16"
+          node-version: "20"
           cache: "npm"
 
-      - name: Clear npm configuration
-        run: echo "" > ~/.npmrc
-
-      - name: Set npm registry to public
-        run: npm config set registry https://registry.npmjs.org/
+      - name: Use clean NPM registry config
+        run: |
+          rm -f ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
 
       - name: Install frontend dependencies
         working-directory: Frontend
@@ -130,11 +129,13 @@ jobs:
       - name: Setup Node.js for Pages build
         uses: actions/setup-node@v4
         with:
-          node-version: "16"
+          node-version: "20"
 
       - name: Build frontend for Pages
         working-directory: Frontend
         run: |
+          rm -f ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
           npm ci --force
           npm run build -- --base-href="/dhbwka-karteikarten/"
 
@@ -149,5 +150,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-
