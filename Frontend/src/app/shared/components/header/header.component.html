@@ -1,20 +1,21 @@
-<header
-  [class.scrolled]="scrolled"
-  class="bg-white dark:bg-gray-900 text-black dark:text-white shadow-md fixed top-0 left-0 w-full transition-all duration-300">
-  <div class="header-container flex justify-between items-center max-w-6xl mx-auto px-6"
-       [class.py-6]="!scrolled" [class.py-3]="scrolled">
-    
-    <div class="logo text-xl font-bold cursor-pointer" (click)="navigateTo('/dashboard')">
-      <span class="text-primary-blue dark:text-white">Quickflip</span>
+<header class="header" [class.scrolled]="scrolled">
+  <div class="header-container">
+    <div class="logo" (click)="navigateTo('/dashboard')">
+      <span class="logo-text">Quickflip</span>
     </div>
-
-    <nav class="flex gap-4">
-      <button class="nav-button" (click)="navigateTo('/dashboard')">Startseite</button>
-      <button class="nav-button" (click)="navigateTo('/info')">Info</button>
-      <button class="nav-button flex items-center gap-2" (click)="toggleDarkMode()">
+    <nav class="nav">
+      <button class="nav-button" (click)="navigateTo('/dashboard')">
+        Startseite
+      </button>
+      <button class="nav-button" (click)="navigateTo('/info')">
+        Info
+      </button>
+      <button class="nav-button dark-toggle" (click)="toggleDarkMode()">
         🌙 Dark Mode
       </button>
-      <button class="nav-button" (click)="logout()">Logout</button>
+      <button class="nav-button" (click)="logout()">
+        Logout
+      </button>
     </nav>
   </div>
 </header>

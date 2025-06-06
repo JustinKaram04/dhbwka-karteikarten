@@ -12,6 +12,7 @@
     "format": "prettier --write src/**/*.ts"
   },
   "dependencies": {
+    "argon2": "^0.43.0",
     "express": "latest"
   },
   "devDependencies": {

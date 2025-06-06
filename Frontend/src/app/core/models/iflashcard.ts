@@ -1,8 +1,10 @@
-export interface IFlashcard {
-    id: string;
-    question: string;
-    answer: string;
-    istoggled: boolean;
-    learningProgress: number; //between 0 and 6
-}
+import { ISubtopic } from "./isubtopic";
 
+export interface IFlashcard {
+  id: number;            // von string → number
+  question: string;
+  answer: string;
+  learningProgress: number;
+  istoggled: boolean;
+  subtopic?: ISubtopic;
+}

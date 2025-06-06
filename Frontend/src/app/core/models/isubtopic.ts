@@ -1,8 +1,8 @@
-import { IFlashcard } from "./iflashcard";
+import { IFlashcard } from './iflashcard';
 
 export interface ISubtopic {
-    id: string;
-    name: string;
-    description: string;
-    flashcards: IFlashcard[];
+  id: number;         // von string → number
+  name: string;
+  description: string;
+  flashcards?: IFlashcard[];
 }

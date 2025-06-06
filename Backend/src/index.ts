@@ -1,28 +1,44 @@
-import { Request, Response } from 'express';
-const express = require('express');
+import topicsRouter from './routes/content.routes'; //router für /api/topics
+import 'reflect-metadata';  //nötig für typeorm
+import express from 'express';  //express instanz
+import helmet from 'helmet';  //sicherheits middleware
+import cors from 'cors';  //cross-orgin resource sharing
+import cookieParser from 'cookie-parser'; //zum auslesen con cockies
+import 'dotenv/config'; //lädt umgebungsvariable aus .env
+import { AppDataSource } from './ormconfig';  //typeorm datenquelle
+import authRoutes from './routes/auth.routes'; //router für /api/auth
+import { authenticate } from './middleware/authenticate'; //auth middleware
+
 const app = express();
-const port = process.env.PORT || 3100;
+
+//fügt Sicherheits header hinzu
+app.use(helmet());
+
+app.use(cors({
+  origin: 'http://localhost:4200',  //Angular frontend
+  credentials: true //coockies und authorisierungs header zulassen
+}));
+
+//json body payloads parsen
 app.use(express.json());
-const demoFlashcards: { id: string; question: string; answer: string; learningProgress: number }[] = [
-  { id: '1', question: 'What is Node.js?', answer: 'A JavaScript runtime built on Chrome\'s V8 engine.', learningProgress: 0 },
-  { id: '2', question: 'What is Express?', answer: 'Minimalist web framework for Node.js.', learningProgress: 0 }
-];
-app.get('/api/flashcards', (req: Request, res: Response) => {
-  res.json(demoFlashcards);
-});
-app.post('/api/flashcards', (req: Request, res: Response) => {
-  const { question, answer } = req.body;
-  if (!question || !answer) return res.status(400).json({ error: 'Question and answer are required.' });
-  const newCard = { id: String(demoFlashcards.length + 1), question, answer, learningProgress: 0 };
-  demoFlashcards.push(newCard);
-  res.status(201).json(newCard);
-});
-app.put('/api/flashcards/:id/progress', (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { learningProgress } = req.body;
-  const card = demoFlashcards.find(c => c.id === id);
-  if (!card) return res.status(404).json({ error: 'Card not found.' });
-  card.learningProgress = learningProgress;
-  res.json(card);
-});
-app.listen(port, () => console.log(`Server running on port ${port}`));
+
+//parsed httponlycookies
+app.use(cookieParser());
+
+AppDataSource.initialize()
+  .then(() => {    //db verbindung erfolgreich
+
+    //alle auth routen uner /api/auth
+    app.use('/api/auth', authRoutes);
+
+    //crud für topics/subtopics/flashcards under api/topics
+    app.use('/api/topics', topicsRouter);
+
+    //server starten port aus .env oder 3100
+    app.listen(process.env.PORT || 3100, () =>
+      console.log(`Server läuft auf Port ${process.env.PORT || 3100}`)
+    );
+  })
+  //falls db verbindung scheitert fehle ausgeben
+  .catch(err => console.error('DB-Verbindung fehlgeschlagen', err));
+
