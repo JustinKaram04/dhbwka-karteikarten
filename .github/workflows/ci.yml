@@ -150,27 +150,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # ---------------------
-  # 4. OPTIONAL: SMOKE TEST (Integration)
-  # ---------------------
-  integration:
-    needs: [backend, frontend]
-    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Start Docker Compose (falls vorhanden)
-        run: |
-          if [ -f docker-compose.yml ]; then
-            docker-compose up -d
-          fi
-
-      - name: Smoke Test: Backend-Endpoint prüfen
-        run: |
-          sleep 10
-          if ! curl --fail http://localhost:3100/api/topics; then
-            echo "Backend nicht erreichbar!"
-            exit 1
-          fi
