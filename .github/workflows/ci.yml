@@ -3,9 +3,9 @@ name: CI – Build, Test & Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, githubpages]
   pull_request:
-    branches: [main]
+    branches: [main, githubpages]
   workflow_dispatch:
 
 permissions:
