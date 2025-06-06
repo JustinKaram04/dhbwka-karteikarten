@@ -1,32 +1,53 @@
 <app-header></app-header>
-<div class="registration-container">
-  <form [formGroup]="registrationForm" (ngSubmit)="registerUser()" class="registration-form">
-    <h1>Registrierung</h1>
+<div class="registration-page">
+  <div class="registration-container">
+    <form [formGroup]="registrationForm" (ngSubmit)="registerUser()" class="registration-form">
+      <h1>Registrierung</h1>
 
-    <div class="form-group">
-      <label for="username">Benutzername:</label>
-      <input type="text" id="username" placeholder="Bitte geben Sie hier einen Benutzernamen ein." formControlName="username" name="username" required/>
-    </div>
+      <div class="form-group">
+        <label for="username">Benutzername:</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Benutzernamen eingeben"
+          formControlName="username"
+          required
+        />
+      </div>
 
-    <div class="form-group">
-      <label for="email">E-Mail:</label>
-      <input type="email" id="email" placeholder="Bitte geben Sie hier Ihre Email-Adresse ein."formControlName="email" name="email" required/>
-    </div>
+      <div class="form-group">
+        <label for="email">E-Mail:</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="E-Mail-Adresse eingeben"
+          formControlName="email"
+          required
+        />
+      </div>
 
-    <div class="form-group">
-      <label for="password">Passwort:</label>
-      <input type="password" id="password" placeholder="Bitte geben Sie ein Passwort mit min. 8 Stellen ein." formControlName="password" name="password" required/>
-      
-    </div>
+      <div class="form-group">
+        <label for="password">Passwort:</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Passwort mit min. 8 Zeichen"
+          formControlName="password"
+          required
+        />
+      </div>
 
-    <button type="submit" class="register-button" [disabled]="!registrationForm.valid">Registrieren</button>
-  </form>
+      <button type="submit" class="register-button" [disabled]="!registrationForm.valid">
+        Registrieren
+      </button>
+    </form>
 
-  <p *ngIf="registrationFailed" class="error-message">
-    <i class="fas fa-exclamation-circle"></i> Registrierung fehlgeschlagen
-  </p>
+    <p *ngIf="registrationFailed" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> Registrierung fehlgeschlagen
+    </p>
 
-  <p class="login-reminder">
-    Bereits ein Konto? <a (click)="navigateToLogin()">Hier anmelden</a>
-  </p>
+    <p class="login-reminder">
+      Bereits ein Konto? <a (click)="navigateToLogin()">Hier anmelden</a>
+    </p>
+  </div>
 </div>

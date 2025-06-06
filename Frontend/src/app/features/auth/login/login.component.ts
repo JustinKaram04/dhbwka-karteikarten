@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from '../../../shared/components/header/header.component';
 
 @Component({
   selector: 'app-login',
@@ -13,28 +13,32 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  inputUsername: string = "";
-  inputPassword: string = "";
-  loginFailed: boolean = false;
+  // hier die beiden Felder, die im Template gebunden werden:
+  inputUsername = '';
+  inputPassword = '';
+  loginFailed = false;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
-  navigateToSignup() {
-    this.router.navigate(['signup']);
+  // Methode, die beim ngSubmit aufgerufen wird
+  inputCheck(): void {
+    this.auth.login({ username: this.inputUsername, password: this.inputPassword })
+      .subscribe({
+        next: () => {
+          this.loginFailed = false;
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          this.loginFailed = true;
+          setTimeout(() => (this.loginFailed = false), 4000);
+        }
+      });
   }
 
-
-  public inputCheck(inputUsername: string, inputPassword: string) {
-    if (this.authService.login(inputUsername, inputPassword)) {
-      console.log('Login erfolgreich');
-      this.loginFailed = false;
-      this.router.navigate(['']);
-    } else {
-      console.log('Login fehlgeschlagen');
-      this.loginFailed = true;
-      setTimeout(() => {
-        this.loginFailed = false;
-      }, 4000);
-    }
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
   }
 }

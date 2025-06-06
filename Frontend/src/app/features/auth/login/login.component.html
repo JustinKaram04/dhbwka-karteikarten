@@ -1,26 +1,40 @@
 <app-header></app-header>
-<div class="login-container">
-  <form (ngSubmit)="inputCheck(inputUsername, inputPassword)" class="login-form">
-    <h1>Login</h1>
-    
-    <div class="form-group">
-      <label for="username">Benutzername:</label>
-      <input type="text" id="username" [(ngModel)]="inputUsername" name="inputUsername" required>
-    </div>
+<div class="login-page">
+  <div class="login-container">
+    <form (ngSubmit)="inputCheck()" class="login-form">
+      <h1>Login</h1>
+      
+      <div class="form-group">
+        <label for="username">Benutzername:</label>
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="inputUsername"
+          name="inputUsername"
+          required
+        />
+      </div>
 
-    <div class="form-group">
-      <label for="password">Passwort:</label>
-      <input type="password" id="password" [(ngModel)]="inputPassword" name="inputPassword" required>
-    </div>
+      <div class="form-group">
+        <label for="password">Passwort:</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="inputPassword"
+          name="inputPassword"
+          required
+        />
+      </div>
 
-    <button type="submit" class="login-button">Login</button>
-  </form>
+      <button type="submit" class="login-button">Login</button>
+    </form>
 
-  <p *ngIf="loginFailed" class="error-message">
-    <i class="fas fa-exclamation-circle"></i> Login fehlgeschlagen
-  </p>
+    <p *ngIf="loginFailed" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> Login fehlgeschlagen
+    </p>
 
-  <p class="signup-reminder">
-    Noch kein Konto? <a (click)="navigateToSignup()">Hier registrieren</a>
-  </p>
+    <p class="signup-reminder">
+      Noch kein Konto? <a (click)="navigateToSignup()">Hier registrieren</a>
+    </p>
+  </div>
 </div>

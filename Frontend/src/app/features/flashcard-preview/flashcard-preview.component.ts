@@ -5,7 +5,6 @@ import { GetDataService } from '../../core/services/getDataServices/get-data.ser
 import { IFlashcard } from '../../core/models/iflashcard';
 import { WeightedRandomSelectionService } from '../../core/services/Selection/weighted-random-selection.service';
 import Chart from 'chart.js/auto';
-import { DarkModeService } from '../../core/services/dark-modeServices/dark-mode.service';
 
 @Component({
   selector: 'app-flashcard-preview',
@@ -15,9 +14,6 @@ import { DarkModeService } from '../../core/services/dark-modeServices/dark-mode
   styleUrls: ['./flashcard-preview.component.css']
 })
 export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
-  toggleFlip(): void { this.isFlipped = !this.isFlipped; }
-  nextCard(): void { this.next(); }
-  previousCard(): void { this.previous(); }
   @ViewChild('resultCanvas') resultCanvas!: ElementRef<HTMLCanvasElement>;
 
   flashcards: IFlashcard[] = [];
@@ -33,20 +29,22 @@ export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
   isDark = false;
   private chart: Chart | null = null;
 
-  private topicId!: string;
-  private subtopicId!: string;
+  private topicId!: number;
+  private subtopicId!: number;
 
   constructor(
     private service: GetDataService,
     private selection: WeightedRandomSelectionService<IFlashcard>,
     private route: ActivatedRoute,
     private router: Router,
-    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit(): void {
-    this.topicId = this.route.snapshot.paramMap.get('topicId') || '';
-    this.subtopicId = this.route.snapshot.paramMap.get('subtopicId') || '';
+    const tid = this.route.snapshot.paramMap.get('topicId') || '0';
+    this.topicId = parseInt(tid, 10);
+    const sid = this.route.snapshot.paramMap.get('subtopicId') || '0';
+    this.subtopicId = parseInt(sid, 10);
+
     this.service.getFlashcards(this.topicId, this.subtopicId)
       .subscribe(cards => this.flashcards = cards);
   }
@@ -91,7 +89,8 @@ export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
     const newVal = Math.max(0, Math.min(6, card.learningProgress + delta));
     card.learningProgress = newVal;
     this.learningProgress = newVal;
-    this.service.updateLearningProgress(this.topicId, this.subtopicId, card.id, newVal)
+    this.service
+      .updateLearningProgress(this.topicId, this.subtopicId, card.id, newVal)
       .subscribe(() => {
         if (this.mode === 'limited' && delta > 0) {
           this.correctCount++;
@@ -129,4 +128,8 @@ export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
   close(): void {
     this.router.navigate(['/themengebiet', this.topicId, this.subtopicId]);
   }
+
+  toggleFlip(): void { this.isFlipped = !this.isFlipped; }
+  nextCard(): void { this.next(); }
+  previousCard(): void { this.previous(); }
 }

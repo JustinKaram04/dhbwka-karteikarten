@@ -6,18 +6,25 @@
 <div *ngIf="mode && !endScreen" [class.dark]="isDark" class="container">
   <button class="back-button" (click)="close()">⬅ Zurück</button>
   <div class="top-section">
-    <div class="left-section"><div class="left_arrow" (click)="previousCard()"></div></div>
+    <div class="left-section">
+      <div class="left_arrow" (click)="previousCard()"></div>
+    </div>
     <div class="middle-section" (click)="toggleFlip()">
       <div class="card" [class.flipped]="isFlipped">
         <div class="front"><h1>{{currentFlashcard?.question}}</h1></div>
         <div class="back"><h1>{{currentFlashcard?.answer}}</h1></div>
       </div>
     </div>
-    <div class="right-section"><div class="right_arrow" (click)="nextCard()"></div></div>
+    <div class="right-section">
+      <div class="right_arrow" (click)="nextCard()"></div>
+    </div>
   </div>
   <div class="under-section">
     <button class="action-btn wrong" (click)="changeProgress(-1)">✖</button>
-    <div class="progress"><div class="progress__fill" [style.width.%]="(learningProgress/6)*100"></div><span class="progress__text">{{learningProgress}}/6</span></div>
+    <div class="progress">
+      <div class="progress__fill" [style.width.%]="(learningProgress/6)*100"></div>
+      <span class="progress__text">{{learningProgress}}/6</span>
+    </div>
     <button class="action-btn correct" (click)="changeProgress(1)">✔</button>
   </div>
 </div>

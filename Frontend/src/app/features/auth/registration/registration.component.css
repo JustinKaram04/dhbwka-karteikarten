@@ -1,77 +1,93 @@
+.registration-page {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .registration-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 100px); /* Höhe anpassen, falls ein Header vorhanden ist */
-    background-color: #f0f2f5;
-  }
-  
-  .registration-form {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px;
-  }
-  
-  h1 {
-    text-align: center;
-    font-size: 1.25em;
-    color: #333;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #555;
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .register-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: medium;
-    font-weight: bold;
-    border-radius: 4px;
-  }
-  
-  .register-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
-  .login-reminder {
-    margin-top: 20px;
-  }
-  
-  .login-reminder a {
-    color: #007bff;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  button:disabled {
-    
-    cursor: not-allowed;
-  }
-  .login-reminder a:hover {
-    text-decoration: none;
-  }
-  
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 360px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.25em;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid var(--card-border);
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #4caf50;
+  color: var(--card-bg);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-reminder {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.login-reminder a {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login-reminder a:hover {
+  text-decoration: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

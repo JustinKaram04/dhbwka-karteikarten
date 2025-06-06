@@ -1,56 +1,56 @@
+// auth.service.ts
 import { Injectable } from '@angular/core';
-import { IUserData } from '../../models/iuserdata';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+interface Credentials { username: string; password: string; }
+interface RegisterData { username: string; email: string; password: string; }
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private loggedIn = false;
-  private loggedUser: IUserData | undefined;
+  private apiBase = environment.apiUrl + '/auth';
+  private token$ = new BehaviorSubject<string | null>(null);
+  public isLoggedIn$: Observable<boolean> = this.token$.pipe(
+    map(t => !!t)  //true wenn Token vorhanden
+  );
 
-  
-  MasterUser: IUserData = {
-    id: "1",
-    username:"a",
-    password: "1",
-    email: "",
-  }
-  DevUser: IUserData = {
-    id: "2",
-    username:"Developer",
-    password: "12345678",
-    email: "",
+  constructor(private http: HttpClient) {
+    //token bei start aus localstorage laden
+    const saved = localStorage.getItem(environment.auth.tokenStorageKey);
+    this.token$.next(saved);
   }
 
-  private users: IUserData[] = [
-    this.MasterUser,
-    this.DevUser,
-    {id: "222", username: "b", password: "2", email: ""},
-  ]
-
-  testUsernameAvailable(username: string): boolean {
-    return !this.users.some(user => user.username === username);
+  //token abfragen
+  getToken(): string | null {
+    return this.token$.value;
   }
 
-  register(userData: IUserData): void {
-    this.users.push(userData);
+  //login sendet credentials speichert token
+  login(data: Credentials): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(
+      `${this.apiBase}/login`,
+      data
+    ).pipe(
+      map(res => {
+        localStorage.setItem(environment.auth.tokenStorageKey, res.token);
+        this.token$.next(res.token);
+        return res;
+      })
+    );
   }
 
-  login(username: string, password: string): boolean {
-    if (this.users.some(user => user.username === username && user.password === password)) {
-      this.loggedIn = true;
-      this.loggedUser = this.users.find(user => user.username === username);
-      return true;
-    }
-    return false;
+  //regestrierung rückgabe der id
+  register(data: RegisterData): Observable<{ id: string }> {
+    return this.http.post<{ id: string }>(
+      `${this.apiBase}/register`,
+      data
+    );
   }
 
+  //logout token entfernne
   logout(): void {
-    this.loggedIn = false;
-    this.loggedUser = undefined;
-  }
-
-  isLoggedIn(): boolean {
-    return this.loggedIn;
+    localStorage.removeItem(environment.auth.tokenStorageKey);  
+    this.token$.next(null);
   }
 }
