@@ -3,7 +3,7 @@ import 'reflect-metadata';  //nötig für typeorm
 import express from 'express';  //express instanz
 import helmet from 'helmet';  //sicherheits middleware
 import cors from 'cors';  //cross-orgin resource sharing
-import cookieParser from 'cookie-parser'; //zum auslesen con cockies
+const cookieParser = require('cookie-parser'); //zum auslesen con cockies
 import 'dotenv/config'; //lädt umgebungsvariable aus .env
 import { AppDataSource } from './ormconfig';  //typeorm datenquelle
 import authRoutes from './routes/auth.routes'; //router für /api/auth
@@ -34,9 +34,9 @@ AppDataSource.initialize()
     //crud für topics/subtopics/flashcards under api/topics
     app.use('/api/topics', topicsRouter);
 
-    //server starten port aus .env oder 3100
-    app.listen(process.env.PORT || 3100, () =>
-      console.log(`Server läuft auf Port ${process.env.PORT || 3100}`)
+    //server starten port aus .env
+    app.listen(process.env.PORT, () =>
+      console.log(`Server läuft auf Port ${process.env.PORT}`)
     );
   })
   //falls db verbindung scheitert fehle ausgeben
