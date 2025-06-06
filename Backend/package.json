@@ -21,7 +21,10 @@
     "typeorm": "^0.3.24"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.18",
     "@types/express": "latest",
+    "@types/helmet": "^0.0.48",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "latest",
     "@vitest/ui": "latest",
     "eslint": "latest",
