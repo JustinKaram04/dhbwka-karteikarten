@@ -13,7 +13,12 @@
   },
   "dependencies": {
     "argon2": "^0.43.0",
-    "express": "latest"
+    "cors": "^2.8.5",
+    "express": "latest",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.24"
   },
   "devDependencies": {
     "@types/express": "latest",
