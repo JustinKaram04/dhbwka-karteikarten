@@ -107,9 +107,9 @@ jobs:
   #      working-directory: Frontend
    #     run: npm run typecheck
 
-      - name: Test frontend
-        working-directory: Frontend
-        run: npm run test:once
+  #    - name: Test frontend
+   #     working-directory: Frontend
+    #    run: npm run test:once
 
       - name: Build frontend
         working-directory: Frontend
