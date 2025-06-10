@@ -73,7 +73,7 @@ export class FlashcardsListComponent implements OnInit, OnDestroy {
   //filter und sotierlogik
   applyFiltersAndSort(): void {
     //erst filtern nach frga eoder antwort wenn suchbegriff gesetzt ist
-    let filtered = this.allCards.filter(c =>
+    const filtered = this.allCards.filter(c =>
       !this.searchQuery ||
       c.question.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       c.answer.toLowerCase().includes(this.searchQuery.toLowerCase())

@@ -10,7 +10,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  scrolled: boolean = false;
+  scrolled = false;
 
   constructor(
     private router: Router,
