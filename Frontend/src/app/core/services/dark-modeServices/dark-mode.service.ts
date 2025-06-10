@@ -8,9 +8,6 @@ export class DarkModeService {
   private darkModeKey = 'dark-mode';  //schlüssel für localstorage
   private darkClass = 'dark';
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]); //css klasse für dunkelmodus
-
   constructor() {
     const rendererFactory = inject(RendererFactory2);
 

@@ -41,9 +41,6 @@ export class FlashcardsListComponent implements OnInit, OnDestroy {
 
   private cardsSub: Subscription | null = null;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]); //subscription für laden der karte
-
   constructor() {}
 
   ngOnInit(): void {

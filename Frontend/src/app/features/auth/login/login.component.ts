@@ -21,8 +21,6 @@ export class LoginComponent {
   inputPassword = '';
   loginFailed = false;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
 
   constructor() {}
 

@@ -37,9 +37,6 @@ export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
   private topicId!: number;
   private subtopicId!: number;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
   constructor() {}
 
   ngOnInit(): void {

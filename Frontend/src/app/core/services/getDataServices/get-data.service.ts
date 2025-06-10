@@ -13,9 +13,6 @@ export class GetDataService {
 
   private base = environment.apiUrl;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
   constructor() {}
 
   //topics

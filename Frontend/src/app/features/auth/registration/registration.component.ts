@@ -21,9 +21,6 @@ export class RegistrationComponent {
   registrationForm: FormGroup;
   registrationFailed = false;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
   constructor() {
     this.registrationForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],

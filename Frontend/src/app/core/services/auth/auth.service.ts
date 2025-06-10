@@ -16,9 +16,6 @@ export class AuthService {
     map(t => !!t)  //true wenn Token vorhanden
   );
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
   constructor() {
     //token bei start aus localstorage laden
     const saved = localStorage.getItem(environment.auth.tokenStorageKey);

@@ -38,9 +38,6 @@ export class SubtopicsComponent implements OnInit {
   searchQuery = ''; //suchberiff für filter
   sortCriteria = 'name-asc';
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);  //sotierkriterium
-
   constructor() {}
 
   ngOnInit(): void {

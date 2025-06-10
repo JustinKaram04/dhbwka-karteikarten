@@ -42,9 +42,6 @@ export class TopicsComponent implements OnInit {
   editedTopicName        = '';  //Neuer name beim bearbeiten
   editedTopicDescription = '';
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);  //neue beschreibung beim Bearbeiten
-
   constructor() {}
 
   ngOnInit(): void {
