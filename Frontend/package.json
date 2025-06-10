@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently  \"ng serve\"",
+    "start": "concurrently \"ng serve\"",
     "build": "ng build --base-href=\"/dhbwka-karteikarten/\"",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -26,12 +27,17 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.12",
+    "@angular-eslint/builder": "^20.0.0",
+    "@angular-eslint/eslint-plugin": "^20.0.0",
+    "@angular-eslint/eslint-plugin-template": "^20.0.0",
+    "@angular-eslint/template-parser": "^20.0.0",
     "@angular/cli": "^18.2.12",
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.2",
     "daisyui": "^4.12.23",
+    "eslint": "^9.28.0",
     "jasmine-core": "~5.2.0",
     "json-server": "^1.0.0-beta.3",
     "karma": "~6.4.0",
