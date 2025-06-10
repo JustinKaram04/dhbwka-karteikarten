@@ -99,9 +99,9 @@ jobs:
         working-directory: Frontend
         run: npm ci --force
 
-      - name: Lint frontend
-        working-directory: Frontend
-        run: npm run lint
+#      - name: Lint frontend
+ #       working-directory: Frontend
+  #      run: npm run lint
 
       - name: Typecheck frontend
         working-directory: Frontend

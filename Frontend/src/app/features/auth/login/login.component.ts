@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,15 +13,18 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
   // hier die beiden Felder, die im Template gebunden werden:
   inputUsername = '';
   inputPassword = '';
   loginFailed = false;
 
-  constructor(
-    private auth: AuthService,
-    private router: Router
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   // Methode, die beim ngSubmit aufgerufen wird
   inputCheck(): void {

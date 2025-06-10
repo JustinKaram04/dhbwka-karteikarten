@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'; //navigation
 import { CommonModule } from '@angular/common'; //ngif
 import { HeaderComponent } from '../../shared/components/header/header.component'; //header
@@ -17,6 +17,10 @@ import { map, switchMap, tap, catchError, take } from 'rxjs/operators';
   styleUrls: ['./subtopics.component.scss']
 })
 export class SubtopicsComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private service = inject(GetDataService);
+  private router = inject(Router);
+
   topicId!: number; //id aktuelles themengebiet
   themengebietName = '';  //name aktuelles themengebiet
   unterthemen$ = new BehaviorSubject<ISubtopic[]>([]);
@@ -32,13 +36,12 @@ export class SubtopicsComponent implements OnInit {
   editedSubtopicDescription = ''; //zwischenspeicher beschreibung
 
   searchQuery = ''; //suchberiff für filter
-  sortCriteria = 'name-asc';  //sotierkriterium
+  sortCriteria = 'name-asc';
 
-  constructor(
-    private route: ActivatedRoute,
-    private service: GetDataService,
-    private router: Router
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);  //sotierkriterium
+
+  constructor() {}
 
   ngOnInit(): void {
     // parameter aus der route entnehmen und als zahl umwandeln

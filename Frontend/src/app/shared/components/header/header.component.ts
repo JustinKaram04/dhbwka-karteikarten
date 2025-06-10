@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DarkModeService } from '../../../core/services/dark-modeServices/dark-mode.service';
 import { AuthService } from '../../../core/services/auth/auth.service';
@@ -10,13 +10,16 @@ import { AuthService } from '../../../core/services/auth/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  private router = inject(Router);
+  private darkModeService = inject(DarkModeService);
+  private authService = inject(AuthService);
+
   scrolled = false;
 
-  constructor(
-    private router: Router,
-    private darkModeService: DarkModeService,
-    private authService: AuthService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

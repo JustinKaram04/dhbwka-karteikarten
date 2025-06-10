@@ -1,5 +1,5 @@
 // get-data.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITopic } from '../../models/itopic';
@@ -9,9 +9,14 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class GetDataService {
+  private http = inject(HttpClient);
+
   private base = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   //topics
   getTopics(): Observable<ITopic[]> {

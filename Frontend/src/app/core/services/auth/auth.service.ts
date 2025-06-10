@@ -1,5 +1,4 @@
-// auth.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -9,13 +8,18 @@ interface RegisterData { username: string; email: string; password: string; }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private http = inject(HttpClient);
+
   private apiBase = environment.apiUrl + '/auth';
   private token$ = new BehaviorSubject<string | null>(null);
   public isLoggedIn$: Observable<boolean> = this.token$.pipe(
     map(t => !!t)  //true wenn Token vorhanden
   );
 
-  constructor(private http: HttpClient) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     //token bei start aus localstorage laden
     const saved = localStorage.getItem(environment.auth.tokenStorageKey);
     this.token$.next(saved);

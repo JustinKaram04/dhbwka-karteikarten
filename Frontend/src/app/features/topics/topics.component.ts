@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common'; //für ngIf
 import { FormsModule } from '@angular/forms';   //für ngModule
 import { Router } from '@angular/router'; //navigation
@@ -21,6 +21,9 @@ import { HeaderComponent } from '../../shared/components/header/header.component
   styleUrls: ['./topics.component.scss']
 })
 export class TopicsComponent implements OnInit {
+  private themenService = inject(GetDataService);
+  private router = inject(Router);
+
   private reloadTrigger$ = new Subject<void>(); //löst neulanden aus
   topics$!: Observable<ITopic[]>; //alle topics von service
   private searchQuery$  = new BehaviorSubject<string>('');  // suchbegriff
@@ -37,12 +40,12 @@ export class TopicsComponent implements OnInit {
 
   editingTopicId:        number | null = null;  //ID im bearbeiten modus
   editedTopicName        = '';  //Neuer name beim bearbeiten
-  editedTopicDescription = '';  //neue beschreibung beim Bearbeiten
+  editedTopicDescription = '';
 
-  constructor(
-    private themenService: GetDataService,
-    private router: Router
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);  //neue beschreibung beim Bearbeiten
+
+  constructor() {}
 
   ngOnInit(): void {
     //Topics laden und neu laden bei reloadTrigger

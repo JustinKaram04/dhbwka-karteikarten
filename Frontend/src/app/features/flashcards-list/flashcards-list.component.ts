@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'; //navigation und routen
 import { CommonModule } from '@angular/common'; //ng if
 import { FormsModule } from '@angular/forms'; //ng model
@@ -15,6 +15,10 @@ import { Subscription, forkJoin } from 'rxjs';  //für subscription
   styleUrls: ['./flashcards-list.component.scss']
 })
 export class FlashcardsListComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private service = inject(GetDataService);
+
   topicId!: number; //ID aktuelles Thema
   subtopicId!: number;  //ID aktuelles unterthema
 
@@ -35,13 +39,12 @@ export class FlashcardsListComponent implements OnInit, OnDestroy {
   editedQuestion = '';  //geänderte Frage
   editedAnswer = '';  //geänderte Antwort
 
-  private cardsSub: Subscription | null = null; //subscription für laden der karte
+  private cardsSub: Subscription | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private service: GetDataService,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]); //subscription für laden der karte
+
+  constructor() {}
 
   ngOnInit(): void {
     //routen parameter herausnehmen und umwandeln

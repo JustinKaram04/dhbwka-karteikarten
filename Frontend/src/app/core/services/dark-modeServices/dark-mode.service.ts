@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'  // service in root der app verfügbar
@@ -6,9 +6,14 @@ import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 export class DarkModeService {
   private renderer: Renderer2;
   private darkModeKey = 'dark-mode';  //schlüssel für localstorage
-  private darkClass = 'dark'; //css klasse für dunkelmodus
+  private darkClass = 'dark';
 
-  constructor(rendererFactory: RendererFactory2) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]); //css klasse für dunkelmodus
+
+  constructor() {
+    const rendererFactory = inject(RendererFactory2);
+
     //renderer erzeugen
     this.renderer = rendererFactory.createRenderer(null, null);
     this.loadTheme(); //beim start gespeichertes theme laden

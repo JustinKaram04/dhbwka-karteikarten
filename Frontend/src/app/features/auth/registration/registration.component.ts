@@ -1,4 +1,4 @@
-import { Component }       from '@angular/core';
+import { Component, inject }       from '@angular/core';
 import { Router }          from '@angular/router';
 import { FormBuilder,FormGroup,Validators }      from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,14 +14,17 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+
   registrationForm: FormGroup;
   registrationFailed = false;
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private auth: AuthService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.registrationForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email:    ['', [Validators.required, Validators.email]],

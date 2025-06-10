@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { GetDataService } from '../../core/services/getDataServices/get-data.service';
@@ -14,6 +14,11 @@ import Chart from 'chart.js/auto';
   styleUrls: ['./flashcard-preview.component.css']
 })
 export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
+  private service = inject(GetDataService);
+  private selection = inject<WeightedRandomSelectionService<IFlashcard>>(WeightedRandomSelectionService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
   @ViewChild('resultCanvas') resultCanvas!: ElementRef<HTMLCanvasElement>;
 
   flashcards: IFlashcard[] = [];
@@ -32,12 +37,10 @@ export class FlashcardPreviewComponent implements OnInit, AfterViewInit {
   private topicId!: number;
   private subtopicId!: number;
 
-  constructor(
-    private service: GetDataService,
-    private selection: WeightedRandomSelectionService<IFlashcard>,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     const tid = this.route.snapshot.paramMap.get('topicId') || '0';
