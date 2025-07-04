@@ -15,7 +15,7 @@ curl -X POST http://localhost:3100/api/auth/login ^
 
 Als Antwort bekommst du ein token welches du hier einfügt :
 
-set JWT=Bearer <DEIN_TOKEN>
+set JWT=Bearer <DEIN_TOKEN>[text](Dockerfile)
 
 Nun kannst du die Themenbereiche sowie die dazugehörigen Unterthemen anfragen mit:
 
