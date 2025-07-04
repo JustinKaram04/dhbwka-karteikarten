@@ -21,9 +21,15 @@ router.post(
       return;
     }
     const { username, email, password } = req.body;
-    //prüfen ob username bereits exestiert
-    if (await User.findOne({ where: { username } })) {
-      res.status(409).json({ error: 'Username already taken.' });
+    //prüfen ob username oder email bereits exestiert
+    const existing = await User.findOne({
+      where: [
+        { username: username },
+        { email:    email }
+      ]
+    });
+    if (existing) {
+      res.status(409).json({ error: 'Username or Email already taken.' });
       return;
     }
     //passwort hashen mit salt-round 12
@@ -49,8 +55,13 @@ router.post(
       return;
     }
     const { username, password } = req.body;
-    // user anhand username suchen
-    const user = await User.findOne({ where: { username } });
+    // user anhand username ODER email suchen
+    const user = await User.findOne({
+      where: [
+        { username: username },
+        { email:    username }
+      ]
+    });
     if (!user) {
       // kein solcher user 401 unauthorized
       res.status(401).json({ error: 'Invalid credentials.' });
@@ -63,7 +74,7 @@ router.post(
       return;
     }
     //JWT-Token erstellen, 1 stunde gültig
-    const token = jwt.sign({ sub: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ sub: user.id.toString(), username: user.username }, JWT_SECRET, { expiresIn: '1h' });
     //token in httpponly-cookie setzen + token im body zurückgeben
     res
       .cookie('auth', token, { httpOnly: true, secure: true, maxAge: 3600000 })
