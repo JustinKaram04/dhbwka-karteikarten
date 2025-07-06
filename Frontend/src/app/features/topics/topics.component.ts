@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; //für ngIf
-import { FormsModule } from '@angular/forms';   //für ngModule
-import { Router } from '@angular/router'; //navigation
-import { Observable, Subject, BehaviorSubject, combineLatest, of } from 'rxjs';
-import { catchError, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-
-import { ITopic } from '../../core/models/itopic'; //Datenstruktur
-import { GetDataService } from '../../core/services/getDataServices/get-data.service'; //API Service
-import { HeaderComponent } from '../../shared/components/header/header.component'; //Header
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { SearchSortPipe } from '../../shared/components/search-sort-pipe/search-sort.pipe';
+import { AddItemComponent } from '../../shared/components/add-item/add-item.component';
+import { EditableCardComponent } from '../../shared/components/editable-card/editable-card.component';
+import { Observable, Subject, of } from 'rxjs';
+import { catchError, startWith, switchMap, shareReplay, map } from 'rxjs/operators';
+import { ITopic } from '../../core/models/itopic';
+import { GetDataService } from '../../core/services/getDataServices/get-data.service';
 
 @Component({
   selector: 'app-topics',
@@ -15,29 +17,29 @@ import { HeaderComponent } from '../../shared/components/header/header.component
   imports: [
     CommonModule,
     FormsModule,
-    HeaderComponent
+    HeaderComponent,
+    SearchSortPipe,
+    AddItemComponent,
+    EditableCardComponent
   ],
   templateUrl: './topics.component.html',
   styleUrls: ['./topics.component.scss']
 })
 export class TopicsComponent implements OnInit {
-  private reloadTrigger$ = new Subject<void>(); //löst neulanden aus
-  topics$!: Observable<ITopic[]>; //alle topics von service
-  private searchQuery$  = new BehaviorSubject<string>('');  // suchbegriff
-  private sortCriteria$ = new BehaviorSubject<string>('name-asc'); // sotierung
-  filteredTopics$!: Observable<ITopic[]>; // gefilterte + sotierte Topics
+  private reloadTrigger$ = new Subject<void>();
+  topics$!: Observable<ITopic[]>;
+  filteredTopics$!: Observable<ITopic[]>;
 
-  hoveredId:    number | null = null; //ID bei hover
-  activeMenuId: number | null = null; //ID von menu
-  showAddTopicInput  = false; //Formular anzeigen
-  isAddingTopic      = false; //anti Doppelanfragen
+  hoveredId: number | null = null;
+  activeMenuId: number | null = null;
 
-  newTopicName        = ''; //Name neuer Topic
-  newTopicDescription = ''; //Beschriebung neuer Topic
+  editingTopicId: number | null = null;
+  editedTopicName = '';
+  editedTopicDescription = '';
 
-  editingTopicId:        number | null = null;  //ID im bearbeiten modus
-  editedTopicName        = '';  //Neuer name beim bearbeiten
-  editedTopicDescription = '';  //neue beschreibung beim Bearbeiten
+  searchQuery = '';
+  sortCriteria = 'name-asc';
+  isAddingTopic = false;
 
   constructor(
     private themenService: GetDataService,
@@ -45,86 +47,54 @@ export class TopicsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //Topics laden und neu laden bei reloadTrigger
     this.topics$ = this.reloadTrigger$.pipe(
-      startWith(void 0),  //Trigger
+      startWith(void 0),
       switchMap(() =>
         this.themenService.getTopics().pipe(
-          catchError(() => of([] as ITopic[])) //bei fehler leeres array
+          catchError(() => of([] as ITopic[]))
         )
       ),
-      shareReplay(1)  //cache für subscribers
+      shareReplay(1)
     );
 
-    //Filter & Sort
-    this.filteredTopics$ = combineLatest([
-      this.topics$,
-      this.searchQuery$,
-      this.sortCriteria$
-    ]).pipe(
-      map(([topics, query, crit]) => {
-        let gefiltert = topics;
-        if (query.trim()) {
-          //name filtern
-          gefiltert = gefiltert.filter(t =>
-            t.name.toLowerCase().includes(query.toLowerCase())
-          );
-        }
-        return this.sortTopics(gefiltert, crit);  //sotieren
-      })
+    // Stelle sicher, dass niemals null weitergereicht wird
+    this.filteredTopics$ = this.topics$.pipe(
+      map(items => items ?? [])
     );
   }
 
-  //Sotierlogik nach auswahl
-  private sortTopics(topics: ITopic[], crit: string): ITopic[] {
-    return topics.sort((a, b) => {
-      switch (crit) {
-        case 'name-asc':   return a.name.localeCompare(b.name);
-        case 'name-desc':  return b.name.localeCompare(a.name);
-        case 'id-asc':     return a.id - b.id;
-        case 'id-desc':    return b.id - a.id;
-        default:           return 0;
-      }
-    });
+  updateSearchQuery(e: Event): void {
+    this.searchQuery = (e.target as HTMLInputElement).value;
   }
 
-  //bei eingabe in Suchfeld
-  updateSearchQuery(e: Event) {
-    const wert = (e.target as HTMLInputElement).value;
-    this.searchQuery$.next(wert);
+  updateSortCriteria(e: Event): void {
+    this.sortCriteria = (e.target as HTMLSelectElement).value;
   }
 
-  //bei auswahl im Dropdown
-  updateSortCriteria(e: Event) {
-    const wert = (e.target as HTMLSelectElement).value;
-    this.sortCriteria$.next(wert);
-  }
-
-  //Navigation zu unterthemen
-  navigateToTopic(id: number, e: MouseEvent) {
+  navigateToTopic(id: number, e: MouseEvent): void {
     if (!['BUTTON','INPUT','TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
       this.router.navigate(['/themengebiet', id]);
     }
   }
 
-  //ein / ausblenden menu
-  toggleMenu(id: number, e: MouseEvent) {
+  toggleMenu(id: number, e: MouseEvent): void {
     e.stopPropagation();
     this.activeMenuId = this.activeMenuId === id ? null : id;
   }
 
-  //bearbeiten starten, felder mit aktuellen werten füllen
-  startEditing(topic: ITopic, e: MouseEvent) {
-    e.stopPropagation();
-    this.editingTopicId         = topic.id;
-    this.editedTopicName        = topic.name;
-    this.editedTopicDescription = topic.description;
+  closeMenu(): void {
+    this.activeMenuId = null;
   }
 
-  // topics speichern
-  saveTopic() {
-    if (this.editingTopicId === null || !this.editedTopicName.trim()) return;
+  startEditing(topic: ITopic, e: MouseEvent): void {
+    e.stopPropagation();
+    this.editingTopicId = topic.id;
+    this.editedTopicName = topic.name;
+    this.editedTopicDescription = topic.description || '';
+  }
 
+  saveTopic(): void {
+    if (this.editingTopicId == null) return;
     this.themenService.updateTopic(
       this.editingTopicId,
       {
@@ -133,54 +103,35 @@ export class TopicsComponent implements OnInit {
       }
     ).subscribe({
       next: () => {
-        this.reloadTrigger$.next(); //seite neu laden
-        this.editingTopicId = null; //bearbeiten modus beendn
+        this.reloadTrigger$.next();
+        this.editingTopicId = null;
       },
       error: err => console.error('❌ Fehler beim Speichern:', err)
     });
   }
 
-  //topics löschen mit bestätigung
-  deleteTopic(id: number, e: MouseEvent) {
+  deleteTopic(id: number, e: MouseEvent): void {
     e.stopPropagation();
     if (!confirm('Soll dieses Thema wirklich gelöscht werden?')) return;
     this.themenService.deleteTopic(id).subscribe({
       next: () => {
         this.activeMenuId = null;
-        this.reloadTrigger$.next(); //neu laden
+        this.reloadTrigger$.next();
       },
       error: err => console.error('❌ Fehler beim Löschen:', err)
     });
   }
 
-  //bearbeiten abbrechen
-  cancelEditing() {
-    this.editingTopicId = null;
-  }
-
-  //neue Topics hinzufügen
-  addTopic(): void {
-    if (this.isAddingTopic || !this.newTopicName.trim()) return;
+  addTopicHandler({ name, description }: { name: string; description: string }) {
     this.isAddingTopic = true;
-
-    const name        = this.newTopicName.trim();
-    const description = this.newTopicDescription.trim();
-    this.newTopicName        = '';
-    this.newTopicDescription = '';
-
     this.themenService.addTopic(name, description).subscribe({
-      next: () => {
-        this.showAddTopicInput = false; //Formular verbergen
-        this.activeMenuId      = null;
-        this.reloadTrigger$.next(); //neu laden
-      },
+      next: () => this.reloadTrigger$.next(),
       error: err => console.error('❌ Fehler beim Anlegen:', err),
-      complete: () => { this.isAddingTopic = false; }
+      complete: () => this.isAddingTopic = false
     });
   }
 
-  //schließt menu bei klick auserhalb
-  closeMenu() {
-    this.activeMenuId = null;
+  cancelEditing(): void {
+    this.editingTopicId = null;
   }
 }

@@ -1,30 +1,17 @@
-<div class="flashcardlist-page" (click)="toggleMenu(null, $event)">
-  <!--header mit navigation-->
+<div class="flashcardlist-page" (click)="closeMenu()">
   <app-header></app-header>
-
   <div class="flashcardlist-content">
-    <!--Zurück button-->
     <button class="back-button" (click)="goBack()">⬅ Zurück</button>
     <h1>Karteikarten</h1>
     <h2>Fragen und Antworten</h2>
-
-    <!--lernmodus starten und lernstände zurücksetzen-->
     <div class="actions">
-      <button class="back-button" (click)="openLernmodus()">Lernmodus starten</button>
-      <button class="back-button reset-btn" (click)="resetAllProgress()">🎯 Lernstände zurücksetzen</button>
+      <button (click)="openLernmodus()">Lernmodus starten</button>
+      <button (click)="resetAllProgress()">🎯 Lernstände zurücksetzen</button>
     </div>
-
-    <!--such und sotierbereich-->
     <div class="search-filter-container">
       <div class="filter-group">
         <label for="search">🔍 Suche:</label>
-        <input
-          id="search"
-          type="text"
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="onSearchChange()"
-          placeholder="Flashcard suchen..."
-        />
+        <input id="search" type="text" [(ngModel)]="searchQuery" />
       </div>
       <div class="filter-group">
         <label for="sortOption">📌 Sortieren nach:</label>
@@ -33,60 +20,36 @@
           [(ngModel)]="sortCriteria"
           (change)="onSortChange($event)"
         >
-          <option value="question-asc">Frage (A-Z)</option>
-          <option value="question-desc">Frage (Z-A)</option>
-          <option value="answer-asc">Antwort (A-Z)</option>
-          <option value="answer-desc">Antwort (Z-A)</option>
+          <option value="question-asc">Frage (A → Z)</option>
+          <option value="question-desc">Frage (Z → A)</option>
+          <option value="answer-asc">Antwort (A → Z)</option>
+          <option value="answer-desc">Antwort (Z → A)</option>
           <option value="progress-asc">Lernstand (niedrig → hoch)</option>
           <option value="progress-desc">Lernstand (hoch → niedrig)</option>
         </select>
       </div>
     </div>
-
-    <!--grid mit flashcard karten-->
     <div class="flashcardlist-grid">
-
-      <!--plus karte zum flashcards hinzufügen-->
-      <div class="flashcard-card add-card" (click)="!showAddCardInput && (showAddCardInput = true)">
-        <ng-container *ngIf="!showAddCardInput">
-          <span class="plus-icon">+</span>
-        </ng-container>
-
-        <!--formular zum hinzufügen-->
-        <ng-container *ngIf="showAddCardInput">
-          <div class="form-wrapper" (click)="$event.stopPropagation()">
-            <label for="newQuestion">Frage:</label>
-            <input id="newQuestion" type="text" [(ngModel)]="newQuestion" placeholder="Frage eingeben..." />
-            <label for="newAnswer">Antwort:</label>
-            <textarea id="newAnswer" [(ngModel)]="newAnswer" placeholder="Antwort eingeben..."></textarea>
-            <div class="button-group-inline">
-              <button (click)="addCard()" [disabled]="!newQuestion.trim()">Hinzufügen</button>
-              <button class="cancel-btn" (click)="$event.stopPropagation(); showAddCardInput = false">Abbrechen</button>
-            </div>
-          </div>
-        </ng-container>
-      </div>
-
-      <!--schleife über gefilterte und sotierte flashcards-->
-      <ng-container *ngFor="let card of displayedCards">
-        <div class="flashcard-card" (mouseenter)="hoveredId = card.id" (mouseleave)="hoveredId = null">
-          
-          <!--bearbeiten modus-->
-          <div *ngIf="editingCardId === card.id" (click)="$event.stopPropagation()" class="edit-mode">
-            <label for="editQuestion">Frage:</label>
-            <input id="editQuestion" type="text" [(ngModel)]="editedQuestion" placeholder="Neue Frage eingeben..." />
-            <label for="editAnswer">Antwort:</label>
-            <textarea id="editAnswer" [(ngModel)]="editedAnswer" placeholder="Neue Antwort eingeben..."></textarea>
-            <div class="button-group">
-              <button (click)="saveCard()">💾 Speichern</button>
-              <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
-            </div>
-          </div>
-
-          <!--normalmodus anzeigen von frage und antwort und menu-->
-          <div *ngIf="editingCardId !== card.id" class="card-content">
-
-            <!--Lernstand Indikator-->
+      <app-add-item
+        [labelName]="'Frage'"
+        [placeholderName]="'Frage eingeben…'"
+        [labelDescription]="'Antwort'"
+        [placeholderDescription]="'Antwort eingeben…'"
+        (add)="onAddFlashcard($event)"
+      ></app-add-item>
+      <ng-container
+        *ngFor="
+          let card of allCards
+            | searchSort:searchQuery:sortCriteria:['question','answer','learningProgress']
+        "
+      >
+        <app-editable-card
+          [editing]="editingCardId === card.id"
+          [showMenu]="activeMenuId === card.id"
+          (toggleMenu)="toggleMenu(card.id, $event)"
+          (cardClick)="$event.stopPropagation()"
+        >
+          <div cardView>
             <div
               class="progress-dot"
               [ngClass]="{
@@ -98,17 +61,26 @@
             ></div>
             <h3>{{ card.question }}</h3>
             <p>{{ card.answer }}</p>
-
-            <!--Drei punkte icon bei hover-->
-            <div class="menu-icon" *ngIf="hoveredId === card.id" (click)="toggleMenu(card.id, $event)">⋮</div>
-            
-            <!--menu bearbeiten und löschen-->
-            <div class="menu" *ngIf="activeMenuId === card.id" (click)="$event.stopPropagation()">
-              <button (click)="startEditing(card, $event)">Bearbeiten</button>
-              <button (click)="deleteCard(card.id, $event)">Löschen</button>
+          </div>
+          <div cardEdit>
+            <label for="editQuestion">Frage:</label>
+            <input
+              id="editQuestion"
+              type="text"
+              [(ngModel)]="editedQuestion"
+            />
+            <label for="editAnswer">Antwort:</label>
+            <textarea id="editAnswer" [(ngModel)]="editedAnswer"></textarea>
+            <div class="button-group">
+              <button (click)="saveCard()">💾 Speichern</button>
+              <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
             </div>
           </div>
-        </div>
+          <div cardMenu (click)="$event.stopPropagation()">
+            <button (click)="startEditing(card, $event)">✏️ Bearbeiten</button>
+            <button (click)="deleteCard(card.id, $event)">🗑️ Löschen</button>
+          </div>
+        </app-editable-card>
       </ng-container>
     </div>
   </div>

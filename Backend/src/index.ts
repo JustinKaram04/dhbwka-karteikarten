@@ -1,44 +1,36 @@
-import topicsRouter from './routes/content.routes'; //router für /api/topics
-import 'reflect-metadata';  //nötig für typeorm
-import express from 'express';  //express instanz
-import helmet from 'helmet';  //sicherheits middleware
-import cors from 'cors';  //cross-orgin resource sharing
-const cookieParser = require('cookie-parser'); //zum auslesen con cockies
-import 'dotenv/config'; //lädt umgebungsvariable aus .env
-import { AppDataSource } from './ormconfig';  //typeorm datenquelle
-import authRoutes from './routes/auth.routes'; //router für /api/auth
-import { authenticate } from './middleware/authenticate'; //auth middleware
+import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
+import 'reflect-metadata';
+import cors from 'cors';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import { AppDataSource } from './ormconfig';
+import authRoutes from './routes/auth.routes';
+import topicsRoutes from './routes/topics.routes';
+import { errorHandler } from './middleware/errorHandler';
+import { env } from './config/config';
+
+
 
 const app = express();
 
-//fügt Sicherheits header hinzu
 app.use(helmet());
-
-app.use(cors({
-  origin: 'http://localhost:4200',  //Angular frontend
-  credentials: true //coockies und authorisierungs header zulassen
-}));
-
-//json body payloads parsen
+app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
 app.use(express.json());
-
-//parsed httponlycookies
 app.use(cookieParser());
 
 AppDataSource.initialize()
-  .then(() => {    //db verbindung erfolgreich
+  .then(() => {
+    app.use('/api/auth',   authRoutes);
+    app.use('/api/topics', topicsRoutes);
 
-    //alle auth routen uner /api/auth
-    app.use('/api/auth', authRoutes);
+    // immer ganz am Schluss
+    app.use(errorHandler);
 
-    //crud für topics/subtopics/flashcards under api/topics
-    app.use('/api/topics', topicsRouter);
-
-    //server starten port aus .env
-    app.listen(process.env.PORT, () =>
-      console.log(`Server läuft auf Port ${process.env.PORT}`)
+    app.listen(env.PORT, () =>
+      console.log(`Server läuft auf Port ${env.PORT}`)
     );
   })
-  //falls db verbindung scheitert fehle ausgeben
   .catch(err => console.error('DB-Verbindung fehlgeschlagen', err));
-

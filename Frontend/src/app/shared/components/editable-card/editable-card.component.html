@@ -1,0 +1,19 @@
+<div class="editable-card" (click)="onCardClick($event)">
+  <ng-content select="[progressDot]"></ng-content>
+
+  <ng-container *ngIf="!editing">
+    <ng-content select="[cardView]"></ng-content>
+  </ng-container>
+
+  <ng-container *ngIf="editing">
+    <div class="edit-mode" (click)="$event.stopPropagation()">
+      <ng-content select="[cardEdit]"></ng-content>
+    </div>
+  </ng-container>
+
+  <div class="menu-icon" (click)="onToggleMenu($event)">⋮</div>
+
+  <ng-container *ngIf="showMenu">
+    <ng-content select="[cardMenu]"></ng-content>
+  </ng-container>
+</div>

@@ -1,6 +1,16 @@
 <div *ngIf="!mode && !endScreen" class="mode-selection">
-  <button class="mode-btn" (click)="selectMode('infinite')">Unendlicher Modus</button>
-  <button class="mode-btn" (click)="selectMode('limited')">Nur unvollständige</button>
+  <button
+    class="mode-btn mode-infinite"
+    (click)="selectMode('infinite')"
+  >
+    Unendlicher Modus
+  </button>
+  <button
+    class="mode-btn mode-limited"
+    (click)="selectMode('limited')"
+  >
+    Nur unvollständige
+  </button>
 </div>
 
 <div *ngIf="mode && !endScreen" [class.dark]="isDark" class="container">

@@ -1,37 +1,35 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../entity/User';
+import { env } from '../config/config';
 
-export async function authenticate(
-  req: Request,
+export interface AuthRequest extends Request {
+  user?: User;
+}
+export const authenticate = async (
+  req: AuthRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
-  //token entweder aus httponly-coockie oder authorization header holen wenn httponly-coocke leer ist
+): Promise<void> => {
   const token = req.cookies.auth || req.header('Authorization')?.split(' ')[1];
+  
   if (!token) {
-    //kein token 401 unauthotized
-    res.status(401).end();
+    res.status(401).json({ error: 'Unauthorized' });
     return;
   }
 
   try {
-    //token verifizieren (JWT_SEVRET aus env)
-    const payload = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    //payload.sub ist die user-id als sting also umwandeln
-    const userId = parseInt(payload.sub as string, 10);
-    //user in db nach id suchen
-    const user   = await User.findOne({ where: { id: userId } });
+    const payload = jwt.verify(token, env.JWT_ACCESS_SECRET) as any;
+    const user = await User.findOneBy({ id: parseInt(payload.sub, 10) });
+    
     if (!user) {
-      //kein user gefunden 401 unauthorized
-      res.status(401).end();
+      res.status(401).json({ error: 'Unauthorized' });
       return;
     }
-    //gefundenen user ins request objekt schreiben für spätere controller
-    (req as any).user = user;
-    next(); //authentifizierung erfolgreich, nächste middleware
-  } catch {
-    //bei fehler 401
-    res.status(401).end();
+
+    req.user = user;
+    next();
+  } catch (err) {
+    next(err);
   }
-}
+};

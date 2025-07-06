@@ -35,9 +35,9 @@
     color: var(--text-color);
     border: 1px solid var(--card-border);
     transition: background-color 0.2s;
-  }
-  button:hover {
-    background-color: var(--hover-bg, #e6f7ff);
+    &:hover {
+      background-color: var(--hover-bg, #e6f7ff);
+    }
   }
 }
 
@@ -57,10 +57,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-
-    label {
-      color: var(--text-color);
-    }
   }
 
   input,
@@ -72,12 +68,12 @@
     background-color: var(--card-bg);
     color: var(--text-color);
     transition: all 0.2s;
-  }
-  input:focus,
-  select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+    }
   }
 }
 
@@ -85,274 +81,4 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-}
-
-.flashcard-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  padding: 1rem;
-  position: relative;
-  text-align: left;
-  transition: all 0.3s ease-in-out;
-  word-break: break-word;
-  max-height: 250px;
-  overflow: auto;
-}
-.flashcard-card:hover {
-  border-color: #84abd4;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.flashcard-card h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  word-wrap: break-word;
-  color: var(--text-color);
-}
-.flashcard-card p {
-  font-size: 0.9rem;
-  word-wrap: break-word;
-  color: var(--text-color);
-}
-
-.flashcard-card input,
-.flashcard-card textarea {
-  width: 100%;
-  margin-bottom: 0.5rem;
-  padding: 6px;
-  border: 1px solid var(--card-border);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  transition: all 0.2s;
-}
-.flashcard-card input:focus,
-.flashcard-card textarea:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
-}
-
-.flashcard-card .button-group {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-.flashcard-card .button-group button {
-  padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  transition: background-color 0.2s;
-}
-.flashcard-card .button-group button:hover {
-  background-color: var(--hover-bg, #e6f7ff);
-}
-.flashcard-card .button-group .cancel-btn {
-  background-color: var(--card-border);
-  color: var(--text-color);
-}
-
-.flashcard-card .progress-dot {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: block;
-}
-.flashcard-card .dot-red {
-  background-color: #e74c3c;
-}
-.flashcard-card .dot-yellow {
-  background-color: #f1c40f;
-}
-.flashcard-card .dot-green {
-  background-color: #2ecc71;
-}
-
-.flashcard-card .menu-icon {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  background: var(--card-bg);
-  color: var(--text-color);
-  padding: 4px;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: none;
-}
-.flashcard-card:hover .menu-icon {
-  display: block;
-}
-
-.flashcard-card .menu {
-  position: absolute;
-  top: 30px;
-  right: 8px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  min-width: 120px;
-  z-index: 100;
-}
-.flashcard-card .menu button {
-  background: none;
-  border: none;
-  padding: 8px;
-  text-align: left;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--text-color);
-}
-.flashcard-card .menu button:hover {
-  background: var(--hover-bg, #e6f7ff);
-}
-
-.add-card {
-  background-color: var(--card-bg);
-  border: 2px dashed var(--card-border);
-  border-radius: 6px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 1rem;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  word-break: break-word;
-  max-height: 250px;
-  overflow: auto;
-}
-.add-card .plus-icon {
-  font-size: 40px;
-  font-weight: bold;
-  margin: auto;
-  color: var(--text-color);
-}
-.add-card:hover {
-  background-color: var(--hover-bg, #e6f7ff);
-  transform: scale(1.02);
-  border-color: #84abd4;
-}
-.add-card .form-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.add-card input,
-.add-card textarea {
-  width: 100%;
-  padding: 6px;
-  border: 1px solid var(--card-border);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  transition: all 0.2s;
-}
-.add-card input:focus,
-.add-card textarea:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
-}
-.add-card .button-group-inline {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-.add-card .button-group-inline button {
-  padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  transition: background-color 0.2s;
-}
-.add-card .button-group-inline button:hover {
-  background-color: var(--hover-bg, #e6f7ff);
-}
-.add-card .button-group-inline .cancel-btn {
-  background-color: var(--card-border);
-  color: var(--text-color);
-}
-
-.input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 1rem;
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-
-  input,
-  textarea {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-    border: 1px solid var(--card-border);
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
-    transition: all 0.2s;
-  }
-  input:focus,
-  textarea:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-}
-
-.back-button {
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  font-size: 1rem;
-  padding: 10px 15px;
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.back-button:hover {
-  background-color: var(--hover-bg, #e6f7ff);
-  border-color: #84abd4;
-  transform: scale(1.03);
-}
-
-.edit-mode {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 0.5rem;
-  border-radius: 5px;
-}
-
-.reset-btn {
-  background-color: var(--card-border);
-  color: var(--text-color);
-}
-.reset-btn:hover {
-  background-color: darken(var(--card-border), 10%);
 }
