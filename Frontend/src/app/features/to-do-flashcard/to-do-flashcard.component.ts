@@ -43,17 +43,18 @@ export class ToDoFlashcardComponent implements OnInit {
     });
   }
 
-  toggleDone(todo: Todo) {
-    this.todoService.toggleDone(todo.id).subscribe({
-      next: updated => todo.done = updated.done,
-      error: err => console.error('Fehler beim Umschalten', err),
-    });
-  }
+toggleDone(todo: Todo) {
+  this.todoService.toggleDone(todo.id).subscribe({
+    next: updated => todo.done = updated.done,
+    error: err => console.error('Fehler beim Umschalten', err),
+  });
+}
 
-  deleteTodo(todo: Todo) {
-    this.todoService.deleteTodo(todo.id).subscribe({
-      next: () => this.todos = this.todos.filter(t => t.id !== todo.id),
-      error: err => console.error('Fehler beim Löschen', err),
-    });
-  }
+deleteTodo(todo: Todo) {
+  this.todoService.deleteTodo(todo.id).subscribe({
+    next: () => this.todos = this.todos.filter(t => t.id !== todo.id),
+    error: err => console.error('Fehler beim Löschen', err),
+  });
+}
+
 }

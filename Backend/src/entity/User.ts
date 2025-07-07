@@ -21,6 +21,6 @@ export class User extends BaseEntity {
   @OneToMany(() => Topic, topic => topic.owner)
   topics!: Topic[];
 
-  @OneToMany(() => Todo, todo => todo.user) // 👈 HIER hinzufügen
+  @OneToMany(() => Todo, todo => todo.user)
   todos!: Todo[];
 }

@@ -12,14 +12,14 @@
   <button class="todo-create-button" (click)="addTodo()">Erstellen</button>
 
   <ul>
-    <li *ngFor="let todo of todos; let i = index">
-      <button class="check-circle" (click)="toggleDone(i)">
+      <li *ngFor="let todo of todos; let i = index">
+      <button class="check-circle" (click)="toggleDone(todo)">
         <span *ngIf="todo.done">&#10003;</span>
       </button>
 
       <span [class.done]="todo.done">{{ todo.text }}</span>
 
-      <button *ngIf="todo.done" class="delete-button" (click)="deleteTodo(i)">Löschen</button>
+      <button *ngIf="todo.done" class="delete-button" (click)="deleteTodo(todo)">Löschen</button>
     </li>
   </ul>
 </div>
