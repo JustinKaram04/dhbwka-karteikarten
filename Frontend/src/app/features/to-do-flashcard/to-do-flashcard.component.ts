@@ -1,21 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ToDoService, Todo } from '../../core/services/toDo/to-do.service';  // Pfad anpassen!
+import { ToDoService, Todo } from '../../core/services/toDo/to-do.service'; 
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-to-do-flashcard',
   templateUrl: './to-do-flashcard.component.html',
   styleUrls: ['./to-do-flashcard.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule],  // HttpClientModule hier NICHT importieren!
+  imports: [FormsModule, CommonModule], 
 })
 export class ToDoFlashcardComponent implements OnInit {
   todos: Todo[] = [];
   newTodo: string = '';
   visible: boolean = false;
 
-  constructor(private todoService: ToDoService) {}
+  constructor(
+  private todoService: ToDoService,
+  public authService: AuthService
+) {}
 
   ngOnInit() {
     this.loadTodos();

@@ -1,6 +1,5 @@
 <!-- To-Do Button im Header-Stil -->
-<button class="nav-button" (click)="togglePopup()">+ To-Do</button>
-
+<button *ngIf="authService.isLoggedIn$ | async" class="nav-button" (click)="togglePopup()">To-Do</button>
 <!-- Popup-Fenster -->
 <div class="todo-popup" *ngIf="visible">
   <!-- Schließen-Button oben rechts -->
