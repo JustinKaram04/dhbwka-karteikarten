@@ -11,6 +11,8 @@ import authRoutes from './routes/auth.routes';
 import topicsRoutes from './routes/topics.routes';
 import { errorHandler } from './middleware/errorHandler';
 import { env } from './config/config';
+import todoRouter from './routes/todo.routes';
+
 
 
 
@@ -20,6 +22,7 @@ app.use(helmet());
 app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/todos', todoRouter);
 
 AppDataSource.initialize()
   .then(() => {

@@ -1,6 +1,6 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
 import { provideRouter } from '@angular/router';
@@ -11,7 +11,7 @@ if (environment.production) enableProdMode();
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(HttpClientModule),
+    provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

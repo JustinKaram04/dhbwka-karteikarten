@@ -1,71 +1,96 @@
-.header-button {
-  background-color: #2563eb;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+.nav-button {
+  background: transparent;
   border: none;
+  font-size: 0.9rem;
+  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  color: var(--text-color, #1a1a1a);
+  transition: color 0.3s ease;
+  padding: 0.6rem 0.6rem;
+  border-radius: 4px;
 }
 
-.modal {
-  position: absolute;
-  top: 3rem;
+.nav-button:hover {
+  color: #007bff;
+}
+
+.nav-button:active {
+  transform: scale(0.97);
+}
+
+/* Popup optional schöner gestalten */
+.todo-popup {
+  position: fixed;
+  top: 85px; /* unterhalb des Headers */
   right: 1rem;
-  width: 300px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 1rem;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
-
-.input-group {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-
-  input {
-    flex: 1;
-    padding: 0.4rem;
-    border-radius: 0.5rem;
-    border: 1px solid #d1d5db;
-  }
-
-  button {
-    background-color: #10b981;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.4rem 0.6rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #059669;
-    }
-  }
-}
-
-.todo-list {
-  max-height: 200px;
+  max-width: 300px;
+  width: 90vw;
+  z-index: 1000;
+  background-color: var(--header-bg, #ffffff);
+  box-shadow: 0 2px 8px var(--header-shadow, rgba(0, 0, 0, 0.1));
+  color: var(--text-color, #1a1a1a);
+  transition: all 0.3s ease-in-out;
+  padding: 1.5rem 1.5rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  max-height: 70vh;
   overflow-y: auto;
+  border: 1px solid black;
+}
 
-  li {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
 
-    .delete {
-      color: #ef4444;
-      background: none;
-      border: none;
-      cursor: pointer;
+.check-circle {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.5rem;
+  font-size: 18px;
+  color: #007bff;
+  user-select: none;
+  padding: 0;
+}
 
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
+.check-circle:hover {
+  background-color: #e6f0ff;
+}
+
+.done {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.delete-button {
+  margin-left: 0.5rem;
+  background-color: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.delete-button:hover {
+  color: darkred;
+}
+
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-color, #1a1a1a);
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #007bff;
 }

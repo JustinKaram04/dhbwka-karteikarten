@@ -4,6 +4,7 @@ import { User } from './entity/User';
 import { Topic } from './entity/Topic';
 import { Subtopic } from './entity/Subtopic';
 import { Flashcard } from './entity/Flashcard';
+import { Todo } from './entity/Todo';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -12,6 +13,6 @@ export const AppDataSource = new DataSource({
   username: env.DB_USER,
   password: env.DB_PASS,
   database: env.DB_NAME,
-  entities: [User, Topic, Subtopic, Flashcard],
+  entities: [User, Topic, Subtopic, Flashcard, Todo],
   synchronize: true,
 });
