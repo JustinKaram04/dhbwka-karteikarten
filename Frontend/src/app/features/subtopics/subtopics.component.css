@@ -1,29 +1,21 @@
 .unterthemen-page {
-  font-family: Arial, sans-serif;
+  font-family: arial, sans-serif;
   padding: 1rem;
-  padding-top: 7rem;
+  padding-top: 7rem; 
   background-color: var(--bg-color);
   color: var(--text-color);
   min-height: 100vh;
 }
 
 .unterthemen-content {
+  /* karte für inhalt */
   background-color: var(--card-bg);
   border-radius: 6px;
   padding: 1.5rem;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-  h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-  }
 }
 
+/* such- und sort-bereich */
 .search-filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -35,31 +27,33 @@
   background: var(--card-bg);
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  input,
-  select {
-    padding: 8px;
-    font-size: 0.9rem;
-    border: 1px solid var(--card-border);
-    border-radius: 4px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    transition: all 0.2s;
-
-    &:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
-    }
-  }
 }
 
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+input,
+select {
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: all 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+/* grid layout für unterthemen + add-item */
 .unterthemen-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

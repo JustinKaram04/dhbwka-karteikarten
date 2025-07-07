@@ -1,4 +1,5 @@
 :host {
+  /* button-colors für modus-auswahl, aus theme-variablen abgeleitet */
   --btn-inf-bg:   var(--text-color);
   --btn-inf-text: var(--card-bg);
   --btn-lim-bg:   var(--card-border);
@@ -6,12 +7,13 @@
 }
 
 * {
+  /* reset für margin/padding und sorgt für konsistente box-sizing */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
+/* container für karten-ansicht und ergebnis-screen: full-screen flex layout */
 .container,
 .result-screen {
   display: flex;
@@ -20,15 +22,17 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  position: relative;
+  position: relative; /* für absolut positionierte kinder (z.B. back-button) */
 }
 
+/* modus-auswahl buttons nebeneinander mit abstand */
 .mode-selection {
   display: flex;
   gap: 1rem;
   justify-content: center;
   margin-top: 2rem;
 }
+/* gemeinsamer button-style für modus */
 .mode-btn {
   padding: 0.75rem 1.5rem;
   border: none;
@@ -38,6 +42,7 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transition: transform 0.2s, background-color 0.3s;
 }
+/* spezifisches styling für unendlichen modus */
 .mode-btn.mode-infinite {
   background-color: var(--btn-inf-bg);
   color: var(--btn-inf-text);
@@ -45,6 +50,7 @@
 .mode-btn.mode-infinite:hover {
   transform: translateY(-2px);
 }
+/* spezifisches styling für limited modus */
 .mode-btn.mode-limited {
   background-color: var(--btn-lim-bg);
   color: var(--btn-lim-text);
@@ -53,12 +59,14 @@
   transform: translateY(-2px);
 }
 
+/* oberer bereich mit pfeilen und karte */
 .top-section {
   display: flex;
-  flex: 1;
+  flex: 1;             /* nimmt restfläche ein */
   width: 100%;
-  padding-top: 60px;
+  padding-top: 60px;   /* platz für header/back-button */
 }
+/* drei gleich große spalten für linke, mittlere, rechte navigation */
 .left-section,
 .middle-section,
 .right-section {
@@ -67,10 +75,12 @@
   justify-content: center;
   align-items: center;
 }
+/* perspektive für 3D-flip der karte */
 .middle-section {
   perspective: 1200px;
 }
 
+/* karten-element: feste größe, rundungen, border und 3D-stacking */
 .card {
   width: 700px;
   height: 450px;
@@ -82,10 +92,12 @@
   transition: transform 0.6s;
   cursor: pointer;
 }
+/* wenn .flipped, dreht die karte um 180° auf der Y-Achse */
 .flipped {
   transform: rotateY(180deg);
 }
 
+/* vorder- und rückseite jeweils full-size und backface invisible */
 .front,
 .back {
   position: absolute;
@@ -99,10 +111,12 @@
   color: var(--text-color);
   background-color: var(--card-bg);
 }
+/* rückseite um 180° vorpositioniert, damit sie beim Flip zum Vorschein kommt */
 .back {
   transform: rotateY(180deg);
 }
 
+/* arrows: CSS-Dreiecke für Navigation */
 .left_arrow,
 .right_arrow {
   width: 60px;
@@ -131,6 +145,7 @@
   opacity: 1;
 }
 
+/* unterer bereich mit buttons und progress-bar, positioniert bottom */
 .under-section {
   display: flex;
   align-items: center;
@@ -143,6 +158,7 @@
   bottom: 0;
   justify-content: center;
 }
+/* progress-bar container mit rounded edges */
 .progress {
   position: relative;
   width: calc(100vw - 200px);
@@ -152,11 +168,13 @@
   border-radius: 10px;
   overflow: hidden;
 }
+/* fill-element, dessen breite dynamisch über inline-style gesetzt wird */
 .progress__fill {
   background: var(--text-color);
   height: 100%;
   transition: width 0.3s ease;
 }
+/* text über der fill, absolute Position rechts */
 .progress__text {
   position: absolute;
   right: 10px;
@@ -166,6 +184,7 @@
   font-weight: bold;
 }
 
+/* action-buttons für richtig/falsch Antworten */
 .action-btn {
   width: 50px;
   height: 50px;
@@ -187,6 +206,7 @@
   filter: brightness(0.9);
 }
 
+/* back-button oben links */
 .back-button {
   position: absolute;
   top: 20px;
@@ -204,6 +224,7 @@
   opacity: 0.9;
 }
 
+/* stylings für endscreen-überschrift und chart */
 .result-screen h2 {
   margin-bottom: 1rem;
   color: var(--text-color);
@@ -213,6 +234,7 @@ canvas {
   max-height: 250px;
   margin-bottom: 1rem;
 }
+/* buttons auf dem Ergebnis-Screen */
 .result-btn {
   padding: 0.5rem 1rem;
   border: none;
@@ -226,6 +248,3 @@ canvas {
 .result-btn:hover {
   opacity: 0.8;
 }
-
-
-

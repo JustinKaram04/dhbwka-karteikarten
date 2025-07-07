@@ -1,3 +1,4 @@
+/* full viewport, bg-color und form zenteriert */
 .registration-page {
   width: 100vw;
   height: 100vh;
@@ -7,6 +8,7 @@
   justify-content: center;
 }
 
+/* karte für das registrierungs-form: padding, runde ecken und schatten */
 .registration-container {
   background-color: var(--card-bg);
   padding: 2rem;
@@ -15,6 +17,7 @@
   width: 360px;
 }
 
+/* titel im form: zentriert, text-color und abstand unten */
 h1 {
   text-align: center;
   font-size: 1.25em;
@@ -22,16 +25,19 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
+/* abstand zwischen den input-feldern */
 .form-group {
   margin-bottom: 1rem;
 }
 
+/* label styling: block-level und farbe */
 label {
   display: block;
   margin-bottom: 0.5rem;
   color: var(--text-color);
 }
 
+/* grundstyle für alle inputs */
 input {
   width: 100%;
   padding: 0.5rem;
@@ -43,12 +49,14 @@ input {
   transition: border-color 0.2s;
 }
 
+/* wenn input fokus hat: blaue border und schatten */
 input:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
 }
 
+/* registrieren-button styling: volle breite, padding und grün */
 .register-button {
   width: 100%;
   padding: 0.75rem;
@@ -62,32 +70,38 @@ input:focus {
   transition: background-color 0.3s ease;
 }
 
+/* hover-effekt für den button: dunkleres blau-grün */
 .register-button:hover {
   background-color: #0056b3;
 }
 
+/* fehlernachricht text style: rot und zentriert */
 .error-message {
   color: #d32f2f;
   text-align: center;
   margin-top: 1rem;
 }
 
+/* hinweis für vorhandene user */
 .login-reminder {
   margin-top: 20px;
   text-align: center;
   color: var(--text-color);
 }
 
+/* link unter dem form: blau und unterstrichen */
 .login-reminder a {
   color: #007bff;
   text-decoration: underline;
   cursor: pointer;
 }
 
+/* hover für den link: unterstrich entfernen */
 .login-reminder a:hover {
   text-decoration: none;
 }
 
+/* wenn button disabled is: cursor not-allowed anzeigen */
 button:disabled {
   cursor: not-allowed;
 }

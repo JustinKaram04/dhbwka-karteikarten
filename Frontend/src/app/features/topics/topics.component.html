@@ -2,48 +2,51 @@
   <app-header></app-header>
 
   <main class="topics">
-    <h2>Themenbereiche:</h2>
+    <h2>themenbereiche:</h2>
 
-<div class="search-filter-container">
-  <div class="filter-group">
-    <label for="search">🔍 Suche:</label>
-    <input
-      id="search"
-      type="text"
-      [value]="searchQuery"
-      (input)="updateSearchQuery($event)"
-      placeholder="Themengebiet suchen…"
-    />
-  </div>
-  <div class="filter-group">
-    <label for="sortOption">📌 Sortieren nach:</label>
-    <select
-      id="sortOption"
-      [value]="sortCriteria"
-      (change)="updateSortCriteria($event)"
-    >
-      <option value="name-asc">Name (A → Z)</option>
-      <option value="name-desc">Name (Z → A)</option>
-      <option value="id-asc">ID (↑)</option>
-      <option value="id-desc">ID (↓)</option>
-    </select>
-  </div>
-</div>
+    <!-- suche und sort-feld -->
+    <div class="search-filter-container">
+      <div class="filter-group">
+        <label for="search">🔍 suche:</label>
+        <input
+          id="search"
+          type="text"
+          [value]="searchQuery"
+          (input)="updateSearchQuery($event)"
+          placeholder="themengebiet suchen…"
+        />
+      </div>
+      <div class="filter-group">
+        <label for="sortOption">📌 sortieren nach:</label>
+        <select
+          id="sortOption"
+          [value]="sortCriteria"
+          (change)="updateSortCriteria($event)"
+        >
+          <option value="name-asc">name (a → z)</option>
+          <option value="name-desc">name (z → a)</option>
+          <option value="id-asc">id (↑)</option>
+          <option value="id-desc">id (↓)</option>
+        </select>
+      </div>
+    </div>
 
-
+    <!-- container für add-item + karten -->
     <div class="topic-container">
+      <!-- hier kannst du neues themengebiet hinzufügen -->
       <app-add-item
-        [labelName]="'Themengebiet'"
-        [placeholderName]="'Name eingeben…'"
-        [labelDescription]="'Beschreibung'"
-        [placeholderDescription]="'Beschreibung eingeben…'"
-        [buttonText]="'Hinzufügen'"
-        [cancelText]="'Abbrechen'"
+        [labelName]="'themengebiet'"
+        [placeholderName]="'name eingeben…'"
+        [labelDescription]="'beschreibung'"
+        [placeholderDescription]="'beschreibung eingeben…'"
+        [buttonText]="'hinzufügen'"
+        [cancelText]="'abbrechen'"
         (add)="addTopicHandler($event)"
       ></app-add-item>
 
-      <!-- Nur rendern, wenn Topics geladen -->
+      <!-- erst anzeigen, wenn die topics geladen sind -->
       <ng-container *ngIf="filteredTopics$ | async as topics">
+        <!-- jede karte wird hier mit pipe gefiltert und sortiert -->
         <ng-container
           *ngFor="let topic of topics | searchSort: searchQuery : sortCriteria : ['name','id']"
         >
@@ -54,6 +57,7 @@
             (toggleMenu)="toggleMenu(topic.id, $event)"
             (cardClick)="navigateToTopic(topic.id, $event)"
           >
+            <!-- punkt für progress: low/medium/high -->
             <span
               progressDot
               class="progress-dot"
@@ -64,29 +68,34 @@
               }"
             ></span>
 
+            <!-- normal ansicht: name + beschreibung -->
             <div cardView>
               <h2>{{ topic.name }}</h2>
               <p>{{ topic.description }}</p>
             </div>
 
+            <!-- edit ansicht: input + textarea -->
             <div cardEdit>
               <input
                 [(ngModel)]="editedTopicName"
-                placeholder="Neuer Name…"
+                placeholder="neuer name…"
               />
               <textarea
                 [(ngModel)]="editedTopicDescription"
-                placeholder="Neue Beschreibung…"
+                placeholder="neue beschreibung…"
               ></textarea>
               <div class="button-group">
-                <button (click)="saveTopic()">💾 Speichern</button>
-                <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
+                <!-- speichern button -->
+                <button (click)="saveTopic()">💾 speichern</button>
+                <!-- abbrechen button -->
+                <button class="cancel-btn" (click)="cancelEditing()">❌ abbrechen</button>
               </div>
             </div>
 
+            <!-- kontext-menü mit bearbeiten + löschen -->
             <div cardMenu class="menu" (click)="$event.stopPropagation()">
-              <button (click)="startEditing(topic, $event)">✏️ Bearbeiten</button>
-              <button (click)="deleteTopic(topic.id, $event)">🗑️ Löschen</button>
+              <button (click)="startEditing(topic, $event)">✏️ bearbeiten</button>
+              <button (click)="deleteTopic(topic.id, $event)">🗑️ löschen</button>
             </div>
           </app-editable-card>
         </ng-container>

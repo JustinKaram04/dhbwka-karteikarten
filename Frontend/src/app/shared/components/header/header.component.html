@@ -1,20 +1,22 @@
 <header class="header" [class.scrolled]="scrolled">
   <div class="header-container">
+    <!-- logo klick: zur dashboard -->
     <div class="logo" (click)="navigateTo('/dashboard')">
       <span class="logo-text">Quickflip</span>
     </div>
     <nav class="nav">
+      <!-- nav-buttons -->
       <button class="nav-button" (click)="navigateTo('/dashboard')">
-        Startseite
+        startseite
       </button>
       <button class="nav-button" (click)="navigateTo('/info')">
-        Info
+        info
       </button>
       <button class="nav-button dark-toggle" (click)="toggleDarkMode()">
-        🌙 Dark Mode
+        🌙 dark mode
       </button>
       <button class="nav-button" (click)="logout()">
-        Logout
+        logout
       </button>
     </nav>
   </div>

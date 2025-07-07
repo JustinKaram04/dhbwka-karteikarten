@@ -1,53 +1,72 @@
+<!-- header-komponente -->
 <app-header></app-header>
-<div class="registration-page">
-  <div class="registration-container">
-    <form [formGroup]="registrationForm" (ngSubmit)="registerUser()" class="registration-form">
-      <h1>Registrierung</h1>
 
+<!-- wrapper für die komplette registrierungsseite -->
+<div class="registration-page">
+  <!-- zentrierter container fürs formular -->
+  <div class="registration-container">
+    <!-- form mit reactive forms binding und submit-handler -->
+    <form
+      [formGroup]="registrationForm"
+      (ngSubmit)="registerUser()"
+      class="registration-form"
+    >
+      <h1>registrierung</h1>
+
+      <!-- benutzername eingabe -->
       <div class="form-group">
-        <label for="username">Benutzername:</label>
+        <label for="username">benutzername:</label>
         <input
           type="text"
           id="username"
-          placeholder="Benutzernamen eingeben"
+          placeholder="benutzernamen eingeben"
           formControlName="username"
           required
         />
       </div>
 
+      <!-- e-mail eingabe -->
       <div class="form-group">
-        <label for="email">E-Mail:</label>
+        <label for="email">e-mail:</label>
         <input
           type="email"
           id="email"
-          placeholder="E-Mail-Adresse eingeben"
+          placeholder="e-mail-adresse eingeben"
           formControlName="email"
           required
         />
       </div>
 
+      <!-- passwort eingabe -->
       <div class="form-group">
-        <label for="password">Passwort:</label>
+        <label for="password">passwort:</label>
         <input
           type="password"
           id="password"
-          placeholder="Passwort mit min. 8 Zeichen"
+          placeholder="passwort mit min. 8 zeichen"
           formControlName="password"
           required
         />
       </div>
 
-      <button type="submit" class="register-button" [disabled]="!registrationForm.valid">
-        Registrieren
+      <!-- registrieren button, disabled wenn form invalid -->
+      <button
+        type="submit"
+        class="register-button"
+        [disabled]="!registrationForm.valid"
+      >
+        registrieren
       </button>
     </form>
 
+    <!-- fehleranzeige wenn registrierung schiefgeht -->
     <p *ngIf="registrationFailed" class="error-message">
-      <i class="fas fa-exclamation-circle"></i> Registrierung fehlgeschlagen
+      <i class="fas fa-exclamation-circle"></i> registrierung fehlgeschlagen
     </p>
 
+    <!-- hinweis für user mit bestehendem konto -->
     <p class="login-reminder">
-      Bereits ein Konto? <a (click)="navigateToLogin()">Hier anmelden</a>
+      bereits ein konto? <a (click)="navigateToLogin()">hier anmelden</a>
     </p>
   </div>
 </div>

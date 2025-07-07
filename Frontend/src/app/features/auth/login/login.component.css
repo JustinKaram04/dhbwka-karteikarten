@@ -1,3 +1,4 @@
+/* login-page container: full viewport packt form zenteriert mittig rein */
 .login-page {
   width: 100vw;
   height: 100vh;
@@ -7,6 +8,7 @@
   justify-content: center;
 }
 
+/* box für das login-form: padding, rundungen und schatten */
 .login-container {
   background-color: var(--card-bg);
   padding: 2rem;
@@ -15,6 +17,7 @@
   width: 360px;
 }
 
+/* titel im formular: text zenteriert, größe und abstand */
 h1 {
   text-align: center;
   font-size: 1.25em;
@@ -22,16 +25,19 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
+/* form-group: abstand zwischen den input-blöcken */
 .form-group {
   margin-bottom: 1rem;
 }
 
+/* label styling: block-element, etwas abstand unterm label */
 label {
   display: block;
   margin-bottom: 0.5rem;
   color: var(--text-color);
 }
 
+/* input grundstyle: volle breite, padding, border und rundungen */
 input {
   width: 100%;
   padding: 0.5rem;
@@ -43,12 +49,14 @@ input {
   transition: border-color 0.2s;
 }
 
+/* fokussierter input: blaue border und leichter schatten */
 input:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
 }
 
+/* login-button style: volle breite, padding, grüne hintergrund */
 .login-button {
   width: 100%;
   padding: 0.75rem;
@@ -61,10 +69,12 @@ input:focus {
   transition: background-color 0.3s ease;
 }
 
+/* hover-effekt fürs button: dunkleres grün */
 .login-button:hover {
   background-color: #0056b3;
 }
 
+/* fehlernachricht: rot, zentriert, shake-animation */
 .error-message {
   color: #d32f2f;
   text-align: center;
@@ -72,6 +82,7 @@ input:focus {
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
 }
 
+/* keyframes für shake-animation bei fehler */
 @keyframes shake {
   10%, 90% { transform: translate3d(-1px, 0, 0); }
   20%, 80% { transform: translate3d(2px, 0, 0); }
@@ -79,6 +90,7 @@ input:focus {
   40%, 60% { transform: translate3d(4px, 0, 0); }
 }
 
+/* reminder text unterm formular, link style und hover */
 .signup-reminder {
   margin-top: 20px;
   text-align: center;

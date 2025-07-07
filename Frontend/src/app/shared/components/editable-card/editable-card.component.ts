@@ -16,18 +16,18 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./editable-card.component.scss']
 })
 export class EditableCardComponent {
-  @Input() editing = false;
-  @Input() showMenu = false;
+  @Input() editing = false;// wenn true, zeigen wir die edit-felder
+  @Input() showMenu = false;// wenn true, wird das kontext-menü eingeblendet
 
-  @Output() toggleMenu = new EventEmitter<MouseEvent>();
-  @Output() cardClick  = new EventEmitter<MouseEvent>();
+  @Output() toggleMenu = new EventEmitter<MouseEvent>();//event wenn menü-icon geklickt
+  @Output() cardClick  = new EventEmitter<MouseEvent>(); //event wenn karte selbst geklickt
 
   onToggleMenu(event: MouseEvent) {
-    event.stopPropagation();
-    this.toggleMenu.emit(event);
+    event.stopPropagation();// klick darf nix anderes triggern
+    this.toggleMenu.emit(event);// weiterleiten an parent
   }
 
   onCardClick(event: MouseEvent) {
-    this.cardClick.emit(event);
+    this.cardClick.emit(event);// parent darf reingucken und reagieren
   }
 }

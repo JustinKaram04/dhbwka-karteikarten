@@ -1,18 +1,23 @@
 <div class="editable-card" (click)="onCardClick($event)">
+  <!-- punkt für progress, z.b. farbige dot -->
   <ng-content select="[progressDot]"></ng-content>
 
+  <!-- normale ansicht, wenn nicht im edit-mode -->
   <ng-container *ngIf="!editing">
     <ng-content select="[cardView]"></ng-content>
   </ng-container>
 
+  <!-- edit-mode ansicht -->
   <ng-container *ngIf="editing">
     <div class="edit-mode" (click)="$event.stopPropagation()">
       <ng-content select="[cardEdit]"></ng-content>
     </div>
   </ng-container>
 
+  <!-- icon zum menü aufklappen -->
   <div class="menu-icon" (click)="onToggleMenu($event)">⋮</div>
 
+  <!-- das eigentliche kontext-menü -->
   <ng-container *ngIf="showMenu">
     <ng-content select="[cardMenu]"></ng-content>
   </ng-container>
