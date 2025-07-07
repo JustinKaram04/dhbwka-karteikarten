@@ -1,0 +1,26 @@
+<!-- Header Button -->
+<button (click)="toggleModal()" class="header-button">
+  + To-Do
+</button>
+
+<!-- Modal -->
+<div class="modal" *ngIf="showModal">
+  <h3>To-Dos</h3>
+
+  <div class="input-group">
+    <input
+      type="text"
+      [(ngModel)]="newTodo"
+      placeholder="Neue Aufgabe"
+    />
+    <button (click)="addTodo()">Erstellen</button>
+  </div>
+
+  <ul class="todo-list">
+    <li *ngIf="todos.length === 0">Keine To-Dos</li>
+    <li *ngFor="let todo of todos; let i = index">
+      <span>{{ todo }}</span>
+      <button class="delete" (click)="deleteTodo(i)">Löschen</button>
+    </li>
+  </ul>
+</div>
