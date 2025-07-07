@@ -1,39 +1,70 @@
+<!-- modus-auswahl anzeigen, wenn noch keiner gewählt und nicht endscreen -->
 <div *ngIf="!mode && !endScreen" class="mode-selection">
-  <button class="mode-btn" (click)="selectMode('infinite')">Unendlicher Modus</button>
-  <button class="mode-btn" (click)="selectMode('limited')">Nur unvollständige</button>
+  <!-- button für unendlichen lernmodus -->
+  <button
+    class="mode-btn mode-infinite"
+    (click)="selectMode('infinite')"
+  >
+    unendlicher modus
+  </button>
+  <!-- button für begrenzten modus (nur karten mit fortschritt<6) -->
+  <button
+    class="mode-btn mode-limited"
+    (click)="selectMode('limited')"
+  >
+    nur unvollständige
+  </button>
 </div>
 
+<!-- karten-ansicht, wenn modus gewählt und nicht endscreen -->
 <div *ngIf="mode && !endScreen" [class.dark]="isDark" class="container">
-  <button class="back-button" (click)="close()">⬅ Zurück</button>
+  <!-- zurück-button zur themenübersicht -->
+  <button class="back-button" (click)="close()">⬅ zurück</button>
+
+  <!-- oberer bereich mit pfeilen und karte -->
   <div class="top-section">
+    <!-- linke pfeil-navigationszone -->
     <div class="left-section">
       <div class="left_arrow" (click)="previousCard()"></div>
     </div>
+    <!-- mittlerer bereich: karte anklicken zum umdrehen -->
     <div class="middle-section" (click)="toggleFlip()">
       <div class="card" [class.flipped]="isFlipped">
+        <!-- kartenvorderseite zeigt frage -->
         <div class="front"><h1>{{currentFlashcard?.question}}</h1></div>
+        <!-- kartenrückseite zeigt antwort -->
         <div class="back"><h1>{{currentFlashcard?.answer}}</h1></div>
       </div>
     </div>
+    <!-- rechte pfeil-navigationszone -->
     <div class="right-section">
       <div class="right_arrow" (click)="nextCard()"></div>
     </div>
   </div>
+
+  <!-- unterer bereich: falsch/korrekt buttons und progress-bar -->
   <div class="under-section">
+    <!-- button für falschantwort (delta -1) -->
     <button class="action-btn wrong" (click)="changeProgress(-1)">✖</button>
+    <!-- progress-bar zeigt aktuellen lernfortschritt 0-6 -->
     <div class="progress">
       <div class="progress__fill" [style.width.%]="(learningProgress/6)*100"></div>
       <span class="progress__text">{{learningProgress}}/6</span>
     </div>
+    <!-- button für korrekte antwort (delta +1) -->
     <button class="action-btn correct" (click)="changeProgress(1)">✔</button>
   </div>
 </div>
 
+<!-- endbildschirm nach finish im limited-mode -->
 <div *ngIf="endScreen" [class.dark]="isDark" class="result-screen">
-  <h2>Ergebnis: {{((correctCount/totalCount)*100)|number:'1.0-0'}}%</h2>
+  <!-- prozentuales ergebnis anzeigen -->
+  <h2>ergebnis: {{((correctCount/totalCount)*100)|number:'1.0-0'}}%</h2>
+  <!-- canvas für doughnut-chart -->
   <canvas #resultCanvas width="200" height="200"></canvas>
+  <!-- aktionen nach ergebnis: nochmals oder beenden -->
   <div class="result-actions">
-    <button class="result-btn" (click)="retry()">Weiter lernen</button>
-    <button class="result-btn" (click)="close()">Beenden</button>
+    <button class="result-btn" (click)="retry()">weiter lernen</button>
+    <button class="result-btn" (click)="close()">beenden</button>
   </div>
 </div>

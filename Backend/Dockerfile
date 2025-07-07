@@ -1,23 +1,17 @@
-# Backend/Dockerfile
-
-# Verwende offizielle Node.js Runtime
-FROM node:20
-
-# Arbeitsverzeichnis im Container
+# Build Stage
+FROM node:20-alpine AS build
 WORKDIR /app
-
-# Package-Dateien kopieren und Abhängigkeiten installieren
 COPY package*.json ./
-RUN npm install
-
-# Quellcode kopieren
+RUN npm ci
 COPY . .
-
-# TypeScript build ausführen
 RUN npm run build
 
-# Server starten
-CMD ["node", "dist/index.js"]
+# Production Stage
+FROM node:20-alpine as prod
+WORKDIR /app
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
 
-# Offenbaren des Ports (falls gewünscht)
 EXPOSE 3100
+CMD ["node", "dist/index.js"]

@@ -1,5 +1,5 @@
 .themengebiete {
-  font-family: Arial, sans-serif;
+  font-family: arial, sans-serif;
   padding: 1rem;
   padding-top: 7rem;
   background-color: var(--bg-color);
@@ -7,223 +7,21 @@
   min-height: 100vh;
 }
 
+/* kasten für die topics-liste, rundungen und schatten */
 .topics {
   background-color: var(--card-bg);
   border-radius: 6px;
   padding: 1.5rem;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 
+  /* titel im topics-block */
   h2 {
     font-size: 1.6rem;
     margin-bottom: 1rem;
   }
 }
 
-.topic-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-}
-
-.topic-card.add-card {
-  background-color: var(--card-bg);
-  border: 2px dashed var(--card-border);
-  border-radius: 6px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 1rem;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  word-break: break-word;
-  max-height: 300px;
-  overflow: auto;
-
-  .plus-icon {
-    font-size: 40px;
-    font-weight: bold;
-    margin: auto;
-    color: var(--text-color);
-  }
-
-  &:hover {
-    background-color: var(--hover-bg);
-    transform: scale(1.02);
-    border-color: #84abd4;
-  }
-
-  .form-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    padding: 6px;
-    border: 1px solid var(--card-border);
-    border-radius: 4px;
-    font-size: 0.9rem;
-    background-color: var(--input-bg, white);
-    color: var(--text-color);
-    transition: all 0.2s;
-
-    &:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
-    }
-  }
-
-  .button-group-inline {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: background-color 0.2s;
-
-      &:hover {
-        background-color: rgba(0, 123, 255, 0.1);
-      }
-    }
-
-    .cancel-btn {
-      background-color: #f5f5f5;
-      color: #333;
-    }
-  }
-}
-
-/* TOPIC-CARD */
-.topic-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  padding: 1rem;
-  text-align: left;
-  position: relative;
-  transition: all 0.3s ease-in-out;
-  word-break: break-word;
-  max-height: 300px;
-  overflow: auto;
-
-  &:hover {
-    border-color: #84abd4;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  h2 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-    word-wrap: break-word;
-  }
-
-  p {
-    font-size: 0.9rem;
-    word-wrap: break-word;
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    padding: 6px;
-    border: 1px solid var(--card-border);
-    border-radius: 4px;
-    font-size: 0.9rem;
-    background-color: var(--input-bg, white);
-    color: var(--text-color);
-    transition: all 0.2s;
-
-    &:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
-    }
-  }
-
-  .button-group {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: background-color 0.2s;
-
-      &:hover {
-        background-color: rgba(0, 123, 255, 0.1);
-      }
-    }
-
-    .cancel-btn {
-      background-color: #f5f5f5;
-      color: #333;
-    }
-  }
-
-  .menu-icon {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    background: var(--card-bg);
-    color: var(--text-color);
-    padding: 4px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: none;
-  }
-
-  &:hover .menu-icon {
-    display: block;
-  }
-
-  .menu {
-    position: absolute;
-    top: 30px;
-    right: 8px;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    min-width: 120px;
-    z-index: 100;
-
-    button {
-      background: none;
-      border: none;
-      padding: 8px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 0.9rem;
-      color: var(--text-color);
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
-    }
-  }
-}
-
-/* SUCH- & FILTERCONTAINER */
+/* suche+sort container */
 .search-filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -236,14 +34,36 @@
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+  /* gruppen für label+feld */
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  /* styling für eingabe und select */
   input,
   select {
     padding: 8px;
     font-size: 0.9rem;
     border: 1px solid var(--card-border);
     border-radius: 4px;
-    background-color: white;
-    color: black;
+    background-color: var(--card-bg);
+    color: var(--text-color);
     transition: all 0.2s;
+
+    /* wenn fokus drauf ist */
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+    }
   }
+}
+
+/* grid-layout für topics-karten + add-item */
+.topic-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1.5rem;
 }

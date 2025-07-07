@@ -9,28 +9,43 @@ import { InfoComponent } from './features/info/info.component';
 import { AuthGuard } from './core/services/authguard/authguard.service';
 
 export const routes: Routes = [
+  // login seite, kein auth-guard
   { path: 'login', component: LoginComponent },
+
+  // registrierung seite
   { path: 'signup', component: RegistrationComponent },
+
+  // hauptseite mit allen themengebieten, nur wenn eingeloggt
   {
     path: '',
     component: TopicsComponent,
     canActivate: [AuthGuard]
   },
+
+  // unterthemen für bestimmtes themengebiet anzeigen
   {
     path: 'themengebiet/:topicId',
     component: SubtopicsComponent,
     canActivate: [AuthGuard]
   },
+
+  // flashcards liste für unterthema
   {
     path: 'themengebiet/:topicId/:subtopicId',
     component: FlashcardsListComponent,
     canActivate: [AuthGuard]
   },
+
+  // lernmodus/preview für flashcards
   {
     path: 'themengebiet/:topicId/:subtopicId/lernmodus',
     component: FlashcardPreviewComponent,
     canActivate: [AuthGuard]
   },
+
+  // info seite ohne auth
   { path: 'info', component: InfoComponent },
+
+  // fallback: alles andere zurück zur hauptseite
   { path: '**', redirectTo: '' }
 ];

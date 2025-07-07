@@ -1,44 +1,33 @@
-import topicsRouter from './routes/content.routes'; //router für /api/topics
-import 'reflect-metadata';  //nötig für typeorm
-import express from 'express';  //express instanz
-import helmet from 'helmet';  //sicherheits middleware
-import cors from 'cors';  //cross-orgin resource sharing
-const cookieParser = require('cookie-parser'); //zum auslesen con cockies
-import 'dotenv/config'; //lädt umgebungsvariable aus .env
-import { AppDataSource } from './ormconfig';  //typeorm datenquelle
-import authRoutes from './routes/auth.routes'; //router für /api/auth
-import { authenticate } from './middleware/authenticate'; //auth middleware
+import 'dotenv/config'; // dotenv schohn beim import automatisch env-vars laden
+import dotenv from 'dotenv'; // optional import, config nochmal manuell triggern
+dotenv.config(); // sicherheitshalber nochmal .env laden
 
-const app = express();
+import express from 'express'; // express framework holen
+import 'reflect-metadata'; // für typeorm meta-daten
+import cors from 'cors'; // cors middlware
+import helmet from 'helmet'; // helmet setzt sicherheits-header
+import cookieParser from 'cookie-parser'; // cookies aus req auslesen
+import { AppDataSource } from './ormconfig'; // typeorm datasource config
+import authRoutes from './routes/auth.routes'; // auth-routen
+import topicsRoutes from './routes/topics.routes'; // topic-routen
+import { errorHandler } from './middleware/errorHandler'; // zentraler fehler-händler
+import { env } from './config/config'; // env variablen
+const app = express(); // express instanz
 
-//fügt Sicherheits header hinzu
-app.use(helmet());
+app.use(helmet()); // sicherheits header vor allen routen
+app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true })); // frontend url erlaubt
+app.use(express.json()); // json body parser
+app.use(cookieParser()); // cookie parser middleware
 
-app.use(cors({
-  origin: 'http://localhost:4200',  //Angular frontend
-  credentials: true //coockies und authorisierungs header zulassen
-}));
+AppDataSource.initialize() // datenbank verbindung starten
+  .then(() => {
+    app.use('/api/auth', authRoutes); // /api/auth routen
+    app.use('/api/topics', topicsRoutes); // /api/topics routen
 
-//json body payloads parsen
-app.use(express.json());
+    app.use(errorHandler); // error handler middleware immer am schluss
 
-//parsed httponlycookies
-app.use(cookieParser());
-
-AppDataSource.initialize()
-  .then(() => {    //db verbindung erfolgreich
-
-    //alle auth routen uner /api/auth
-    app.use('/api/auth', authRoutes);
-
-    //crud für topics/subtopics/flashcards under api/topics
-    app.use('/api/topics', topicsRouter);
-
-    //server starten port aus .env
-    app.listen(process.env.PORT, () =>
-      console.log(`Server läuft auf Port ${process.env.PORT}`)
-    );
+    app.listen(env.PORT, () =>
+      console.log(`Server läuft auf Port ${env.PORT}`)
+    ); // server starten
   })
-  //falls db verbindung scheitert fehle ausgeben
-  .catch(err => console.error('DB-Verbindung fehlgeschlagen', err));
-
+  .catch(err => console.error('DB-Verbindung fehlgeschlagen', err)); // fehler bei db verbindung loggen

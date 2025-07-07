@@ -1,112 +1,104 @@
 <div class="themengebiete" (click)="closeMenu()">
-  <!--Header mit navigation-->
   <app-header></app-header>
 
   <main class="topics">
-    <h2>Themenbereiche:</h2>
+    <h2>themenbereiche:</h2>
 
-    <!--Such und sotierbereich-->
+    <!-- suche und sort-feld -->
     <div class="search-filter-container">
       <div class="filter-group">
-        <label for="topicSearch">🔍 Suche:</label>
+        <label for="search">🔍 suche:</label>
         <input
-          id="topicSearch"
+          id="search"
           type="text"
+          [value]="searchQuery"
           (input)="updateSearchQuery($event)"
-          placeholder="Themengebiet suchen..."
+          placeholder="themengebiet suchen…"
         />
       </div>
       <div class="filter-group">
-        <label for="sortOption">📌 Sortieren nach:</label>
-        <select id="sortOption" (change)="updateSortCriteria($event)">
-          <option value="name-asc">Alphabetisch (A → Z)</option>
-          <option value="name-desc">Alphabetisch (Z → A)</option>
-          <option value="id-asc">ID (aufsteigend)</option>
-          <option value="id-desc">ID (absteigend)</option>
+        <label for="sortOption">📌 sortieren nach:</label>
+        <select
+          id="sortOption"
+          [value]="sortCriteria"
+          (change)="updateSortCriteria($event)"
+        >
+          <option value="name-asc">name (a → z)</option>
+          <option value="name-desc">name (z → a)</option>
+          <option value="id-asc">id (↑)</option>
+          <option value="id-desc">id (↓)</option>
         </select>
       </div>
     </div>
 
-    <!--container für topics-->
+    <!-- container für add-item + karten -->
     <div class="topic-container">
-      <!--Plus karte zum hinzufügen von topics-->
-      <div
-        class="topic-card add-card"
-        (click)="!showAddTopicInput && (showAddTopicInput = true)"
-      >
-        <ng-container *ngIf="!showAddTopicInput">
-          <span class="plus-icon">+</span>
-        </ng-container>
-        <ng-container *ngIf="showAddTopicInput">
-          <div class="form-wrapper" (click)="$event.stopPropagation()">
-            <label for="newTopicInput">Name:</label>
-            <input
-              id="newTopicInput"
-              type="text"
-              [(ngModel)]="newTopicName"
-              placeholder="Themenname..."
-            />
-            <label for="newTopicDescription">Beschreibung:</label>
-            <textarea
-              id="newTopicDescription"
-              [(ngModel)]="newTopicDescription"
-              placeholder="Beschreibung..."
-            ></textarea>
-            <div class="button-group-inline">
-              <button (click)="addTopic()" [disabled]="!newTopicName.trim()">Hinzufügen</button>
-              <button class="cancel-btn" (click)="$event.stopPropagation(); showAddTopicInput = false">
-                Abbrechen
-              </button>
-            </div>
-          </div>
-        </ng-container>
-      </div>
+      <!-- hier kannst du neues themengebiet hinzufügen -->
+      <app-add-item
+        [labelName]="'themengebiet'"
+        [placeholderName]="'name eingeben…'"
+        [labelDescription]="'beschreibung'"
+        [placeholderDescription]="'beschreibung eingeben…'"
+        [buttonText]="'hinzufügen'"
+        [cancelText]="'abbrechen'"
+        (add)="addTopicHandler($event)"
+      ></app-add-item>
 
-      <!--Schleife über gefilterte Topics-->
-      <ng-container *ngFor="let topic of (filteredTopics$ | async)">
-        <div
-          class="topic-card"
-          (click)="navigateToTopic(topic.id, $event)"
-          (mouseenter)="hoveredId = topic.id"
-          (mouseleave)="hoveredId = null"
+      <!-- erst anzeigen, wenn die topics geladen sind -->
+      <ng-container *ngIf="filteredTopics$ | async as topics">
+        <!-- jede karte wird hier mit pipe gefiltert und sortiert -->
+        <ng-container
+          *ngFor="let topic of topics | searchSort: searchQuery : sortCriteria : ['name','id']"
         >
-        <!--bearbeiten wenn editingtopicid gleich topicid-->
-          <div *ngIf="editingTopicId === topic.id" (click)="$event.stopPropagation()">
-            <input
-              type="text"
-              [(ngModel)]="editedTopicName"
-              placeholder="Neuer Name..."
-            />
-            <textarea
-              [(ngModel)]="editedTopicDescription"
-              placeholder="Neue Beschreibung..."
-            ></textarea>
-            <div class="button-group">
-              <button (click)="saveTopic()">💾 Speichern</button>
-              <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
+          <app-editable-card
+            class="topic-card"
+            [editing]="editingTopicId === topic.id"
+            [showMenu]="activeMenuId === topic.id"
+            (toggleMenu)="toggleMenu(topic.id, $event)"
+            (cardClick)="navigateToTopic(topic.id, $event)"
+          >
+            <!-- punkt für progress: low/medium/high -->
+            <span
+              progressDot
+              class="progress-dot"
+              [ngClass]="{
+                'dot-red': topic.progress === 'low',
+                'dot-yellow': topic.progress === 'medium',
+                'dot-green': topic.progress === 'high'
+              }"
+            ></span>
+
+            <!-- normal ansicht: name + beschreibung -->
+            <div cardView>
+              <h2>{{ topic.name }}</h2>
+              <p>{{ topic.description }}</p>
             </div>
-          </div>
-          <!--Normalmodus (anzeigen von name und beschreibung)-->
-          <div *ngIf="editingTopicId !== topic.id">
-            <h2>{{ topic.name }}</h2>
-            <p>{{ topic.description }}</p>
-            <!--Drei punkte icon nur bei hover-->
-            <div
-              class="menu-icon"
-              *ngIf="hoveredId === topic.id"
-              (click)="toggleMenu(topic.id, $event)"
-            >⋮</div>
-            <!--Menu für bearbeiten und löschen-->
-            <div
-              class="menu"
-              *ngIf="activeMenuId === topic.id"
-              (click)="$event.stopPropagation()"
-            >
-              <button (click)="startEditing(topic, $event)">Bearbeiten</button>
-              <button (click)="deleteTopic(topic.id, $event)">Löschen</button>
+
+            <!-- edit ansicht: input + textarea -->
+            <div cardEdit>
+              <input
+                [(ngModel)]="editedTopicName"
+                placeholder="neuer name…"
+              />
+              <textarea
+                [(ngModel)]="editedTopicDescription"
+                placeholder="neue beschreibung…"
+              ></textarea>
+              <div class="button-group">
+                <!-- speichern button -->
+                <button (click)="saveTopic()">💾 speichern</button>
+                <!-- abbrechen button -->
+                <button class="cancel-btn" (click)="cancelEditing()">❌ abbrechen</button>
+              </div>
             </div>
-          </div>
-        </div>
+
+            <!-- kontext-menü mit bearbeiten + löschen -->
+            <div cardMenu class="menu" (click)="$event.stopPropagation()">
+              <button (click)="startEditing(topic, $event)">✏️ bearbeiten</button>
+              <button (click)="deleteTopic(topic.id, $event)">🗑️ löschen</button>
+            </div>
+          </app-editable-card>
+        </ng-container>
       </ng-container>
     </div>
   </main>

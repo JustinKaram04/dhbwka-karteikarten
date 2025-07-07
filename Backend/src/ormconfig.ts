@@ -1,18 +1,17 @@
-import { DataSource } from 'typeorm';
-import 'reflect-metadata';
-import { User } from './entity/User';
-import { Topic } from './entity/Topic';
-import { Subtopic } from './entity/Subtopic';
-import { Flashcard } from './entity/Flashcard';
+import { DataSource } from 'typeorm';// typorm datasouce, verbindet uns mit der db
+import { env } from './config/config';// env-vars safe geparsed aus .env
+import { User } from './entity/User';// entity für user-tabelle
+import { Topic } from './entity/Topic';// entity für topics
+import { Subtopic } from './entity/Subtopic';// entity für subtopics
+import { Flashcard } from './entity/Flashcard';// entity für flashcards
 
-//konfiguration für typeorm-datasource
-export const AppDataSource = new DataSource({
-  type: 'mysql',  //db typ : mysql
-  host: process.env.DB_HOST, //db host aus env
-  port: parseInt(process.env.DB_PORT!),  //db port aus env
-  username: process.env.DB_USER, //db benutzername
-  password: process.env.DB_PASS,  //db passwort
-  database: process.env.DB_NAME,  //datenbankname
-  entities: [User, Topic, Subtopic, Flashcard], //tabellen definitionen
-  synchronize: true,  //schema automatisch syncron halten (nur dev)
+export const AppDataSource = new DataSource({// neue datasource instanz anlegen
+  type: 'mysql',// verwendete db: mysql
+  host: env.DB_HOST,// hostname aus env
+  port: env.DB_PORT,// port aus env (als number)
+  username: env.DB_USER,// db-user
+  password: env.DB_PASS,// passwort
+  database: env.DB_NAME,// datenbank name
+  entities: [User, Topic, Subtopic, Flashcard],// alle entities, die typeorm managen soll
+  synchronize: true,// auto-sync schema, änderungen werden direkt übernommen
 });

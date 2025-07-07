@@ -1,30 +1,25 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
+import { Injectable } from '@angular/core'; //injectable decorator damit angular weiß, dass man das via DI reinholen kann
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http'; //interceptor-typen von angular
+import { Observable } from 'rxjs'; // observable weil next.handle ein observable zurückgibt
+import { AuthService } from '../services/auth/auth.service'; // unser auth-servie, der token speichert und liefert
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService) {}
+@Injectable() // angular-dekorator, ohne den funzt das ding nicht als interceptor
+export class AuthInterceptor implements HttpInterceptor { // implementiert das HttpInterceptor-interface
+  constructor(private auth: AuthService) {} // hier holen wir uns den auth-service über dependency injection rein
 
   intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
+    req: HttpRequest<any>, // original-request, immutable ding
+    next: HttpHandler// handler der die request weiterleitet
   ): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken();
+    const token = this.auth.getToken(); // token aus storage/servie holen
     if (token) {
-      //wenn token exestiert kopiere die anfrage und füge den authorisation header hinzu
+      // wenn token da is, kopier request und häng authorization-header dran
       const authReq = req.clone({
         setHeaders: { Authorization: `Bearer ${token}` }
       });
-      return next.handle(authReq);
+      return next.handle(authReq); // mit modifizierter request weitermachen
     }
-    //ohne token unverändert schicken
+    // kein token vorhanden, schick request unverändert weiter
     return next.handle(req);
   }
 }

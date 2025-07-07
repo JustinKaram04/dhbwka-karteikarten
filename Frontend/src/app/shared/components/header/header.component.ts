@@ -10,29 +10,30 @@ import { AuthService } from '../../../core/services/auth/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  scrolled: boolean = false;
+  scrolled: boolean = false; // merkt sich, ob die page schon gescrollt wurde
 
   constructor(
-    private router: Router,
-    private darkModeService: DarkModeService,
-    private authService: AuthService
+    private router: Router,// zum navigieren
+    private darkModeService: DarkModeService,// um dark mode umzuschalten
+    private authService: AuthService// zum logout
   ) {}
 
-  @HostListener('window:scroll', [])
+  @HostListener('window:scroll', [])// hört aufs scroll-event
   onWindowScroll() {
+    // wenn weiter als 50px gescrollt, scrolled auf true setzen
     this.scrolled = window.scrollY > 50;
   }
 
   navigateTo(route: string) {
-    this.router.navigate([route]);
+    this.router.navigate([route]); // nav zu ner route
   }
 
   toggleDarkMode(): void {
-    this.darkModeService.toggleDarkMode();
+    this.darkModeService.toggleDarkMode(); // dark mode an/aus
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout();// token löschen
+    this.router.navigate(['/login']);// zurück zur login-seite
   }
 }

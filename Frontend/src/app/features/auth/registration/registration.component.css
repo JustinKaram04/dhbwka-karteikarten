@@ -1,25 +1,24 @@
 .registration-page {
   width: 100vw;
   height: 100vh;
-  background-color: var(--bg-color);
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--bg-color);
 }
 
 .registration-container {
-  background-color: var(--card-bg);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 360px;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 h1 {
   text-align: center;
-  font-size: 1.25em;
   color: var(--text-color);
-  margin-bottom: 1.5rem;
+  font-family: inherit;
 }
 
 .form-group {
@@ -30,38 +29,51 @@ label {
   display: block;
   margin-bottom: 0.5rem;
   color: var(--text-color);
+  font-family: inherit;
 }
 
 input {
   width: 100%;
-  padding: 0.5rem;
+  height: 3rem;              /* für input */
+  padding: 0 1rem;
+  font-size: 1rem;
+  font-family: inherit;
   border: 2px solid var(--card-border);
   border-radius: 4px;
-  font-size: 1rem;
   background-color: var(--card-bg);
   color: var(--text-color);
   transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.registration-container textarea {
+  height: auto;
+  min-height: 6rem;          /* mehr Platz für Beschreibung */
+  padding: 0.5rem 1rem;
 }
 
 input:focus {
   border-color: #007bff;
   outline: none;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 0 4px rgba(0,123,255,0.4);
 }
 
 .register-button {
   width: 100%;
-  padding: 0.75rem;
+  height: 3rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
   background-color: #4caf50;
   color: var(--card-bg);
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
+/* hover-effekt für den button: dunkleres blau-grün */
 .register-button:hover {
   background-color: #0056b3;
 }
@@ -69,21 +81,23 @@ input:focus {
 .error-message {
   color: #d32f2f;
   text-align: center;
-  margin-top: 1rem;
+  font-family: inherit;
 }
 
 .login-reminder {
-  margin-top: 20px;
+  margin-top: 1.5rem;
   text-align: center;
-  color: var(--text-color);
+  font-family: inherit;
 }
 
+/* link unter dem form: blau und unterstrichen */
 .login-reminder a {
-  color: #007bff;
+  color: var(--text-color);
   text-decoration: underline;
   cursor: pointer;
 }
 
+/* hover für den link: unterstrich entfernen */
 .login-reminder a:hover {
   text-decoration: none;
 }

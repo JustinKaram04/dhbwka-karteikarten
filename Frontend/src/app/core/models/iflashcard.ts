@@ -1,10 +1,10 @@
 import { ISubtopic } from "./isubtopic";
 
 export interface IFlashcard {
-  id: number;            // von string → number
+  id: number;
   question: string;
   answer: string;
   learningProgress: number;
-  istoggled: boolean;
+  isToggled: boolean;
   subtopic?: ISubtopic;
 }

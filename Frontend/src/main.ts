@@ -7,16 +7,16 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { environment } from './environments/environment';
 
-if (environment.production) enableProdMode();
+if (environment.production) enableProdMode(); // in prod-mode bessere performance, disables angular warnings
 
-bootstrapApplication(AppComponent, {
+bootstrapApplication(AppComponent, {// bootstrapped die ganze angular-app
   providers: [
-    importProvidersFrom(HttpClientModule),
+    importProvidersFrom(HttpClientModule),// importiert HTTP-client module für http-service
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS,// sagt angular: häng meinen interceptor ran
       useClass: AuthInterceptor,
-      multi: true
+      multi: true// mehrere interceptors erlaubt
     },
-    provideRouter(routes)
+    provideRouter(routes)// liefert router-config aus app.routes
   ]
-}).catch(err => console.error(err));
+}).catch(err => console.error(err));// falls bootstrap failt, log das ding
