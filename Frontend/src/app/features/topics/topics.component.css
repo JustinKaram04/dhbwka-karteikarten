@@ -20,7 +20,39 @@
 }
 
 .search-filter-container {
-  /* wie gehabt... */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: var(--card-bg);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  input,
+  select {
+    padding: 8px;
+    font-size: 0.9rem;
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: all 0.2s;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+    }
+  }
 }
 
 .topic-container {

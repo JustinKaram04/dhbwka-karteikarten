@@ -13,7 +13,6 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  // hier die beiden Felder, die im Template gebunden werden:
   inputUsername = '';
   inputPassword = '';
   loginFailed = false;

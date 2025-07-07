@@ -4,9 +4,32 @@
   <main class="topics">
     <h2>Themenbereiche:</h2>
 
-    <div class="search-filter-container">
-      <!-- Such- & Filterbereich wie gehabt -->
-    </div>
+<div class="search-filter-container">
+  <div class="filter-group">
+    <label for="search">🔍 Suche:</label>
+    <input
+      id="search"
+      type="text"
+      [value]="searchQuery"
+      (input)="updateSearchQuery($event)"
+      placeholder="Themengebiet suchen…"
+    />
+  </div>
+  <div class="filter-group">
+    <label for="sortOption">📌 Sortieren nach:</label>
+    <select
+      id="sortOption"
+      [value]="sortCriteria"
+      (change)="updateSortCriteria($event)"
+    >
+      <option value="name-asc">Name (A → Z)</option>
+      <option value="name-desc">Name (Z → A)</option>
+      <option value="id-asc">ID (↑)</option>
+      <option value="id-desc">ID (↓)</option>
+    </select>
+  </div>
+</div>
+
 
     <div class="topic-container">
       <app-add-item
@@ -62,8 +85,8 @@
             </div>
 
             <div cardMenu class="menu" (click)="$event.stopPropagation()">
-              <button (click)="startEditing(topic, $event)">Bearbeiten</button>
-              <button (click)="deleteTopic(topic.id, $event)">Löschen</button>
+              <button (click)="startEditing(topic, $event)">✏️ Bearbeiten</button>
+              <button (click)="deleteTopic(topic.id, $event)">🗑️ Löschen</button>
             </div>
           </app-editable-card>
         </ng-container>

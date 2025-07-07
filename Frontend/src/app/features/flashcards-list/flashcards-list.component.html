@@ -4,10 +4,12 @@
     <button class="back-button" (click)="goBack()">⬅ Zurück</button>
     <h1>Karteikarten</h1>
     <h2>Fragen und Antworten</h2>
+
     <div class="actions">
       <button (click)="openLernmodus()">Lernmodus starten</button>
       <button (click)="resetAllProgress()">🎯 Lernstände zurücksetzen</button>
     </div>
+
     <div class="search-filter-container">
       <div class="filter-group">
         <label for="search">🔍 Suche:</label>
@@ -29,6 +31,7 @@
         </select>
       </div>
     </div>
+
     <div class="flashcardlist-grid">
       <app-add-item
         [labelName]="'Frage'"
@@ -76,7 +79,7 @@
               <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
             </div>
           </div>
-          <div cardMenu (click)="$event.stopPropagation()">
+          <div cardMenu class="menu" (click)="$event.stopPropagation()">
             <button (click)="startEditing(card, $event)">✏️ Bearbeiten</button>
             <button (click)="deleteCard(card.id, $event)">🗑️ Löschen</button>
           </div>
