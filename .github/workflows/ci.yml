@@ -1,0 +1,83 @@
+name: Frontend Build & Deploy
+
+# Trigger nur auf main und Doku
+on:
+  push:
+    branches: [main, Doku]
+  pull_request:
+    branches: [main, Doku]
+  workflow_dispatch:
+
+permissions:
+  contents: read      # für checkout
+  pages: write        # für GitHub Pages
+  id-token: write     # für deploy-pages
+
+jobs:
+  # ----------------------------
+  # 1. Build (install, lint, test, build)
+  # ----------------------------
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: Frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build -- --base-href="/dhbwka-karteikarten/"
+
+  # ----------------------------
+  # 2. Deploy to GitHub Pages
+  # ----------------------------
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Frontend
+    environment:
+      name: github-pages
+      url: ${{ steps.pages-deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: Frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Pages
+        run: npm run build -- --base-href="/dhbwka-karteikarten/"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Frontend/dist/browser
+
+      - id: pages-deploy
+        name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
