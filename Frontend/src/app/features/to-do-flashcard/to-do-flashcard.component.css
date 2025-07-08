@@ -1,3 +1,4 @@
+/* Button oben in der Navigation – transparent, leichtes Hover-Verhalten */
 .nav-button {
   background: transparent;
   border: none;
@@ -10,18 +11,20 @@
   border-radius: 4px;
 }
 
+/* Farbe des Buttons beim Darüberfahren */
 .nav-button:hover {
   color: #007bff;
 }
 
+/* Kleiner Klick-Effekt beim Drücken */
 .nav-button:active {
   transform: scale(0.97);
 }
 
-/* Popup optional schöner gestalten */
+/* Popup für die ToDo-Liste – fest positioniert, abgerundet, mit Schatten */
 .todo-popup {
   position: fixed;
-  top: 85px; /* unterhalb des Headers */
+  top: 85px;
   right: 1rem;
   max-width: 300px;
   width: 90vw;
@@ -39,7 +42,7 @@
   border: 1px solid black;
 }
 
-
+/* Kreis für Checkbox – klickbar, visuelles Feedback */
 .check-circle {
   width: 20px;
   height: 20px;
@@ -57,15 +60,18 @@
   padding: 0;
 }
 
+/* Leichtes Blau beim Hover über Checkbox */
 .check-circle:hover {
   background-color: #e6f0ff;
 }
 
+/* Durchgestrichen + grau = erledigte Aufgabe */
 .done {
   text-decoration: line-through;
   color: gray;
 }
 
+/* Roter Button zum Löschen einer Aufgabe */
 .delete-button {
   margin-left: 0.5rem;
   background-color: transparent;
@@ -75,10 +81,12 @@
   font-weight: bold;
 }
 
+/* Farbe dunkler beim Hover */
 .delete-button:hover {
   color: darkred;
 }
 
+/* Schließen-Button oben rechts im Popup */
 .close-button {
   position: absolute;
   top: 0.5rem;
@@ -91,6 +99,7 @@
   transition: color 0.2s ease;
 }
 
+/* Schließen-Button färbt sich blau beim Hover */
 .close-button:hover {
   color: #007bff;
 }
