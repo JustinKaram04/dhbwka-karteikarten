@@ -1,6 +1,6 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
 import { provideRouter } from '@angular/router';
@@ -11,7 +11,7 @@ if (environment.production) enableProdMode(); // in prod-mode bessere performanc
 
 bootstrapApplication(AppComponent, {// bootstrapped die ganze angular-app
   providers: [
-    importProvidersFrom(HttpClientModule),// importiert HTTP-client module für http-service
+    provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,// sagt angular: häng meinen interceptor ran
       useClass: AuthInterceptor,
@@ -19,4 +19,4 @@ bootstrapApplication(AppComponent, {// bootstrapped die ganze angular-app
     },
     provideRouter(routes)// liefert router-config aus app.routes
   ]
-}).catch(err => console.error(err));// falls bootstrap failt, log das ding
+}).catch(err => console.error(err));
