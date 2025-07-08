@@ -1,23 +1,23 @@
 <div class="unterthemen-page" (click)="closeMenu()">
   <app-header></app-header>
   <div class="unterthemen-content">
-    <button class="back-button" (click)="goBack()">⬅ zurück</button>
+    <button class="back-button" (click)="goBack()">⬅ Zurück</button>
     <h1>{{ themengebietName }}</h1>
-    <h2>unterthemen:</h2>
+    <h2>Unterthemen:</h2>
 
     <!-- such- und sort-bereich -->
     <div class="search-filter-container">
       <div class="filter-group">
-        <label for="search">🔍 suche:</label>
+        <label for="search">🔍 Suche:</label>
         <input id="search" type="text" [(ngModel)]="searchQuery" placeholder="unterthema suchen…" />
       </div>
       <div class="filter-group">
-        <label for="sortOption">📌 sortieren nach:</label>
+        <label for="sortOption">📌 Sortieren nach:</label>
         <select id="sortOption" [(ngModel)]="sortCriteria" (change)="updateSortOption($event)">
-          <option value="id-asc">id (aufsteigend)</option>
-          <option value="id-desc">id (absteigend)</option>
-          <option value="name-asc">alphabetisch (a → z)</option>
-          <option value="name-desc">alphabetisch (z → a)</option>
+          <option value="id-asc">ID (aufsteigend)</option>
+          <option value="id-desc">ID (absteigend)</option>
+          <option value="name-asc">Alphabetisch (A → Z)</option>
+          <option value="name-desc">Alphabetisch (Z → A)</option>
         </select>
       </div>
     </div>
@@ -25,12 +25,12 @@
     <!-- grid mit add-komponente + allen unterthemen -->
     <div class="unterthemen-grid">
       <app-add-item
-        [labelName]="'unterthema'"
-        [placeholderName]="'name eingeben…'"
-        [labelDescription]="'beschreibung'"
-        [placeholderDescription]="'beschreibung eingeben…'"
-        [buttonText]="'hinzufügen'"
-        [cancelText]="'abbrechen'"
+        [labelName]="'Unterthema'"
+        [placeholderName]="'Name eingeben…'"
+        [labelDescription]="'Beschreibung'"
+        [placeholderDescription]="'Beschreibung eingeben…'"
+        [buttonText]="'Hinzufügen'"
+        [cancelText]="'Abbrechen'"
         (add)="addSubtopicHandler($event)"
       ></app-add-item>
 
@@ -50,20 +50,20 @@
 
           <!-- editansicht -->
           <div cardEdit>
-            <label for="editName">neuer name:</label>
-            <input id="editName" type="text" [(ngModel)]="editedSubtopicName" placeholder="neuer name…" />
-            <label for="editDesc">neue beschreibung:</label>
-            <textarea id="editDesc" [(ngModel)]="editedSubtopicDescription" placeholder="beschreibung…"></textarea>
+            <label for="editName">Neuer Name:</label>
+            <input id="editName" type="text" [(ngModel)]="editedSubtopicName" placeholder="Neuer Name…" />
+            <label for="editDesc">Beue Beschreibung:</label>
+            <textarea id="editDesc" [(ngModel)]="editedSubtopicDescription" placeholder="Beschreibung…"></textarea>
             <div class="button-group">
-              <button (click)="saveSubtopic()">💾 speichern</button>
-              <button class="cancel-btn" (click)="cancelEditing()">❌ abbrechen</button>
+              <button (click)="saveSubtopic()">💾 Speichern</button>
+              <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
             </div>
           </div>
 
           <!-- kontext-menü -->
           <div cardMenu class="menu" (click)="$event.stopPropagation()">
-            <button (click)="startEditing(sub, $event)">✏️ bearbeiten</button>
-            <button class="delete-btn" (click)="loeschen(sub.id, $event)">🗑️ löschen</button>
+            <button (click)="startEditing(sub, $event)">✏️ Bearbeiten</button>
+            <button class="delete-btn" (click)="loeschen(sub.id, $event)">🗑️ Löschen</button>
           </div>
         </app-editable-card>
       </ng-container>

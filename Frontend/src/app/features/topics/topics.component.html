@@ -2,12 +2,12 @@
   <app-header></app-header>
 
   <main class="topics">
-    <h2>themenbereiche:</h2>
+    <h2>Themenbereiche:</h2>
 
     <!-- suche und sort-feld -->
     <div class="search-filter-container">
       <div class="filter-group">
-        <label for="search">🔍 suche:</label>
+        <label for="search">🔍 Suche:</label>
         <input
           id="search"
           type="text"
@@ -17,16 +17,16 @@
         />
       </div>
       <div class="filter-group">
-        <label for="sortOption">📌 sortieren nach:</label>
+        <label for="sortOption">📌 Sortieren nach:</label>
         <select
           id="sortOption"
           [value]="sortCriteria"
           (change)="updateSortCriteria($event)"
         >
-          <option value="name-asc">name (a → z)</option>
-          <option value="name-desc">name (z → a)</option>
-          <option value="id-asc">id (↑)</option>
-          <option value="id-desc">id (↓)</option>
+          <option value="name-asc">Name (A → Z)</option>
+          <option value="name-desc">Name (Z → A)</option>
+          <option value="id-asc">ID (↑)</option>
+          <option value="id-desc">ID (↓)</option>
         </select>
       </div>
     </div>
@@ -35,12 +35,12 @@
     <div class="topic-container">
       <!-- hier kannst du neues themengebiet hinzufügen -->
       <app-add-item
-        [labelName]="'themengebiet'"
-        [placeholderName]="'name eingeben…'"
-        [labelDescription]="'beschreibung'"
-        [placeholderDescription]="'beschreibung eingeben…'"
-        [buttonText]="'hinzufügen'"
-        [cancelText]="'abbrechen'"
+        [labelName]="'Themengebiet'"
+        [placeholderName]="'Name eingeben…'"
+        [labelDescription]="'Beschreibung'"
+        [placeholderDescription]="'Beschreibung eingeben…'"
+        [buttonText]="'Hinzufügen'"
+        [cancelText]="'Abbrechen'"
         (add)="addTopicHandler($event)"
       ></app-add-item>
 
@@ -78,24 +78,24 @@
             <div cardEdit>
               <input
                 [(ngModel)]="editedTopicName"
-                placeholder="neuer name…"
+                placeholder="Neuer Name…"
               />
               <textarea
                 [(ngModel)]="editedTopicDescription"
-                placeholder="neue beschreibung…"
+                placeholder="Neue Neschreibung…"
               ></textarea>
               <div class="button-group">
                 <!-- speichern button -->
-                <button (click)="saveTopic()">💾 speichern</button>
+                <button (click)="saveTopic()">💾 Speichern</button>
                 <!-- abbrechen button -->
-                <button class="cancel-btn" (click)="cancelEditing()">❌ abbrechen</button>
+                <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
               </div>
             </div>
 
             <!-- kontext-menü mit bearbeiten + löschen -->
             <div cardMenu class="menu" (click)="$event.stopPropagation()">
-              <button (click)="startEditing(topic, $event)">✏️ bearbeiten</button>
-              <button (click)="deleteTopic(topic.id, $event)">🗑️ löschen</button>
+              <button (click)="startEditing(topic, $event)">✏️ Bearbeiten</button>
+              <button (click)="deleteTopic(topic.id, $event)">🗑️ Löschen</button>
             </div>
           </app-editable-card>
         </ng-container>

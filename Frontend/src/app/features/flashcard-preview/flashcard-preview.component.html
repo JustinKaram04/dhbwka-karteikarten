@@ -5,21 +5,21 @@
     class="mode-btn mode-infinite"
     (click)="selectMode('infinite')"
   >
-    unendlicher modus
+    Unendlicher modus
   </button>
   <!-- button für begrenzten modus (nur karten mit fortschritt<6) -->
   <button
     class="mode-btn mode-limited"
     (click)="selectMode('limited')"
   >
-    nur unvollständige
+    Nur Unvollständige
   </button>
 </div>
 
 <!-- karten-ansicht, wenn modus gewählt und nicht endscreen -->
 <div *ngIf="mode && !endScreen" [class.dark]="isDark" class="container">
   <!-- zurück-button zur themenübersicht -->
-  <button class="back-button" (click)="close()">⬅ zurück</button>
+  <button class="back-button" (click)="close()">⬅ Zurück</button>
 
   <!-- oberer bereich mit pfeilen und karte -->
   <div class="top-section">
@@ -64,7 +64,7 @@
   <canvas #resultCanvas width="200" height="200"></canvas>
   <!-- aktionen nach ergebnis: nochmals oder beenden -->
   <div class="result-actions">
-    <button class="result-btn" (click)="retry()">weiter lernen</button>
-    <button class="result-btn" (click)="close()">beenden</button>
+    <button class="result-btn" (click)="retry()">Weiter Lernen</button>
+    <button class="result-btn" (click)="close()">Beenden</button>
   </div>
 </div>

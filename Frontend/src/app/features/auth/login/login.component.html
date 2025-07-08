@@ -6,11 +6,11 @@
   <div class="login-container">
     <!-- form mit ngSubmit, ruft inputCheck() in der component auf -->
     <form (ngSubmit)="inputCheck()" class="login-form">
-      <h1>login</h1>
+      <h1>  Login</h1>
 
       <!-- benutzername eingabe -->
       <div class="form-group">
-        <label for="username">benutzername:</label>
+        <label for="username">Benutzername:</label>
         <input
           type="text"
           id="username"
@@ -22,7 +22,7 @@
 
       <!-- passwort eingabe -->
       <div class="form-group">
-        <label for="password">passwort:</label>
+        <label for="password">Passwort:</label>
         <input
           type="password"
           id="password"
@@ -33,17 +33,17 @@
       </div>
 
       <!-- login-button abschicken -->
-      <button type="submit" class="login-button">login</button>
+      <button type="submit" class="login-button">Login</button>
     </form>
 
     <!-- fehleranzeige, wenn login fehlgeschlagen -->
     <p *ngIf="loginFailed" class="error-message">
-      <i class="fas fa-exclamation-circle"></i> login fehlgeschlagen
+      <i class="fas fa-exclamation-circle"></i> Login Fehlgeschlagen
     </p>
 
     <!-- hinweis für neue user, link zur registrierung -->
     <p class="signup-reminder">
-      noch kein konto? <a (click)="navigateToSignup()">hier registrieren</a>
+      Noch kein Konto? <a (click)="navigateToSignup()">Hier Registrieren</a>
     </p>
   </div>
 </div>
