@@ -1,11 +1,10 @@
-# .github/workflows/ci.yml
-name: CI – Build, Test & Deploy
+name: CI – Frontend Build & Deploy
 
 on:
   push:
-    branches: [main, githubpages]
+    branches: [main, Doku]
   pull_request:
-    branches: [main, githubpages]
+    branches: [main, Doku]
   workflow_dispatch:
 
 permissions:
@@ -15,69 +14,9 @@ permissions:
 
 jobs:
   # ---------------------
-  # 1. BACKEND (Docker + Test)
-  # ---------------------
-  backend:
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: secret
-          MYSQL_DATABASE: karteikarten
-          MYSQL_USER: appuser
-          MYSQL_PASSWORD: secret
-        ports: ["3306:3306"]
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js (Backend)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install backend dependencies
-        working-directory: Backend
-        run: npm ci
-
-      - name: Build backend
-        working-directory: Backend
-        run: npm run build
-
-      - name: Run backend tests
-        working-directory: Backend
-        run: npm test
-
-      - name: Build Docker image for backend
-        working-directory: Backend
-        run: |
-          docker build -t quickflip-backend:latest .
-
-      - name: Start backend container
-        run: |
-          docker run -d --name backend-container \
-            -e DB_HOST=127.0.0.1 \
-            -e DB_PORT=3306 \
-            -e DB_USER=appuser \
-            -e DB_PASS=secret \
-            -e DB_NAME=karteikarten \
-            -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            -p 3100:3100 \
-            quickflip-backend:latest
-
-  # ---------------------
-  # 2. FRONTEND (Lint, Test, Build)
+  # 1. FRONTEND (Lint, Test, Build)
   # ---------------------
   frontend:
-    needs: backend
     runs-on: ubuntu-latest
 
     steps:
@@ -104,7 +43,7 @@ jobs:
         run: npm run build -- --base-href="/dhbwka-karteikarten/"
 
   # ---------------------
-  # 3. DEPLOY FRONTEND TO GITHUB PAGES
+  # 2. DEPLOY FRONTEND TO GITHUB PAGES
   # ---------------------
   publish:
     needs: frontend
