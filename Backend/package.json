@@ -36,6 +36,9 @@
     "prettier": "latest",
     "typescript": "^5.7.3",
     "typescript-eslint": "latest",
-    "vitest": "latest"
+    "readdirp": "^4.1.2",
+    "vitest": "latest",
+    "chokidar": "^4.0.3"
+    
   }
 }
