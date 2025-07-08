@@ -9,14 +9,14 @@ export class User extends BaseEntity { // extends BaseEntity für save()/remove(
   @Column({ unique: true })
   username!: string // einzigartiger nutzername darf nicht doppelt sein
 
-  @Column({ unique: true }) 
+  @Column({ unique: true })
   email!: string // unique email wird später fürs login genutzt
 
-  @Column() 
+  @Column()
   passwordHash!: string //hier wird das gehashte passwort gespeichert nicht im klartext
 
   @OneToMany(
-    () => Topic, 
+    () => Topic,
     topic => topic.owner
   )
   topics!: Topic[] //relation: ein user kann mehrere topics haben
