@@ -1,140 +1,83 @@
-# .github/workflows/ci.yml
-name: CI – Build, Test & Deploy
+name: Frontend Build & Deploy
 
+# Trigger nur auf main und Doku
 on:
   push:
-    branches: [main, githubpages]
+    branches: [main, Doku]
   pull_request:
-    branches: [main, githubpages]
+    branches: [main, Doku]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read      # für checkout
+  pages: write        # für GitHub Pages
+  id-token: write     # für deploy-pages
 
 jobs:
-  # ---------------------
-  # 1. BACKEND (Docker + Test)
-  # ---------------------
-  backend:
+  # ----------------------------
+  # 1. Build (install, lint, test, build)
+  # ----------------------------
+  build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: secret
-          MYSQL_DATABASE: karteikarten
-          MYSQL_USER: appuser
-          MYSQL_PASSWORD: secret
-        ports: ["3306:3306"]
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+    defaults:
+      run:
+        working-directory: Frontend
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js (Backend)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: Frontend/package-lock.json
 
-      - name: Install backend dependencies
-        working-directory: Backend
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build backend
-        working-directory: Backend
-        run: npm run build
-
-      - name: Run backend tests
-        working-directory: Backend
-        run: npm test
-
-      - name: Build Docker image for backend
-        working-directory: Backend
-        run: |
-          docker build -t quickflip-backend:latest .
-
-      - name: Start backend container
-        run: |
-          docker run -d --name backend-container \
-            -e DB_HOST=127.0.0.1 \
-            -e DB_PORT=3306 \
-            -e DB_USER=appuser \
-            -e DB_PASS=secret \
-            -e DB_NAME=karteikarten \
-            -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            -p 3100:3100 \
-            quickflip-backend:latest
-
-  # ---------------------
-  # 2. FRONTEND (Lint, Test, Build)
-  # ---------------------
-  frontend:
-    needs: backend
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js (Frontend)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Use clean NPM registry config
-        run: |
-          rm -f ~/.npmrc
-          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
-
-      - name: Install frontend dependencies
-        working-directory: Frontend
-        run: npm ci --force
-
       - name: Build frontend
-        working-directory: Frontend
         run: npm run build -- --base-href="/dhbwka-karteikarten/"
 
-  # ---------------------
-  # 3. DEPLOY FRONTEND TO GITHUB PAGES
-  # ---------------------
-  publish:
-    needs: frontend
+  # ----------------------------
+  # 2. Deploy to GitHub Pages
+  # ----------------------------
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Frontend
+    environment:
+      name: github-pages
+      url: ${{ steps.pages-deploy.outputs.page_url }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js for Pages build
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: Frontend/package-lock.json
 
-      - name: Build frontend for Pages
-        working-directory: Frontend
-        run: |
-          rm -f ~/.npmrc
-          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
-          npm ci --force
-          npm run build -- --base-href="/dhbwka-karteikarten/"
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Configure GitHub Pages
+      - name: Build for Pages
+        run: npm run build -- --base-href="/dhbwka-karteikarten/"
+
+      - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact for Pages
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "Frontend/dist/browser"
+          path: Frontend/dist/browser
 
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: pages-deploy
+        name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

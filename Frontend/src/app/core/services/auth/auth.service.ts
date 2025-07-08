@@ -25,7 +25,7 @@ export class AuthService {
     return this.token$.value;
   }
 
-  // login: credentials an backend schicken und token speichern
+  // login: credentials an backend schicken und token speichernn
   login(data: Credentials): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(
       `${this.apiBase}/login`,
