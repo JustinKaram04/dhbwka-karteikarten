@@ -5,7 +5,8 @@
   "scripts": {
     "start:backend": "cd Backend && docker compose up -d && npx ts-node src/index.ts",
     "start:frontend": "cd Frontend && npx ng serve",
-    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "compodoc": "npx compodoc -p tsconfig.doc.json"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -15,8 +16,10 @@
     "@types/express-validator": "^2.20.33",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.21",
-    "concurrently": "^9.1.2",
+    "concurrently": "^9.2.0",
+    "json-server": "^1.0.0-beta.3",
     "ts-node": "^10.9.2",
+    "typedoc": "^0.28.7",
     "typescript": "^5.8.3"
   },
   "dependencies": {

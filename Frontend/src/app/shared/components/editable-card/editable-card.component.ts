@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './editable-card.component.html',
-  styleUrls: ['./editable-card.component.scss']
+  styleUrls: ['./editable-card.component.css']
 })
 export class EditableCardComponent {
   @Input() editing = false;// wenn true, zeigen wir die edit-felder

@@ -14,5 +14,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
   },
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"],   // or ["src/**/*.ts"]
+    "out": "docs"
+  },
   "include": ["src/**/*"]
 }

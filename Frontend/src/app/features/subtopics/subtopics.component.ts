@@ -24,7 +24,7 @@ import { IFlashcard } from '../../core/models/iflashcard';
     EditableCardComponent
   ],
   templateUrl: './subtopics.component.html',
-  styleUrls: ['./subtopics.component.scss']
+  styleUrls: ['./subtopics.component.css']
 })
 export class SubtopicsComponent implements OnInit {
   topicId!: number;// holt sich die topic-id aus der url

@@ -23,7 +23,7 @@ import { Subscription, forkJoin } from 'rxjs';
     EditableCardComponent
   ],
   templateUrl: './flashcards-list.component.html',
-  styleUrls: ['./flashcards-list.component.scss']
+  styleUrls: ['./flashcards-list.component.css']
 })
 export class FlashcardsListComponent implements OnInit, OnDestroy {
   topicId!: number;  // id vom aktuellen topic aus der url

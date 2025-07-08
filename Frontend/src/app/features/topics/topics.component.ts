@@ -23,7 +23,7 @@ import { GetDataService } from '../../core/services/getDataServices/get-data.ser
     EditableCardComponent
   ],
   templateUrl: './topics.component.html',
-  styleUrls: ['./topics.component.scss']
+  styleUrls: ['./topics.component.css']
 })
 
 export class TopicsComponent implements OnInit {
