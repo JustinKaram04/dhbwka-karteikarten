@@ -3,7 +3,7 @@ name: Publish Frontend
 on:
   push:
     branches:
-      - "main"
+      - "Doku"
     paths: "Frontend/**"
   workflow_dispatch:
 
