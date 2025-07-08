@@ -4,15 +4,15 @@
 
   <div class="flashcardlist-content">
     <!-- zurück-button -->
-    <button class="back-button" (click)="goBack()">⬅ zurück</button>
+    <button class="back-button" (click)="goBack()">⬅ Zurück</button>
 
-    <h1>karteikarten</h1>
-    <h2>fragen und antworten</h2>
+    <h1>Karteikarten</h1>
+    <h2>Fragen und Antworten</h2>
 
     <!-- aktionen: lernmodus starten und alle lernstände reset -->
     <div class="actions">
-      <button (click)="openLernmodus()">lernmodus starten</button>
-      <button (click)="resetAllProgress()">🎯 lernstände zurücksetzen</button>
+      <button (click)="openLernmodus()">Lernmodus Starten</button>
+      <button (click)="resetAllProgress()">🎯 Lernstände Zurücksetzen</button>
     </div>
 
     <!-- suche und sort-felder -->
@@ -22,18 +22,18 @@
         <input id="search" type="text" [(ngModel)]="searchQuery" />
       </div>
       <div class="filter-group">
-        <label for="sortOption">📌 sortieren nach:</label>
+        <label for="sortOption">📌 Sortieren Nach:</label>
         <select
           id="sortOption"
           [(ngModel)]="sortCriteria"
           (change)="onSortChange($event)"
         >
-          <option value="question-asc">frage (a → z)</option>
-          <option value="question-desc">frage (z → a)</option>
-          <option value="answer-asc">antwort (a → z)</option>
-          <option value="answer-desc">antwort (z → a)</option>
-          <option value="progress-asc">lernstand (niedrig → hoch)</option>
-          <option value="progress-desc">lernstand (hoch → niedrig)</option>
+          <option value="question-asc">Frage (A → Z)</option>
+          <option value="question-desc">Frage (Z → A)</option>
+          <option value="answer-asc">Antwort (A → Z)</option>
+          <option value="answer-desc">Antwort (Z → A)</option>
+          <option value="progress-asc">Lernstand (Niedrig → Hoch)</option>
+          <option value="progress-desc">Lernstand (Hoch → Niedrig)</option>
         </select>
       </div>
     </div>
@@ -42,10 +42,10 @@
     <div class="flashcardlist-grid">
       <!-- komponente zum hinzufügen einer neuen karte -->
       <app-add-item
-        [labelName]="'frage'"
-        [placeholderName]="'frage eingeben…'"
-        [labelDescription]="'antwort'"
-        [placeholderDescription]="'antwort eingeben…'"
+        [labelName]="'Frage'"
+        [placeholderName]="'Frage eingeben…'"
+        [labelDescription]="'Antwort'"
+        [placeholderDescription]="'Antwort eingeben…'"
         (add)="onAddFlashcard($event)"
       ></app-add-item>
 
@@ -78,19 +78,19 @@
           </div>
           <!-- edit-view: inputs für frage und antwort -->
           <div cardEdit>
-            <label for="editQuestion">frage:</label>
+            <label for="editQuestion">Frage:</label>
             <input id="editQuestion" type="text" [(ngModel)]="editedQuestion" />
-            <label for="editAnswer">antwort:</label>
+            <label for="editAnswer">Antwort:</label>
             <textarea id="editAnswer" [(ngModel)]="editedAnswer"></textarea>
             <div class="button-group">
-              <button (click)="saveCard()">💾 speichern</button>
-              <button class="cancel-btn" (click)="cancelEditing()">❌ abbrechen</button>
+              <button (click)="saveCard()">💾 Speichern</button>
+              <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
             </div>
           </div>
           <!-- menü-view: bearbeiten/löschen buttons -->
           <div cardMenu class="menu" (click)="$event.stopPropagation()">
-            <button (click)="startEditing(card, $event)">✏️ bearbeiten</button>
-            <button (click)="deleteCard(card.id, $event)">🗑️ löschen</button>
+            <button (click)="startEditing(card, $event)">✏️ Bearbeiten</button>
+            <button (click)="deleteCard(card.id, $event)">🗑️ Löschen</button>
           </div>
         </app-editable-card>
       </ng-container>
