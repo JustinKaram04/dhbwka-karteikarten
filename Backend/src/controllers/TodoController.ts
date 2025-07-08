@@ -25,7 +25,7 @@ export const addTodo = async (
     const todo = await todoService.addTodo(req.user!.id, text);
     res.status(201).json(todo);
   } catch (err) {
-    next(err);  // Fehler an Middleware weitergeben
+    next(err);
   }
 };
 

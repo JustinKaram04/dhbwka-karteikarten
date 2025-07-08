@@ -4,7 +4,7 @@ import { getTodos, addTodo, toggleTodoDone, deleteTodo } from '../controllers/To
 
 const router = Router();
 
-router.use(authenticate); // Middleware
+router.use(authenticate); 
 
 router.get('/', getTodos);
 router.post('/', addTodo);
