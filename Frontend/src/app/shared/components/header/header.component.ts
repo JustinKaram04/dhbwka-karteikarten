@@ -2,15 +2,19 @@ import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { DarkModeService } from '../../../core/services/dark-modeServices/dark-mode.service';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { ToDoFlashcardComponent } from '../../../features/to-do-flashcard/to-do-flashcard.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  imports: [ToDoFlashcardComponent, CommonModule],
 })
 export class HeaderComponent {
-  scrolled: boolean = false; // merkt sich, ob die page schon gescrollt wurde
+  scrolled: boolean = false;
+  showTodoPopup = false;
 
   constructor(
     private router: Router,// zum navigieren
@@ -30,6 +34,10 @@ export class HeaderComponent {
 
   toggleDarkMode(): void {
     this.darkModeService.toggleDarkMode(); // dark mode an/aus
+  }
+
+  toggleTodoPopup() {
+    this.showTodoPopup = !this.showTodoPopup;
   }
 
   logout(): void {

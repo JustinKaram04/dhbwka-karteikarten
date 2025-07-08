@@ -10,6 +10,10 @@ declare module 'express-serve-static-core' {
   }
 }
 
+export interface AuthRequest extends Request {
+  user?: User;
+}
+
 export const authenticate = async (
   req: Request,
   res: Response,
