@@ -1,5 +1,4 @@
 <div class="card add-card" (click)="!showInput && toggleInput()">
-  <!-- zeigt nur das plus, wenn noch kein input da is -->
   <ng-container *ngIf="!showInput">
     <span class="plus-icon">+</span>
   </ng-container>
@@ -7,7 +6,6 @@
   <!-- input-felder, sobald showInput true is -->
   <ng-container *ngIf="showInput">
     <div class="form-wrapper" (click)="$event.stopPropagation()">
-      <!-- name eingabe -->
       <label for="addName">{{ labelName }}:</label>
       <input
         id="addName"
@@ -16,7 +14,6 @@
         [placeholder]="placeholderName"
       />
 
-      <!-- beschreibung eingabe -->
       <label for="addDescription">{{ labelDescription }}:</label>
       <textarea
         id="addDescription"

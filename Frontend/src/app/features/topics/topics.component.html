@@ -4,7 +4,6 @@
   <main class="topics">
     <h2>Themenbereiche:</h2>
 
-    <!-- suche und sort-feld -->
     <div class="search-filter-container">
       <div class="filter-group">
         <label for="search">🔍 Suche:</label>
@@ -31,9 +30,7 @@
       </div>
     </div>
 
-    <!-- container für add-item + karten -->
     <div class="topic-container">
-      <!-- hier kannst du neues themengebiet hinzufügen -->
       <app-add-item
         [labelName]="'Themengebiet'"
         [placeholderName]="'Name eingeben…'"
@@ -44,9 +41,7 @@
         (add)="addTopicHandler($event)"
       ></app-add-item>
 
-      <!-- erst anzeigen, wenn die topics geladen sind -->
       <ng-container *ngIf="filteredTopics$ | async as topics">
-        <!-- jede karte wird hier mit pipe gefiltert und sortiert -->
         <ng-container
           *ngFor="let topic of topics | searchSort: searchQuery : sortCriteria : ['name','id']"
         >
@@ -57,7 +52,6 @@
             (toggleMenu)="toggleMenu(topic.id, $event)"
             (cardClick)="navigateToTopic(topic.id, $event)"
           >
-            <!-- punkt für progress: low/medium/high -->
             <span
               progressDot
               class="progress-dot"
@@ -68,13 +62,11 @@
               }"
             ></span>
 
-            <!-- normal ansicht: name + beschreibung -->
             <div cardView>
               <h2>{{ topic.name }}</h2>
               <p>{{ topic.description }}</p>
             </div>
 
-            <!-- edit ansicht: input + textarea -->
             <div cardEdit>
               <input
                 [(ngModel)]="editedTopicName"
@@ -85,14 +77,11 @@
                 placeholder="Neue Neschreibung…"
               ></textarea>
               <div class="button-group">
-                <!-- speichern button -->
                 <button (click)="saveTopic()">💾 Speichern</button>
-                <!-- abbrechen button -->
                 <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
               </div>
             </div>
 
-            <!-- kontext-menü mit bearbeiten + löschen -->
             <div cardMenu class="menu" (click)="$event.stopPropagation()">
               <button (click)="startEditing(topic, $event)">✏️ Bearbeiten</button>
               <button (click)="deleteTopic(topic.id, $event)">🗑️ Löschen</button>
