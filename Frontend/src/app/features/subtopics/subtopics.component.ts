@@ -1,3 +1,4 @@
+// subtopics.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -27,17 +28,17 @@ import { IFlashcard } from '../../core/models/iflashcard';
   styleUrls: ['./subtopics.component.scss']
 })
 export class SubtopicsComponent implements OnInit {
-  topicId!: number;// holt sich die topic-id aus der url
-  themengebietName = '';// name vom themengebiet, wird später gesetzt
-  unterthemen$ = new BehaviorSubject<ISubtopic[]>([]); // stream mit allen unterthemen
+  topicId!: number; // holt sich die topic-id aus der url
+  topicName = ''; // name vom themengebiet, wird später gesetzt
+  subtopics$ = new BehaviorSubject<ISubtopic[]>([]); // stream mit allen unterthemen
   activeMenuId: number | null = null; // welche karte hat grad menü offen?
 
   editingSubtopicId: number | null = null; // id vom unterthema im edit-mode
-  editedSubtopicName = '';// temporärer speicher für neuen namen
-  editedSubtopicDescription = '';// und beschreibung
+  editedSubtopicName = ''; // temporärer speicher für neuen namen
+  editedSubtopicDescription = ''; // und beschreibung
 
-  searchQuery = '';// suchbegriff fürs filter-pipe
-  sortCriteria = 'id-asc';// sortierung, standard ist id-aufsteigend
+  searchQuery = ''; // suchbegriff fürs filter-pipe
+  sortCriteria = 'id-asc'; // sortierung, standard ist id-aufsteigend
 
   constructor(
     private route: ActivatedRoute,
@@ -53,16 +54,16 @@ export class SubtopicsComponent implements OnInit {
     // lade parallel topics und subs
     forkJoin({
       topics: this.service.getTopics(),
-      subs:   this.service.getSubtopics(this.topicId)
+      subs: this.service.getSubtopics(this.topicId)
     }).pipe(
       map(({ topics, subs }) => {
         // such das aktuelle topic um an den namen zu kommen
         const topic = topics.find(t => t.id === this.topicId);
-        this.themengebietName = topic?.name || '';
+        this.topicName = topic?.name || '';
         return subs; // unterthemen weitergeben
       }),
       catchError(() => of([] as ISubtopic[])) // falls fehler, leeres array
-    ).subscribe(subs => this.unterthemen$.next(subs));
+    ).subscribe(subs => this.subtopics$.next(subs));
   }
 
   updateSortOption(e: Event): void {
@@ -75,7 +76,7 @@ export class SubtopicsComponent implements OnInit {
     this.activeMenuId = null;
   }
 
-  navigateToUnterthema(id: number, e: MouseEvent): void {
+  navigateToSubtopic(id: number, e: MouseEvent): void {
     // wenn button/input geklickt wurde, nix tun
     if (['BUTTON','INPUT','TEXTAREA'].includes((e.target as HTMLElement).tagName)) return;
     // sonst navigier zum unterthema
@@ -88,7 +89,7 @@ export class SubtopicsComponent implements OnInit {
       .subscribe({
         next: created => {
           // ins array appenden
-          this.unterthemen$.next([...this.unterthemen$.value, created]);
+          this.subtopics$.next([...this.subtopics$.value, created]);
         },
         error: err => console.error('oops, fehler beim hinzufügen:', err)
       });
@@ -115,8 +116,8 @@ export class SubtopicsComponent implements OnInit {
     ).subscribe({
       next: updated => {
         // im stream ersetzen
-        this.unterthemen$.next(
-          this.unterthemen$.value.map(s =>
+        this.subtopics$.next(
+          this.subtopics$.value.map(s =>
             s.id === this.editingSubtopicId ? updated : s
           )
         );
@@ -139,7 +140,7 @@ export class SubtopicsComponent implements OnInit {
     this.activeMenuId = this.activeMenuId === id ? null : id;
   }
 
-  loeschen(subtopicId: number, e: MouseEvent): void {
+  deleteSubtopic(subtopicId: number, e: MouseEvent): void {
     // unterthema + flashcards löschen
     e.stopPropagation();
     if (!confirm('wirklich löschen?')) return;
@@ -152,7 +153,7 @@ export class SubtopicsComponent implements OnInit {
       switchMap(() => this.service.deleteSubtopic(this.topicId, subtopicId)),
       map(() => {
         // aus liste entfernen
-        this.unterthemen$.next(this.unterthemen$.value.filter(s => s.id !== subtopicId));
+        this.subtopics$.next(this.subtopics$.value.filter(s => s.id !== subtopicId));
       })
     ).subscribe({
       error: err => console.error('fehler beim löschen:', err)

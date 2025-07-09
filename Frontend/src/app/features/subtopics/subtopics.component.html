@@ -1,15 +1,16 @@
+<!-- subtopics.component.html -->
 <div class="unterthemen-page" (click)="closeMenu()">
   <app-header></app-header>
   <div class="unterthemen-content">
     <button class="back-button" (click)="goBack()">⬅ Zurück</button>
-    <h1>{{ themengebietName }}</h1>
+    <h1>{{ topicName }}</h1>
     <h2>Unterthemen:</h2>
 
     <!-- such- und sort-bereich -->
     <div class="search-filter-container">
       <div class="filter-group">
         <label for="search">🔍 Suche:</label>
-        <input id="search" type="text" [(ngModel)]="searchQuery" placeholder="unterthema suchen…" />
+        <input id="search" type="text" [(ngModel)]="searchQuery" placeholder="Unterthema suchen…" />
       </div>
       <div class="filter-group">
         <label for="sortOption">📌 Sortieren nach:</label>
@@ -34,13 +35,13 @@
         (add)="addSubtopicHandler($event)"
       ></app-add-item>
 
-      <ng-container *ngFor="let sub of unterthemen$ | async | searchSort:searchQuery:sortCriteria:['id','name']">
+      <ng-container *ngFor="let sub of subtopics$ | async | searchSort:searchQuery:sortCriteria:['id','name']">
         <app-editable-card
           class="unterthemen-card"
           [editing]="editingSubtopicId === sub.id"
           [showMenu]="activeMenuId === sub.id"
           (toggleMenu)="toggleMenu(sub.id, $event)"
-          (cardClick)="navigateToUnterthema(sub.id, $event)"
+          (cardClick)="navigateToSubtopic(sub.id, $event)"
         >
           <!-- normalansicht -->
           <div cardView>
@@ -63,7 +64,7 @@
           <!-- kontext-menü -->
           <div cardMenu class="menu" (click)="$event.stopPropagation()">
             <button (click)="startEditing(sub, $event)">✏️ Bearbeiten</button>
-            <button class="delete-btn" (click)="loeschen(sub.id, $event)">🗑️ Löschen</button>
+            <button class="delete-btn" (click)="deleteSubtopic(sub.id, $event)">🗑️ Löschen</button>
           </div>
         </app-editable-card>
       </ng-container>

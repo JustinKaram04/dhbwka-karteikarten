@@ -1,9 +1,7 @@
 <div class="flashcardlist-page" (click)="closeMenu()">
-  <!-- header mit logo und nav -->
   <app-header></app-header>
 
   <div class="flashcardlist-content">
-    <!-- zurück-button -->
     <button class="back-button" (click)="goBack()">⬅ Zurück</button>
 
     <h1>Karteikarten</h1>
@@ -15,11 +13,10 @@
       <button (click)="resetAllProgress()">🎯 Lernstände Zurücksetzen</button>
     </div>
 
-    <!-- suche und sort-felder -->
     <div class="search-filter-container">
       <div class="filter-group">
         <label for="search">🔍 suche:</label>
-        <input id="search" type="text" [(ngModel)]="searchQuery" />
+        <input id="search" type="text" [(ngModel)]="searchQuery" placeholder="Karteikarten suchen…"/>
       </div>
       <div class="filter-group">
         <label for="sortOption">📌 Sortieren Nach:</label>
@@ -38,7 +35,6 @@
       </div>
     </div>
 
-    <!-- grid mit add-item plus alle karten -->
     <div class="flashcardlist-grid">
       <!-- komponente zum hinzufügen einer neuen karte -->
       <app-add-item
@@ -49,7 +45,6 @@
         (add)="onAddFlashcard($event)"
       ></app-add-item>
 
-      <!-- für jede karte: editable-card-komponente -->
       <ng-container
         *ngFor="
           let card of allCards
@@ -76,7 +71,6 @@
             <h3>{{ card.question }}</h3>
             <p>{{ card.answer }}</p>
           </div>
-          <!-- edit-view: inputs für frage und antwort -->
           <div cardEdit>
             <label for="editQuestion">Frage:</label>
             <input id="editQuestion" type="text" [(ngModel)]="editedQuestion" />
@@ -87,7 +81,6 @@
               <button class="cancel-btn" (click)="cancelEditing()">❌ Abbrechen</button>
             </div>
           </div>
-          <!-- menü-view: bearbeiten/löschen buttons -->
           <div cardMenu class="menu" (click)="$event.stopPropagation()">
             <button (click)="startEditing(card, $event)">✏️ Bearbeiten</button>
             <button (click)="deleteCard(card.id, $event)">🗑️ Löschen</button>
