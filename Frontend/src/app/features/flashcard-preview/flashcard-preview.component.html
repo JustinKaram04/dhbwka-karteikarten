@@ -1,4 +1,3 @@
-<!-- modus-auswahl anzeigen, wenn noch keiner gewählt und nicht endscreen -->
 <div *ngIf="!mode && !endScreen" class="mode-selection">
   <!-- button für unendlichen lernmodus -->
   <button
@@ -16,14 +15,10 @@
   </button>
 </div>
 
-<!-- karten-ansicht, wenn modus gewählt und nicht endscreen -->
 <div *ngIf="mode && !endScreen" [class.dark]="isDark" class="container">
-  <!-- zurück-button zur themenübersicht -->
   <button class="back-button" (click)="close()">⬅ Zurück</button>
 
-  <!-- oberer bereich mit pfeilen und karte -->
   <div class="top-section">
-    <!-- linke pfeil-navigationszone -->
     <div class="left-section">
       <div class="left_arrow" (click)="previousCard()"></div>
     </div>
@@ -36,7 +31,6 @@
         <div class="back"><h1>{{currentFlashcard?.answer}}</h1></div>
       </div>
     </div>
-    <!-- rechte pfeil-navigationszone -->
     <div class="right-section">
       <div class="right_arrow" (click)="nextCard()"></div>
     </div>
@@ -44,25 +38,19 @@
 
   <!-- unterer bereich: falsch/korrekt buttons und progress-bar -->
   <div class="under-section">
-    <!-- button für falschantwort (delta -1) -->
     <button class="action-btn wrong" (click)="changeProgress(-1)">✖</button>
-    <!-- progress-bar zeigt aktuellen lernfortschritt 0-6 -->
     <div class="progress">
       <div class="progress__fill" [style.width.%]="(learningProgress/6)*100"></div>
       <span class="progress__text">{{learningProgress}}/6</span>
     </div>
-    <!-- button für korrekte antwort (delta +1) -->
     <button class="action-btn correct" (click)="changeProgress(1)">✔</button>
   </div>
 </div>
 
 <!-- endbildschirm nach finish im limited-mode -->
 <div *ngIf="endScreen" [class.dark]="isDark" class="result-screen">
-  <!-- prozentuales ergebnis anzeigen -->
   <h2>ergebnis: {{((correctCount/totalCount)*100)|number:'1.0-0'}}%</h2>
-  <!-- canvas für doughnut-chart -->
   <canvas #resultCanvas width="200" height="200"></canvas>
-  <!-- aktionen nach ergebnis: nochmals oder beenden -->
   <div class="result-actions">
     <button class="result-btn" (click)="retry()">Weiter Lernen</button>
     <button class="result-btn" (click)="close()">Beenden</button>

@@ -15,9 +15,9 @@ export class SearchSortPipe<T extends Record<string, any>> implements PipeTransf
    * @returns gefiltertes und sortiertes Array
    */
   transform(
-    items: T[] = [],                // Eingabe-Array
-    searchTerm: string = '',        // Suchbegriff
-    sortCriteria: string = '',      // Sortierkriterium
+    items: T[] = [],// Eingabe-Array
+    searchTerm: string = '',// Suchbegriff
+    sortCriteria: string = '',// Sortierkriterium
     searchableKeys: (keyof T)[] = []// Felder zum durchsuchen
   ): T[] {
     // Nur Items behalten, die den Suchbegriff enthalten

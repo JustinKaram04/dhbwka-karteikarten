@@ -66,35 +66,29 @@ export class TopicsComponent implements OnInit {
   }
 
   updateSearchQuery(e: Event): void {
-    // wenn user tippt, update die suche
     this.searchQuery = (e.target as HTMLInputElement).value;
   }
 
   updateSortCriteria(e: Event): void {
-    // sort-wechsel verarbeiten
     this.sortCriteria = (e.target as HTMLSelectElement).value;
   }
 
   navigateToTopic(id: number, e: MouseEvent): void {
-    // nur navigieren, wenn nicht gerade button oder input geklickt wurde
     if (!['BUTTON','INPUT','TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
       this.router.navigate(['/themengebiet', id]);
     }
   }
 
   toggleMenu(id: number, e: MouseEvent): void {
-    // menü-toggle, klick nicht nach oben leiten
     e.stopPropagation();
     this.activeMenuId = this.activeMenuId === id ? null : id;
   }
 
   closeMenu(): void {
-    // menü schließen
     this.activeMenuId = null;
   }
 
   startEditing(topic: ITopic, e: MouseEvent): void {
-    // in den edit-mode wechseln
     e.stopPropagation();
     this.editingTopicId = topic.id;
     this.editedTopicName = topic.name;
@@ -112,7 +106,7 @@ export class TopicsComponent implements OnInit {
       }
     ).subscribe({
       next: () => {
-        this.reloadTrigger$.next(); // neu triggern
+        this.reloadTrigger$.next();
         this.editingTopicId = null;
       },
       error: err => console.error('❌ fehler beim speichern:', err)
