@@ -23,22 +23,25 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^3.14.1",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.25",
     "zod": "^3.25.75"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.0.12",
     "@vitest/ui": "latest",
+    "chokidar": "^4.0.3",
     "eslint": "latest",
     "eslint-config-prettier": "latest",
     "nodemon": "latest",
     "prettier": "latest",
+    "readdirp": "^4.1.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "latest",
-    "readdirp": "^4.1.2",
-    "vitest": "latest",
-    "chokidar": "^4.0.3"
-    
+    "vitest": "latest"
   }
 }
