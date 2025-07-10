@@ -7,7 +7,7 @@ import { Flashcard } from './entity/Flashcard';
 import { Todo } from './entity/Todo';
 
 export const AppDataSource = new DataSource({
-  type: 'mysql',
+  type: 'postgres',
   host: env.DB_HOST,
   port: env.DB_PORT,
   username: env.DB_USER,
