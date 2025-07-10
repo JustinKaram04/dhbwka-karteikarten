@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import { todoService } from '../services/TodoService';
 import { AuthRequest } from '../middleware/authenticate';
 
+// Holt alle Todos für den aktuell angemeldeten Benutzer
 export const getTodos = async (req: AuthRequest, res: Response) => {
   try {
     const todos = await todoService.getTodosByUser(req.user!.id);
@@ -11,6 +12,7 @@ export const getTodos = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// Fügt ein neues Todo hinzu
 export const addTodo = async (
   req: AuthRequest, 
   res: Response, 
@@ -29,6 +31,7 @@ export const addTodo = async (
   }
 };
 
+// Schaltet den Erledigt-Status eines Todos um
 export const toggleTodoDone = async (req: AuthRequest, res: Response) => {
   try {
     const todoId = parseInt(req.params.id, 10);
@@ -39,6 +42,7 @@ export const toggleTodoDone = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// Löscht ein Todo anhand der ID
 export const deleteTodo = async (req: AuthRequest, res: Response) => {
   try {
     const todoId = parseInt(req.params.id, 10);

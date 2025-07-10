@@ -3,27 +3,26 @@
   To-Do
 </button>
 
-<!-- Popup wird nur angezeigt, wenn `visible` true ist -->
 <div class="todo-popup" *ngIf="visible">
   
-  <!-- Schließen-Button oben rechts -->
+  
   <button class="close-button" (click)="togglePopup()">×</button>
 
   <h3>Meine To-Dos</h3>
 
-  <!-- Eingabefeld für neues To-Do -->
+  
   <input [(ngModel)]="newTodo" placeholder="Neues To-Do" />
 
-  <!-- Button zum Erstellen des neuen To-Dos -->
+  
   <button class="todo-create-button" (click)="addTodo()">Erstellen</button>
 
   <ul>
-    <!-- Schleife über alle To-Dos -->
+    
     <li *ngFor="let todo of todos; let i = index">
       
-      <!-- Button zum Abhaken (Fertigstellen) -->
+      
       <button class="check-circle" (click)="toggleDone(todo)">
-        <span *ngIf="todo.done">&#10003;</span> <!-- Haken anzeigen, wenn fertig -->
+        <span *ngIf="todo.done">&#10003;</span> <!-- Haken anzeigen -->
       </button>
 
       <!-- Text des To-Dos, durchgestrichen wenn fertig -->

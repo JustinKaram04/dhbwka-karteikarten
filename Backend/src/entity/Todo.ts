@@ -1,17 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './User';
 
-@Entity()
+@Entity() // Markiert diese Klasse als Datenbank-Entity (Tabelle)
 export class Todo {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn() // Automatisch generierte ID (Primärschlüssel)
   id!: number;
 
-  @Column()
+  @Column() // Einfaches Textfeld für die Beschreibung des Todos
   text!: string;
 
-  @Column({ default: false })
+  @Column({ default: false }) // Boolean-Feld, das angibt, ob das Todo erledigt ist (Standard: false)
   done!: boolean;
 
-  @ManyToOne(() => User, user => user.todos)
+  @ManyToOne(() => User, user => user.todos) // Viele Todos gehören zu einem Benutzer
   user!: User;
 }
